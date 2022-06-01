@@ -6,7 +6,7 @@ class Background {
     this.w = ctx.canvas.width;
     this.h = ctx.canvas.height;
 
-    this.animate = true;
+    this.animateBackground = true;
     this.tick = 0;
     this.backgroundImg = new Image();
     this.backgroundImg.frames = 10;
@@ -32,7 +32,7 @@ class Background {
 
     this.tick++
 
-    if (this.animate && this.tick % 30 === 0) {
+    if (this.animateBackground && this.tick % 30 === 0) {
       this.backgroundImg.frameIndex++;
 
       if (this.backgroundImg.frameIndex >= this.backgroundImg.frames) {

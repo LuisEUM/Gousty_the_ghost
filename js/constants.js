@@ -5,5 +5,5 @@ const KEY_LEFT = 37;
 const KEY_SPACE = 32;
 
 const FPS = 60;
-const EARTH = 50;
+const EARTH = 70;
 const GRAVITY = 0.4;

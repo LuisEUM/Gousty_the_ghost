@@ -95,15 +95,18 @@ class Player {
     if (key === KEY_UP && this.vy === 0) {
       // TODO: jump and play jump sound
       this.vy = -10;
-      new Audio('./audio/jump.wav').play()
+      new Audio('/audio/Jump sound effect _ No copyright (192kbit_AAC).mp3').play()
     }
 
     if (key === KEY_RIGHT) {
       this.vx = 10
+      this.characterImg.src = '/img/Gousty_Sprite.png'
+
     }
 
     if (key === KEY_LEFT) {
       this.vx = -10
+      this.characterImg.src = '/img/Gousty_Sprite_Left.png'
     }
   }
 
