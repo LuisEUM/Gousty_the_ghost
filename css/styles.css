@@ -1,0 +1,26 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: black;
+}
+
+canvas {
+    outline: black 3px solid;
+    margin: 100px auto 50px auto;
+    display: block;
+}
+
+div {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+button {
+    padding: 10px 15px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
