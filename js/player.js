@@ -19,6 +19,7 @@ class Player {
     this.characterImg.frames = 6;
     this.characterImg.frameIndex = 0;
     this.characterImg.src = '/img/Gousty_Sprite.png'
+    this.shadowballs = []
   }
 
   draw() {
@@ -33,8 +34,10 @@ class Player {
       this.w,
       this.h
     )
-    // TODO: draw player image
-    // TODO: draw score
+
+    this.shadowballs.forEach(shadowball => {
+      shadowball.draw()
+    })
   }
 
   move() {
@@ -65,7 +68,9 @@ class Player {
       this.vx = 0;
     }
 
-    
+    this.shadowballs.forEach(shadowball => {
+      shadowball.move()
+    })
 
     // TODO: move player. v + a, position + v
     // TODO: check if floor to stop falling
@@ -83,6 +88,16 @@ class Player {
     }
   }
 
+  shoot() {
+    const shadowball = new Shadowball(
+      this.ctx,
+      this.x + this.w - 10,
+      this.y + this.h - 5
+    )
+    
+    this.shadowballs.push(shadowball)
+  }
+
   hit() {
     // TODO: decrement score
   }
@@ -95,7 +110,7 @@ class Player {
     if (key === KEY_UP && this.vy === 0) {
       // TODO: jump and play jump sound
       this.vy = -10;
-      new Audio('/audio/Jump sound effect _ No copyright (192kbit_AAC).mp3').play()
+      new Audio('/audio/Jump sound effect _ No copyright (192kbit_AAC).mp3').play();
     }
 
     if (key === KEY_RIGHT) {
@@ -108,6 +123,12 @@ class Player {
       this.vx = -10
       this.characterImg.src = '/img/Gousty_Sprite_Left.png'
     }
+
+    if (key === KEY_SPACE) {
+      console.log('hola')
+      this.shoot()
+    }
+
   }
 
   keyUp(key) {

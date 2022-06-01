@@ -12,8 +12,10 @@ class Background {
     this.backgroundImg.frames = 10;
     this.backgroundImg.frameIndex = 0;
     this.backgroundImg.src = '/img/BACKGROUND - FOREST WITH STARS.png';
-    new Audio('/audio/MapleStory Piano - Eternal Swamp Background.mp3').play()
-
+    this.backgroundMusic = new Audio('/audio/MapleStory Piano - Eternal Swamp Background.mp3');
+    this.backgroundMusic.volume = 0.1;
+    this.backgroundMusic.loop = true;
+    this.backgroundMusic.play();
   }
 
   draw() {
