@@ -5,12 +5,14 @@ class Game {
 
     this.background = new Background(ctx);
     this.player = new Player(ctx);
+    this.darkslimes = new DarkSlimes(ctx)
     this.enemies = [];
     this.tick = 0;
+    this.origanlColor = this.ctx.fillStyle = "white";
 
     this.audio = new Audio("audio/theme.mp3");
     this.gameOverAudio = new Audio("audio/game-over.mp3");
-
+    this.ctx.font = "80px Poppins";
     this.setListeners();
   }
 
@@ -20,44 +22,67 @@ class Game {
     this.interval = setInterval(() => {
       this.draw();
       this.move();
+
+      this.tick++;
+
+      if (this.tick > Math.random() * 200 + 100) {
+        if(this.enemies.length < 2){
+          this.tick = 0;
+          this.addEnemy();
+        }
+      }
+
     }, 1000 / FPS)
 
   }
 
   stop() {
-    // TODO: pause audio, stop interval, set interval to null
+    this.audio.pause();
+    clearInterval(this.interval);
+    this.interval = null;
   }
 
   clear() {
-    // TODO: clear entire canvas
-    // TODO: clear not visible enemies (tip: filter)
+    // this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    // this.enemies = this.enemies.filter((e) => e.isVisible());
   }
 
   draw() {
     this.background.draw()
     this.player.draw()
+    this.checkCollisions();
+    this.enemies.forEach((e) => e.draw());
+
     // TODO: draw everything
   }
 
   move() {
     this.background.move()
     this.player.move()
+    this.enemies.forEach((e) => e.move());
   }
 
   addEnemy() {
-    // TODO: create new enemy and add it to this.enemies
+    const darkslimes = new DarkSlimes(this.ctx);
+    this.enemies.push(darkslimes);
+    console.log(this.enemies)
   }
 
   checkCollisions() {
-    // TODO: check if any enemy "collides" with player
-    // TODO: check if game over
+    this.enemies.forEach((e) => {
+      if (e.collides(this.player)) {
+        this.gameOver();
+      }
+    });
   }
 
   gameOver() {
-    // TODO: play game over audio
-    // TODO: stop game
-    // TODO: write "game over"
-    // TODO: restart player and enemies
+    
+    this.stop();
+    this.ctx.fillText("GAME OVER", 270, 300);
+
+    this.enemies = [];
+    this.player = new Player(ctx);
   }
 
   setListeners() {

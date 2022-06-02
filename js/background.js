@@ -15,7 +15,8 @@ class Background {
     this.backgroundMusic = new Audio('/audio/MapleStory Piano - Eternal Swamp Background.mp3');
     this.backgroundMusic.volume = 0.1;
     this.backgroundMusic.loop = true;
-    this.backgroundMusic.play();
+
+    //this.backgroundMusic.play(); 
   }
 
   draw() {
