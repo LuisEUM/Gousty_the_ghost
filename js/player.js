@@ -12,6 +12,7 @@ class Player {
     this.vy = 0;
 
     this.tick = 0;
+    this.tock = 0;
 
     this.gravity = GRAVITY;
 
@@ -20,6 +21,10 @@ class Player {
     this.characterImg.frameIndex = 0;
     this.characterImg.src = '/img/Gousty_Sprite.png'
     this.shadowballs = []
+
+    // hacer saber al juego a donde mira el personaje principal
+    this.characterIsLookingRigth = true;
+    this.characterIsLookingLeft = false;
   }
 
   draw() {
@@ -88,14 +93,37 @@ class Player {
     }
   }
 
-  shoot() {
-    const shadowball = new Shadowball(
-      this.ctx,
-      this.x + this.w - 10,
-      this.y + this.h - 5
-    )
-    
-    this.shadowballs.push(shadowball)
+  shoot(playerIsLookingRigth, PlayerIsLookingLeft) {
+
+if(playerIsLookingRigth) {
+  const shadowball = new Shadowball(
+    this.ctx,
+    // this.x + this.w - 10,
+    // this.y + this.h - 60,
+    this.x + this.w - 50,
+    this.y + this.h - 40,
+    playerIsLookingRigth,
+    PlayerIsLookingLeft
+  )
+  
+  this.shadowballs.push(shadowball)
+}
+
+if (PlayerIsLookingLeft) {
+  const shadowball = new Shadowball(
+    this.ctx,
+    // this.x + this.w - 10,
+    // this.y + this.h - 60,
+    this.x + this.w - 110,
+    this.y + this.h - 40,
+    playerIsLookingRigth,
+    PlayerIsLookingLeft
+  )
+  
+  this.shadowballs.push(shadowball)
+}
+
+
   }
 
   hit() {
@@ -107,6 +135,34 @@ class Player {
   }
 
   keyDown(key) {
+    if (key === KEY_SPACE) {
+      this.tock++
+      let previousImgLookingSide = this.characterImg.src
+      if (this.characterIsLookingRigth){
+        this.characterImg.src = '/img/Gousty Loading - Loading Shadow Ball (2).png'
+        console.log(this.tock)
+      }
+      if (this.characterIsLookingLeft){
+        this.characterImg.src = '/img/Gousty_Loading_Loading_Shadow Ball_LEFT.png'
+        console.log(this.tock)
+      }
+
+      if (this.tock >= 30 && this.characterIsLookingRigth){
+        this.characterIsLookingLeft = false
+        this.shoot(this.characterIsLookingRigth, this.characterIsLookingLeft);
+        this.tock = 15; 
+        this.characterImg.src = previousImgLookingSide 
+    }
+
+    if (this.tock >= 30 && this.characterIsLookingLeft){
+      this.characterIsLookingRigth = false
+      this.shoot(this.characterIsLookingRigth, this.characterIsLookingLeft);
+      this.tock = 15; 
+      this.characterImg.src = previousImgLookingSide 
+  }
+    }
+
+
     if (key === KEY_UP && this.vy === 0) {
       // TODO: jump and play jump sound
       this.vy = -10;
@@ -116,24 +172,38 @@ class Player {
     if (key === KEY_RIGHT) {
       this.vx = 10
       this.characterImg.src = '/img/Gousty_Sprite.png'
-
+      this.characterIsLookingRigth = true;
+      this.characterIsLookingLeft = false;
     }
 
     if (key === KEY_LEFT) {
       this.vx = -10
       this.characterImg.src = '/img/Gousty_Sprite_Left.png'
+      this.characterIsLookingLeft = true;
+      this.characterIsLookingRigth = false;
     }
 
-    if (key === KEY_SPACE) {
-      console.log('hola')
-      this.shoot()
-    }
+
 
   }
 
   keyUp(key) {
     if (key === KEY_RIGHT || key === KEY_LEFT) {
       this.vx = 0
+    }
+    if (key === KEY_RIGHT) {
+      this.characterImg.src = '/img/Gousty_Sprite.png'
+    }
+    if (key === KEY_LEFT) {
+      this.characterImg.src = '/img/Gousty_Sprite_Left.png'
+    }
+    if (key === KEY_SPACE && this.characterIsLookingRigth) {
+      this.tock = 0
+      this.characterImg.src = '/img/Gousty_Sprite.png'
+    }
+    if (key === KEY_SPACE && this.characterIsLookingLeft) {
+      this.tock = 0
+      this.characterImg.src = '/img/Gousty_Sprite_Left.png'
     }
   }
 }

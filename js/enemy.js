@@ -1,27 +1,51 @@
 class Enemy {
   constructor(ctx) {
-    this.ctx = ctx;
+    // TODO: init player attributes: position, size, v, a, img, audio, score, tick
+    this.ctx = ctx
 
-    const fromSky = Math.random() > 0.5;
+    this.w = 100
+    this.h = 100
+    this.x = 50
+    this.y = ctx.canvas.height - EARTH - this.h
 
-    this.x = fromSky
-      ? Math.random() * this.ctx.canvas.width
-      : this.ctx.canvas.width;
-    this.y = fromSky ? 0 : this.ctx.canvas.height * 0.85;
-    this.r = 20;
     this.vx = 0;
     this.vy = 0;
-    this.ay = fromSky ? 0.2 : 0;
-    this.ax = fromSky ? 0 : -0.2;
 
-    new Audio("./audio/fireball.wav").play();
+    this.tick = 0;
+    this.tock = 0;
+
+    this.gravity = GRAVITY;
+
+    this.characterImg = new Image();
+    this.characterImg.frames = 6;
+    this.characterImg.frameIndex = 0;
+    this.characterImg.src = '/img/Gousty_Sprite.png'
+    this.shadowballs = []
+
+    // hacer saber al juego a donde mira el personaje principal
+    this.characterIsLookingRigth = true;
+    this.characterIsLookingLeft = false;
 
     // TODO: init enemy. set x,y randomly top or right.
     // TODO: play fireball audio
   }
 
   draw() {
-    // TODO: draw circle
+    this.ctx.drawImage(
+      this.characterImg,
+      (this.characterImg.width * this.characterImg.frameIndex) / this.characterImg.frames , 
+      0, 
+      this.characterImg.width / 6, 
+      this.characterImg.height,
+      this.x,
+      this.y,
+      this.w,
+      this.h
+    )
+
+    this.shadowballs.forEach(shadowball => {
+      shadowball.draw()
+    })
   }
 
   move() {
