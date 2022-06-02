@@ -13,21 +13,29 @@ class Player {
 
     this.tick = 0;
     this.tock = 0;
+    this.tack = 0;
+    this.teck = 0;
+
+
+
+    this.previousPositionX = this.x; 
 
     this.gravity = GRAVITY;
 
     this.characterImg = new Image();
     this.characterImg.frameIndex = 0;
     this.characterImg.src = '/img/Gousty_Sprite.png'
-    this.shadowballs = []
     this.framesCharacter = 6
     this.characterImg.frames = 6;
 
     // hacer saber al juego a donde mira el personaje principal
     this.characterIsLookingRigth = true;
     this.characterIsLookingLeft = false;
+
+    //Shadowballs
+    this.shadowballs = []
     this.audioShadowball = new Audio("/audio/Dark energy blast sound effect.mp3");
-    this.audioShadowball.volume = 0.01;
+    this.audioShadowball.volume = 0.05;
     this.audioShadowball.loop = true;
     this.audioShadowball.currentTime = 1;
   }
@@ -81,6 +89,7 @@ class Player {
     this.shadowballs.forEach(shadowball => {
       shadowball.move()
     })
+    this.previousPositionX = this.x 
 
     // TODO: move player. v + a, position + v
     // TODO: check if floor to stop falling
@@ -171,6 +180,11 @@ if (PlayerIsLookingLeft) {
       this.characterImg.src = previousImgLookingSide 
 
       this.audioShadowball.currentTime = 2;
+      
+      if(this.vx > 0){
+        this.audioShadowball.pause()
+      }
+
   }
     }
 
@@ -184,27 +198,81 @@ if (PlayerIsLookingLeft) {
     }
 
     if (key === KEY_RIGHT) {
-      this.vx = 10
+      this.vx += 3
       this.characterImg.src = '/img/Gousty_Sprite.png'
       this.characterIsLookingRigth = true;
       this.characterIsLookingLeft = false;
+      if(this.vx >= 6){
+        this.vx = 6
+      }
+
     }
 
     if (key === KEY_LEFT) {
-      this.vx = -10
+      this.vx -= 6
       this.characterImg.src = '/img/Gousty_Sprite_Left.png'
       this.characterIsLookingLeft = true;
       this.characterIsLookingRigth = false;
+      if(this.vx <= -6){
+        this.vx = -6
+      }
     }
 
+    if (key === KEY_CTRL && this.vx === 0) {
+
+      this.characterImg.frameIndex = 0;
+      this.tack++
+      this.teck++
+
+      console.log(this.teck)
+
+      if(this.tack < 1){
+        this.characterImg.src = '/img/LOADING.png'
+      }
+
+      if (this.tack >= 1){
+        console.log('hasta aqui', this.teck)
+
+
+        if (this.characterIsLookingRigth){
+          this.characterImg.src = '/img/ATAQUE1.png'
+          this.vx += 0.5
+          this.x +=50
+          this.previousPositionX = this.x   
+         //this.audioShadowball.play()
+        }
+        
+
+        if (this.characterIsLookingLeft){
+          this.characterImg.src = '/img/Gousty_Head_Atack_Fast_LEFT.png'
+          this.vx -= 1
+          this.x -= 50
+          //this.audioShadowball.play()
+        }
+  
+        if(this.vx >= 1  || this.vx <= -1){
+          this.vx = 0
+        }
+
+
+
+      }
+    }
 
     if (key === KEY_CTRL) {
-      this.vx += 1
-      this.characterImg.frames = 3;
-      this.characterImg.src = '/img/Gousty - Head Atack Fast.png'
-      if(this.vx === 2){
-        this.vx = 0
+      console.log(this.teck)
+      this.teck++
+
+      if (this.teck === 5){
+        console.log('llego')
+        this.teck = 0
+        if (this.characterIsLookingRigth){
+          this.characterImg.src = '/img/ATAQUE1.png'
+          this.vx += 1.2
+          this.previousPositionX = this.x   
+        }
       }
+
     }
 
 
@@ -213,14 +281,19 @@ if (PlayerIsLookingLeft) {
   keyUp(key) {
     if (key === KEY_RIGHT || key === KEY_LEFT) {
       this.vx = 0
+      this.previousPositionX = this.x
     }
 
     if (key === KEY_RIGHT) {
       this.characterImg.src = '/img/Gousty_Sprite.png'
+
     }
+
+
 
     if (key === KEY_LEFT) {
       this.characterImg.src = '/img/Gousty_Sprite_Left.png'
+      
     }
 
     if (key === KEY_SPACE && this.characterIsLookingRigth) {
@@ -237,11 +310,22 @@ if (PlayerIsLookingLeft) {
       this.audioShadowball.currentTime = 0
     }
 
-    if (key === KEY_CTRL) {
-      this.characterImg.src = '/img/Gousty_Sprite.png'
+    
+    if (key === KEY_CTRL && this.characterIsLookingRigth) {
+        this.characterImg.src = '/img/Gousty_Sprite.png'
+        this.vx = 0
+        this.characterImg.frames = 6
+        this.x = this.previousPositionX
+        this.tack = 0
+        this.teck = 0
+
+    }
+    
+    if (key === KEY_CTRL && this.characterIsLookingLeft) {
+      this.characterImg.src = '/img/Gousty_Sprite_Left.png'
       this.vx = 0
       this.characterImg.frames = 6
-
+      this.x += 50
     }
   }
   
