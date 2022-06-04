@@ -35,17 +35,6 @@ class Game {
 
       this.tick++;
 
-      if (this.tick > Math.random() * 200 + 100) {
-        if(this.enemies.length < 2){
-          this.tick = 0;
-          this.addEnemy();
-        }
-      }
-
-
-      
-    
-    //this.addHearts()
 
     }, 1000 / FPS)
 
@@ -81,21 +70,7 @@ class Game {
   }
 
   addHearts(){
-    if(this.playerLife.length  === 0){
-      const heart = new Heart(this.ctx, 50);
-      this.playerLife.push(heart);
-    }
-    
-    if(this.playerLife.length === 1){
-      console.log(this.playerLife[0])
-      const heart = new Heart(this.ctx, 100);
-      this.playerLife.push(heart);
-    }
-    
-    if(this.playerLife.length === 2){
-      const heart = new Heart(this.ctx, 150);
-      this.playerLife.push(heart);
-    }
+    // extra live
   }
 
   addEnemy() {
