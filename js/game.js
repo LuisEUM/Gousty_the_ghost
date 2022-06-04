@@ -35,6 +35,17 @@ class Game {
 
       this.tick++;
 
+      if (this.tick > Math.random() * 200 + 100) {
+        if(this.enemies.length < 2){
+          this.tick = 0;
+          this.addEnemy();
+        }
+      }
+
+
+      
+    
+    //this.addHearts()
 
     }, 1000 / FPS)
 
@@ -70,7 +81,6 @@ class Game {
   }
 
   addHearts(){
-    // extra live
   }
 
   addEnemy() {
