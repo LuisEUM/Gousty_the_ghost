@@ -3,9 +3,10 @@ class DarkSlimes {
     // TODO: init player attributes: position, size, v, a, img, audio, score, tick
     this.ctx = ctx
 
-    this.w = 100
-    this.h = 100
-    this.x = 150
+    this.w = 80
+    this.h = 70
+    this.x =  ctx.canvas.width - this.w
+    this.x =  0
     this.y = ctx.canvas.height - EARTH - this.h - 100
 
     this.vx = 0;
@@ -20,8 +21,7 @@ class DarkSlimes {
     this.characterImg = new Image();
     this.characterImg.frames = 6;
     this.characterImg.frameIndex = 0;
-    this.characterImg.src = '/img/Dark_Slimes_Basic_Looking_LEFT.pnG'
-    this.shadowballs = []
+    this.characterImg.src = '/img/Dark_Slimes_Basic_Looking_LEFT.png'
 
     // hacer saber al juego a donde mira el personaje principal
     this.characterIsLookingRigth = false;
@@ -44,9 +44,7 @@ class DarkSlimes {
       this.h
     )
 
-    this.shadowballs.forEach(shadowball => {
-      shadowball.draw()
-    })
+
   }
 
   move() {
@@ -70,12 +68,12 @@ class DarkSlimes {
 
     if (this.characterIsLookingLeft){
       this.vx = -1
-      this.characterImg.src = '/img/Dark_Slimes_Basic_Looking_LEFT.pnG'
+      this.characterImg.src = '/img/Dark_Slimes_Basic_Looking_LEFT.png'
     }
 
     if (this.characterIsLookingRigth){
       this.vx = 1
-      this.characterImg.src = '/img/Dark_Slimes_Basic_Looking_RIGTH.pnG'
+      this.characterImg.src = '/img/Dark_Slimes_Basic_Looking_RIGTH.png'
     }
 
     this.tick++;
@@ -115,11 +113,40 @@ class DarkSlimes {
   }
 
   collides(player) {
-    const colX =
-      this.x <= player.x + player.w - 20 && this.x + this.w > player.x;
-    const colY = this.y + this.h > player.y && this.y < player.y + player.h;
+    
+    const colX = 
+      this.x <= player.x + player.w - 20 &&  //derecha del player
+      this.x + this.w - 20> player.x;  //izquierda del player
+    const colY = 
+      this.y + this.h > player.y + 20 && //arriba del player
+      this.y < player.y + player.h -20; //abajo del player
 
-    return colX && colY;
+    if(colX && colY && !this.hit){
+
+        if( this.x > player.x){
+          player.vx -= 20
+          console.log('toco derecha')
+
+        }
+        if(this.x < player.x){
+          player.vx += 20
+          console.log('toco izquierda')
+
+        }
+        if(player.vx <= -10 || player.vx >= 10){
+          setTimeout(()=>{
+            player.vx = 0
+          },100)
+        }
+    }
+    this.hit = true
+    setTimeout(() => [
+      this.hit = false
+    ], 500)
+
+    return colX && colY
+  
+
   }
 
   bigJumpAttack(){

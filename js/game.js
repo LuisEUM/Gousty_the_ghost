@@ -5,8 +5,18 @@ class Game {
 
     this.background = new Background(ctx);
     this.player = new Player(ctx);
+
+    this.heart1 = new Heart(ctx, 50)
+    this.heart2 = new Heart(ctx, 100)
+    this.heart3 = new Heart(ctx, 150)
+
+    this.heartPoints = 1
+    this.playerMaxHearts = 3
+    this.playerLife = [this.heart1, this.heart2, this.heart3]
+
     this.darkslimes = new DarkSlimes(ctx)
     this.enemies = [];
+
     this.tick = 0;
     this.origanlColor = this.ctx.fillStyle = "white";
 
@@ -32,6 +42,11 @@ class Game {
         }
       }
 
+
+      
+    
+    //this.addHearts()
+
     }, 1000 / FPS)
 
   }
@@ -51,7 +66,8 @@ class Game {
     this.background.draw()
     this.player.draw()
     this.checkCollisions();
-    this.enemies.forEach((e) => e.draw());
+    this.enemies.forEach((enemy) => enemy.draw());
+    this.playerLife.forEach((heart) => heart.draw());
 
     // TODO: draw everything
   }
@@ -59,19 +75,38 @@ class Game {
   move() {
     this.background.move()
     this.player.move()
-    this.enemies.forEach((e) => e.move());
+    this.enemies.forEach((enemy) => enemy.move());
+    this.playerLife.forEach((heart) => heart.move());
+
+  }
+
+  addHearts(){
+    if(this.playerLife.length  === 0){
+      const heart = new Heart(this.ctx, 50);
+      this.playerLife.push(heart);
+    }
+    
+    if(this.playerLife.length === 1){
+      console.log(this.playerLife[0])
+      const heart = new Heart(this.ctx, 100);
+      this.playerLife.push(heart);
+    }
+    
+    if(this.playerLife.length === 2){
+      const heart = new Heart(this.ctx, 150);
+      this.playerLife.push(heart);
+    }
   }
 
   addEnemy() {
     const darkslimes = new DarkSlimes(this.ctx);
     this.enemies.push(darkslimes);
-    console.log(this.enemies)
   }
 
   checkCollisions() {
-    this.enemies.forEach((e) => {
-      if (e.collides(this.player)) {
-        this.gameOver();
+    this.enemies.forEach((darkSlime) => {
+      if (darkSlime.collides(this.player)) {
+        this.playerLife.pop()  
       }
     });
   }
@@ -81,7 +116,7 @@ class Game {
     this.stop();
     this.ctx.fillText("GAME OVER", 270, 300);
 
-    this.enemies = [];
+    //this.enemies = [];
     this.player = new Player(ctx);
   }
 

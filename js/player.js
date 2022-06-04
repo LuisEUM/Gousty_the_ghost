@@ -10,11 +10,11 @@ class Player {
 
     this.vx = 0;
     this.vy = 0;
-
     this.tick = 0;
     this.tock = 0;
     this.tack = 0;
     this.teck = 0;
+
 
     this.previousPositionX = this.x;
 
@@ -38,6 +38,7 @@ class Player {
     this.audioShadowball.volume = 0.05;
     this.audioShadowball.loop = true;
     this.audioShadowball.currentTime = 1;
+    this.hitted = false
   }
 
   draw() {
@@ -53,7 +54,6 @@ class Player {
       this.w,
       this.h
     );
-
     this.shadowballs.forEach((shadowball) => {
       shadowball.draw();
     });
@@ -138,9 +138,6 @@ class Player {
     }
   }
 
-  hit() {
-    // TODO: decrement score
-  }
 
   isAlive() {
     // TODO: return true if score is > 0
@@ -196,7 +193,7 @@ class Player {
     }
 
     if (key === KEY_RIGHT) {
-      this.vx += 3;
+      this.vx += 3;  //Velocidad inicial para correr
       this.characterImg.src = "/img/Gousty_Sprite.png";
       this.characterIsLookingRigth = true;
       this.characterIsLookingLeft = false;
@@ -206,7 +203,7 @@ class Player {
     }
 
     if (key === KEY_LEFT) {
-      this.vx -= 6;
+      this.vx -= 3; //Velocidad inicial para correr
       this.characterImg.src = "/img/Gousty_Sprite_Left.png";
       this.characterIsLookingLeft = true;
       this.characterIsLookingRigth = false;
