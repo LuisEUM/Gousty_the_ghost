@@ -2,14 +2,14 @@ class Shadowball {
     constructor (ctx, x, y, playerIsLookingRigth, PlayerIsLookingLeft){
         this.ctx = ctx
 
-        this.w = 60
+        this.w = 60 //prueba final!!
         this.h = 60
         this.x = x
         this.y = y
         this.playerIsLookingRigth = playerIsLookingRigth
         this.PlayerIsLookingLeft = PlayerIsLookingLeft
         this.vx = 0;
-        this.vy = 0; 
+        this.vy = 0;
     
         this.tick = 0;
     
