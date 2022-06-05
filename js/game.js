@@ -76,7 +76,7 @@ class Game {
     this.background.move()
     this.player.move()
     this.enemies.forEach((enemy) => enemy.move());
-    this.playerLife.forEach((heart) => heart.move());
+    this.playerLife.forEach((heart) => heart.move()); 
 
   }
 
@@ -110,3 +110,4 @@ class Game {
     document.addEventListener('keyup', (event) => this.player.keyUp(event.keyCode))
   }
 }
+//probando
