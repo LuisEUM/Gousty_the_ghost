@@ -9,7 +9,7 @@ class Shadowball {
         this.playerIsLookingRigth = playerIsLookingRigth
         this.PlayerIsLookingLeft = PlayerIsLookingLeft
         this.vx = 0;
-        this.vy = 0; 
+        this.vy = 0;
     
         this.tick = 0;
     

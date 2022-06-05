@@ -6,13 +6,7 @@ class Game {
     this.background = new Background(ctx);
     this.player = new Player(ctx);
 
-    this.heart1 = new Heart(ctx, 50)
-    this.heart2 = new Heart(ctx, 100)
-    this.heart3 = new Heart(ctx, 150)
 
-    this.heartPoints = 1
-    this.playerMaxHearts = 3
-    this.playerLife = [this.heart1, this.heart2, this.heart3]
 
     this.darkslimes = new DarkSlimes(ctx)
     this.enemies = [];
@@ -41,12 +35,6 @@ class Game {
           this.addEnemy();
         }
       }
-
-
-      
-    
-    //this.addHearts()
-
     }, 1000 / FPS)
 
   }
@@ -63,12 +51,10 @@ class Game {
   }
 
   draw() {
-    this.background.draw()
-    this.player.draw()
+    this.background.draw();
+    this.player.draw();
     this.checkCollisions();
     this.enemies.forEach((enemy) => enemy.draw());
-    this.playerLife.forEach((heart) => heart.draw());
-
     // TODO: draw everything
   }
 
@@ -76,11 +62,6 @@ class Game {
     this.background.move()
     this.player.move()
     this.enemies.forEach((enemy) => enemy.move());
-    this.playerLife.forEach((heart) => heart.move()); 
-
-  }
-
-  addHearts(){
   }
 
   addEnemy() {
@@ -89,11 +70,13 @@ class Game {
   }
 
   checkCollisions() {
-    this.enemies.forEach((darkSlime) => {
-      if (darkSlime.collides(this.player)) {
-        this.playerLife.pop()  
+    this.enemies.forEach((enemy) => {
+      if (this.player.collides(enemy)) {
+        this.player.playerLife.pop()  
       }
     });
+
+
   }
 
   gameOver() {
