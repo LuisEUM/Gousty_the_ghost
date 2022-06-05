@@ -8,7 +8,7 @@ class DarkSlimes {
     this.x =  ctx.canvas.width - this.w
     this.x =  0
     this.y = ctx.canvas.height - EARTH - this.h - 100
-
+    this.hitable = true
     this.vx = 0;
     this.vy = 0;
 
@@ -116,37 +116,38 @@ class DarkSlimes {
     
     const colX = 
       this.x <= player.x + player.w - 20 &&  //derecha del player
-      this.x + this.w - 20> player.x;  //izquierda del player
+      this.x + this.w - 20 >= player.x;  //el mounstro esta a la izquierda
     const colY = 
-      this.y + this.h > player.y + 20 && //arriba del player
-      this.y < player.y + player.h -20; //abajo del player
+      this.y + this.h >= player.y + 20 && //arriba del player
+      this.y <= player.y + player.h -20; //abajo del player
 
-    if(colX && colY && !this.hit){
+    if(colX && colY && this.hitable){
 
         if( this.x > player.x){
           player.vx -= 20
-          console.log('toco derecha')
-
         }
         if(this.x < player.x){
           player.vx += 20
-          console.log('toco izquierda')
-
         }
         if(player.vx <= -10 || player.vx >= 10){
           setTimeout(()=>{
             player.vx = 0
-          },100)
+          },200)
         }
+        this.hitable = false
     }
-    this.hit = true
+
+    if(!this.hitable){
+      console.log("invulnerable")
+    }
+
     setTimeout(() => [
-      this.hit = false
-    ], 500)
+      this.hitable = true
+    ], 10000)
 
-    return colX && colY
-  
-
+    if(this.hitable === true){
+      return colX && colY
+    }
   }
 
   bigJumpAttack(){

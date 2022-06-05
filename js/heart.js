@@ -4,7 +4,7 @@ class Heart {
         this.w = 60
         this.h = 60
         this.x = x
-        this.y = 50 
+        this.y = 50
     
         this.tick = 0;
 

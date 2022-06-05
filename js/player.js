@@ -7,7 +7,7 @@ class Player {
     this.h = 100;
     this.x = 50;
     this.y = ctx.canvas.height - EARTH - this.h;
-
+    this.hitable = true
     this.vx = 0;
     this.vy = 0;
     this.tick = 0;
@@ -15,6 +15,15 @@ class Player {
     this.tack = 0;
     this.teck = 0;
 
+    //CORAZONES
+    this.heart1 = new Heart(ctx, 50)
+    this.heart2 = new Heart(ctx, 100)
+    this.heart3 = new Heart(ctx, 150)
+
+    this.heartPoints = 1
+    this.playerMaxHearts = 3
+    this.playerLife = [this.heart1, this.heart2, this.heart3]
+    //HASTA AQUI
 
     this.previousPositionX = this.x;
 
@@ -57,6 +66,8 @@ class Player {
     this.shadowballs.forEach((shadowball) => {
       shadowball.draw();
     });
+
+    this.playerLife.forEach((heart) => heart.draw());
   }
 
   move() {
@@ -96,6 +107,8 @@ class Player {
     // TODO: check if floor to stop falling
     // TODO: animate based on tick
     // TODO: move score
+
+    this.playerLife.forEach((heart) => heart.move()); 
   }
 
   animate() {
@@ -311,5 +324,42 @@ class Player {
       this.tack = 0;
       this.teck = 0;
     }
+  }
+
+  collides(monster) {
+    
+    const colX = 
+      this.x <= monster.x + monster.w - 20 &&  //derecha del player
+      this.x + this.w - 20 >= monster.x;  //el mounstro esta a la izquierda
+    const colY = 
+      this.y + this.h >= monster.y + 20 && //arriba del player
+      this.y <= monster.y + monster.h -20; //abajo del player
+
+    if(colX && colY && this.hitable){
+        if( this.x > monster.x){
+          this.vx += 20
+        }
+        if(this.x < monster.x){
+          this.vx -= 20
+        }
+        if(this.vx <= -10 || this.vx >= 10){
+          setTimeout(()=>{
+            this.vx = 0
+          },200)
+        }
+
+        this.hitable = false
+
+        setTimeout(() => [
+          this.hitable = true
+        ], 1000)
+
+        return colX && colY
+
+    }
+  }
+
+  addHearts(){
+    //TODO CUANDO EL PERSONAJE TOQUE UN CORAZON DENTRO DEL MAPA SE LE AGREGARA UNA VIDA 
   }
 }
