@@ -110,3 +110,4 @@ class Game {
     document.addEventListener('keyup', (event) => this.player.keyUp(event.keyCode))
   }
 }
+//probando
