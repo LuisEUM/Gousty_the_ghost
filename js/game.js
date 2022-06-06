@@ -89,8 +89,8 @@ class Game {
   }
 
   setListeners() {
-    document.addEventListener('keydown', (event) => this.player.keyDown(event.keyCode))
-    document.addEventListener('keyup', (event) => this.player.keyUp(event.keyCode))
+    document.addEventListener('keydown', (event) => this.player.keyDown(event.key))
+    document.addEventListener('keyup', (event) => this.player.keyUp(event.key))
   }
 }
 //probando

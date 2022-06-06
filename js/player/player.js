@@ -2,7 +2,6 @@ class Player {
   constructor(ctx) {
     // TODO: init player attributes: position, size, v, a, img, audio, score, tick
     this.ctx = ctx;
-
     this.w = 100;
     this.h = 100;
     this.x = 50;
@@ -67,6 +66,17 @@ class Player {
       shadowball.draw();
     });
 
+    //friccion
+    //ahora para frenar ponemos un coeficiente de friccion que frenara poco a poco el personaje
+    if(this.vy === 0){
+      if(this.vx > 0.05 || this.vx < -0.05) {
+        this.vx *= .92;
+      } else {
+        this.vx = 0;
+      }
+    }else{
+
+    }
     this.playerLife.forEach((heart) => heart.draw());
   }
 
@@ -205,24 +215,26 @@ class Player {
       jumpAudio.play();
     }
 
-    if (key === KEY_RIGHT) {
-      this.vx += 3;  //Velocidad inicial para correr
+    if (key === KEY_RIGHT && this.vy === 0) {
+      console.log(this.vx)
+      if (this.vx < .1){ this.vx = 3}
+      if (this.vx <= 10) {
+        this.vx += 2;  //Velocidad de aceleracion
+      }
       this.characterImg.src = "/img/Gousty_Sprite.png";
       this.characterIsLookingRigth = true;
-      this.characterIsLookingLeft = false;
-      if (this.vx >= 6) {
-        this.vx = 6;
-      }
+      this.characterIsLookingLeft = false
     }
 
-    if (key === KEY_LEFT) {
-      this.vx -= 3; //Velocidad inicial para correr
+    if (key === KEY_LEFT  && this.vy === 0) {
+      console.log(this.vx)
+      if (this.vx > 0.1){ this.vx = -3}
+      if (this.vx >= -10) {
+        this.vx -= 2;  //Velocidad de aceleracion
+      }
       this.characterImg.src = "/img/Gousty_Sprite_Left.png";
       this.characterIsLookingLeft = true;
       this.characterIsLookingRigth = false;
-      if (this.vx <= -6) {
-        this.vx = -6;
-      }
     }
 
     if (key === KEY_CTRL && this.vx === 0) {
@@ -280,17 +292,9 @@ class Player {
   }
 
   keyUp(key) {
+
     if (key === KEY_RIGHT || key === KEY_LEFT) {
-      this.vx = 0;
       this.previousPositionX = this.x;
-    }
-
-    if (key === KEY_RIGHT) {
-      this.characterImg.src = "/img/Gousty_Sprite.png";
-    }
-
-    if (key === KEY_LEFT) {
-      this.characterImg.src = "/img/Gousty_Sprite_Left.png";
     }
 
     if (key === KEY_SPACE && this.characterIsLookingRigth) {
