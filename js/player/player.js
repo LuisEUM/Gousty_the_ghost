@@ -13,6 +13,7 @@ class Player {
     this.tock = 0;
     this.tack = 0;
     this.teck = 0;
+    this.f = false
 
     //CORAZONES
     this.heart1 = new Heart(ctx, 50)
@@ -68,11 +69,10 @@ class Player {
 
     //friccion
     //ahora para frenar ponemos un coeficiente de friccion que frenara poco a poco el personaje
+    console.log(this.f)
     if(this.vy === 0){
-      if(this.vx > 0.05 || this.vx < -0.05) {
-        this.vx *= .92;
-      } else {
-        this.vx = 0;
+      if(this.f) {
+        this.vx *= 0.93;
       }
     }else{
 
@@ -215,22 +215,22 @@ class Player {
       jumpAudio.play();
     }
 
-    if (key === KEY_RIGHT && this.vy === 0) {
+    if (key === KEY_RIGHT) {
       console.log(this.vx)
-      if (this.vx < .1){ this.vx = 3}
-      if (this.vx <= 10) {
-        this.vx += 2;  //Velocidad de aceleracion
+      this.f = false
+      if (this.vx <= 12) {
+        this.vx = 6;  //Velocidad de aceleracion
       }
       this.characterImg.src = "/img/Gousty_Sprite.png";
       this.characterIsLookingRigth = true;
       this.characterIsLookingLeft = false
     }
 
-    if (key === KEY_LEFT  && this.vy === 0) {
+    if (key === KEY_LEFT) {
+      this.f = false
       console.log(this.vx)
-      if (this.vx > 0.1){ this.vx = -3}
-      if (this.vx >= -10) {
-        this.vx -= 2;  //Velocidad de aceleracion
+      if (this.vx >= -12) {
+        this.vx = -6;  //Velocidad de aceleracion
       }
       this.characterImg.src = "/img/Gousty_Sprite_Left.png";
       this.characterIsLookingLeft = true;
@@ -292,9 +292,10 @@ class Player {
   }
 
   keyUp(key) {
-
     if (key === KEY_RIGHT || key === KEY_LEFT) {
-      this.previousPositionX = this.x;
+        this.f = true;
+        console.log(this.f)
+        this.previousPositionX = this.x;
     }
 
     if (key === KEY_SPACE && this.characterIsLookingRigth) {
