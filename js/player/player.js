@@ -16,13 +16,14 @@ class Player {
     this.f = false
     this.moving = true
     this.xkey = true
-
+    this.attackMode = false
+    this.attackModeCooldowm = 0
     //CORAZONES
     this.heart1 = new Heart(ctx, 50)
     this.heart2 = new Heart(ctx, 100)
     this.heart3 = new Heart(ctx, 150)
 
-    this.heartPoints = 1
+    this.heartPoints = 2
     this.playerMaxHearts = 3
     this.playerLife = [this.heart1, this.heart2, this.heart3]
     this.playerLife.reverse()
@@ -120,7 +121,8 @@ class Player {
     // TODO: animate based on tick
     // TODO: move score
 
-    this.playerLife.forEach((heart) => heart.move()); 
+    this.playerLife.forEach((heart) => heart.move());
+
   }
 
   animate() {
@@ -161,6 +163,7 @@ class Player {
 
       this.shadowballs.push(shadowball);
     }
+
   }
 
 
@@ -241,12 +244,10 @@ class Player {
       this.characterImg.frameIndex = 0;
       this.tack++;
       this.teck++;
-
+      
       //console.log(this.teck); PEDRO
 
-
       if (this.tack >= 1) {
-        console.log("hasta aqui", this.teck);
 
         if (this.characterIsLookingRigth) {
           this.characterImg.src = "/img/Gousty_Head_Attack_RIGTH.png";
@@ -271,8 +272,17 @@ class Player {
     }
 
     if (key === KEY_CTRL) {
-      console.log(this.teck);
       this.teck++;
+      console.log(this.teck);
+      this.attackMode = true
+      this.attackModeCooldowm++
+      
+
+      if (this.attackModeCooldowm >= 5) {
+        this.attackMode = false
+        this.attackModeCooldowm = 0
+
+      }
 
       if (this.teck === 5) {
         console.log("llego");
@@ -298,7 +308,6 @@ class Player {
 
       setTimeout(() => { //frenado con friccion
         if((this.xkey && key === KEY_RIGHT) || (!(this.xkey) && key === KEY_LEFT)){
-          console.log("entrando")
           this.f = true;
         }
       }, 50)

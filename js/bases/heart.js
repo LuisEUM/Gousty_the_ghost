@@ -1,10 +1,10 @@
 class Heart {
-    constructor(ctx, x){
+    constructor(ctx, x, y=50, playerIsLookingRigth, PlayerIsLookingLeft ){
         this.ctx = ctx
         this.w = 60
         this.h = 60
         this.x = x
-        this.y = 50
+        this.y = y
     
         this.tick = 0;
 
@@ -15,7 +15,7 @@ class Heart {
         this.heartPoints = 2
     }
 
-    draw() {
+    draw(showlivesOnX, showlivesOnY, widhtMonsterHeart, heightMonsterHeart) {
         if (this.heartPoints === 2) {
             this.ctx.drawImage(
                 this.heartImg,
@@ -23,10 +23,10 @@ class Heart {
                 0, 
                 this.heartImg.width / 6, 
                 this.heartImg.height,
-                this.x,
-                this.y,
-                this.w,
-                this.h
+                showlivesOnX || this.x,
+                showlivesOnY || this.y,
+                widhtMonsterHeart || this.w,
+                heightMonsterHeart || this.h
             )
         }
         if (this.heartPoints === 1) {
@@ -67,6 +67,7 @@ class Heart {
             this.animate();
         }
     }
+
 
     animate() {
         if ((this.tick % 12 === 0 )) {

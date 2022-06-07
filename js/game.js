@@ -10,7 +10,7 @@ class Game {
 
     this.darkslimes = new DarkSlimes(ctx)
     this.enemies = [];
-
+    this.showMonsterLivesCooldown= 0
     this.tick = 0;
     this.origanlColor = this.ctx.fillStyle = "white";
 
@@ -30,7 +30,7 @@ class Game {
       this.tick++;
 
       if (this.tick > Math.random() * 200 + 100) {
-        if(this.enemies.length < 2){
+        if(this.enemies.length < 1){  ///aqui agregamoos a los mounstruos
           this.tick = 0;
           this.addEnemy();
         }
@@ -70,16 +70,14 @@ class Game {
   }
 
   checkCollisions() {
-
-    this.enemies.forEach((enemy) => {
+    this.enemies.forEach((enemy) => { //checkear todos los enemigos del mapa 
       if (this.player.collides(enemy)) {
-      const playerLife = this.player.playerLife
-      let currentLive = playerLife.filter(heart => heart.heartPoints)
-      let index = 0
-      let keepResting = true
-      let resultOfTheAttack = 0
+        const playerLife = this.player.playerLife
+        let currentLive = playerLife.filter(heart => heart.heartPoints)
+        let index = 0
+        let resultOfTheAttack = 0
 
-            console.log(currentLive)
+        if(this.player.attackMode === false){
           if(currentLive[index].heartPoints >= 0) {
             currentLive[index].heartPoints -= enemy.strength //restar el daño del enemigo 
             resultOfTheAttack = currentLive[index].heartPoints // guardar el sobrante del daño
@@ -90,8 +88,26 @@ class Game {
                 index++
             }
           }
+        }
+
+          console.log(this.player.attackMode);
+        let showlivesOnX = enemy.x + 20
+        let showlivesOnY = enemy.y - 50
+
+
+        if(this.player.attackMode === true){
+          this.showMonsterLivesCooldown++
+          enemy.monsterLife[0].heartPoints  -= 1
+          this.hitable = true
+           // if(this.showMonsterLivesCooldown === 10){
+              enemy.monsterLife[0].draw(showlivesOnX, showlivesOnY, 30, 30)
+              this.showMonsterLivesCooldown = 0
+           // }
+        }
+
       }
     })
+
   }
 
   gameOver() {

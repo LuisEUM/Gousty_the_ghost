@@ -11,12 +11,15 @@ class DarkSlimes {
     this.hitable = true
     this.vx = 0;
     this.vy = 0;
-    this.strength= 5
+    this.strength= 1
     this.tick = 0;
 
     this.tock = 0;
     this.bounceAttack = 0
     this.gravity = GRAVITY;
+
+    this.heart1 = new Heart(ctx, this.x, this.y)
+    this.monsterLife = [this.heart1]
 
     this.characterImg = new Image();
     this.characterImg.frames = 6;
@@ -43,6 +46,7 @@ class DarkSlimes {
       this.w,
       this.h
     )
+    //this.monsterLife.forEach((heart) => heart.draw());
 
 
   }
@@ -95,7 +99,11 @@ class DarkSlimes {
       this.vx = 0;
       this.characterIsLookingRigth = true
       this.characterIsLookingLeft = false
-    }   
+    }
+    
+    
+    this.monsterLife.forEach((heart) => heart.move());
+
   }
 
   animate() {
