@@ -112,7 +112,7 @@ class DarkSlimes {
     // TODO: return if enemy is inside the canvas based on x and y
   }
 
-  collides(player) {
+  /* coliciones de vida del enemigo collides(player) {
     
     const colX = 
       this.x <= player.x + player.w - 20 &&  //derecha del player
@@ -148,10 +148,10 @@ class DarkSlimes {
     if(this.hitable === true){
       return colX && colY
     }
-  }
+  }*/
 
   bigJumpAttack(){
-    this.vy = -12;
+    this.vy = -7;
   }
 }
 

@@ -13,8 +13,6 @@ class Shadowball {
     
         this.tick = 0;
     
-        this.gravity = GRAVITY;
-    
         this.shadowballImg = new Image();
         this.shadowballImg.frames = 14;
         this.shadowballImg.frameIndex = 0;

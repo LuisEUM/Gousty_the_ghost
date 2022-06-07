@@ -5,7 +5,7 @@ class Player {
     this.w = 100;
     this.h = 100;
     this.x = 50;
-    this.y = ctx.canvas.height - EARTH - this.h;
+    this.y = 0;
     this.hitable = true
     this.vx = 0;
     this.vy = 0;
@@ -13,9 +13,12 @@ class Player {
     this.tock = 0;
     this.tack = 0;
     this.teck = 0;
+    this.tuck = 0;
     this.f = false
     this.moving = true
     this.xkey = true
+    this.platform = false
+    this.jumpable = false
 
     //CORAZONES
     this.heart1 = new Heart(ctx, 50)
@@ -73,25 +76,26 @@ class Player {
     //friccion
     //ahora para frenar ponemos un coeficiente de friccion que frenara poco a poco el personaje
     //console.log(this.f)
-    if(this.vy === 0){
+
       if(this.f) {
-        this.vx *= 0.93;
+        this.vx *= 0.85;
       }
-    }
+    
 
     this.playerLife.forEach((heart) => heart.draw());
   }
 
   move() {
-    this.vy += this.gravity;
-
+    
+    if(this.platform &&  this.tuck == 0){
+      this.vy = 0
+      this.tuck = 1;
+    }else if(!this.platform){
+      this.vy += this.gravity;
+    }
+    
     this.x += this.vx;
     this.y += this.vy;
-
-    if (this.y >= ctx.canvas.height - EARTH - this.h) {
-      this.y = ctx.canvas.height - EARTH - this.h;
-      this.vy = 0;
-    }
 
     this.tick++;
 
@@ -206,10 +210,11 @@ class Player {
         }
       }
     }
-
-    if (key === KEY_UP && this.vy === 0) {
+    
+    if (key === KEY_UP && this.platform) {
       // TODO: jump and play jump sound
-      this.vy = -10;
+      this.vy = -14;
+      this.tuck = 0;
       const jumpAudio = new Audio(
         "/audio/Jump sound effect _ No copyright (192kbit_AAC).mp3"
       );
@@ -301,7 +306,7 @@ class Player {
           console.log("entrando")
           this.f = true;
         }
-      }, 50)
+      }, 10)
 
     }
 
@@ -338,37 +343,57 @@ class Player {
     }
   }
 
-  collides(monster) {
-    
-    const colX = 
-      this.x <= monster.x + monster.w - 20 &&  //derecha del player
-      this.x + this.w - 20 >= monster.x;  //el mounstro esta a la izquierda
-    const colY = 
-      this.y + this.h >= monster.y + 20 && //arriba del player
-      this.y <= monster.y + monster.h -20; //abajo del player
+  collides(object,type) {
 
-    if(colX && colY && this.hitable){
-        if( this.x > monster.x){
-          this.vx += 20
-        }
-        if(this.x < monster.x){
-          this.vx -= 20
-        }
-        if(this.vx <= -10 || this.vx >= 10){
-          setTimeout(()=>{
-            this.vx = 0
-          },200)
-        }
+    if (type === "monster") {
+      const colX = 
+        this.x <= object.x + object.w - 20 &&  //derecha del player
+        this.x + this.w - 20 >= object.x;  //el mounstro esta a la izquierda
+      const colY = 
+        this.y + this.h >= object.y + 20 && //arriba del player
+        this.y <= object.y + object.h -20; //abajo del player
+      if(colX && colY && this.hitable){
+          if( this.x > object.x){
+            this.vx += 20
+          }
+          if(this.x < object.x){
+            this.vx -= 20
+          }
+          if(this.vx <= -10 || this.vx >= 10){
+            setTimeout(()=>{
+              this.vx = 0
+            },200)
+          }
 
-        this.hitable = false
+          this.hitable = false
 
-        setTimeout(() => [
-          this.hitable = true
-        ], 1000)
-
-        return colX && colY
-
+          setTimeout(() => [
+            this.hitable = true
+          ], 1000)
+          
+          return colX && colY
+      }
     }
+    if (type === "platform") {
+      const colX = 
+        this.x <= object.x + object.w  &&  //derecha del player
+        this.x + this.w  >= object.x;  //el mounstro esta a la izquierda
+      const colY = 
+        this.y + this.h >= object.y - 20 && //arriba del player
+        this.y <= object.y + object.h +20; //abajo del player
+
+      if(colY){
+          this.platform = true
+          if(this.tuck == 1){
+            this.tuck = 0
+          }
+        }else{
+          this.platform = false
+        }
+        if(colX){
+          this.vx = 0;
+        }
+      }
   }
 
   addHearts(){

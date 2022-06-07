@@ -4,12 +4,16 @@ class Game {
     this.interval = null;
 
     this.background = new Background(ctx);
+    this.platform = new Platform(ctx);
+
     this.player = new Player(ctx);
 
 
 
     this.darkslimes = new DarkSlimes(ctx)
     this.enemies = [];
+
+    this.map = [];
 
     this.tick = 0;
     this.origanlColor = this.ctx.fillStyle = "white";
@@ -29,12 +33,16 @@ class Game {
 
       this.tick++;
 
+      if(this.tick++ == 1){
+        this.addPlatform();
+      }
       if (this.tick > Math.random() * 200 + 100) {
-        if(this.enemies.length < 2){
+        if(this.enemies.length < 1){
           this.tick = 0;
           this.addEnemy();
         }
       }
+
     }, 1000 / FPS)
 
   }
@@ -55,6 +63,7 @@ class Game {
     this.player.draw();
     this.checkCollisions();
     this.enemies.forEach((enemy) => enemy.draw());
+    this.map.forEach((platform) => platform.draw());
     // TODO: draw everything
   }
 
@@ -69,10 +78,16 @@ class Game {
     this.enemies.push(darkslimes);
   }
 
-  checkCollisions() {
+  addPlatform() {
+    const platform = new Platform(this.ctx);
+    this.map.push(platform);
+  }
 
+  checkCollisions() {
+    //estas coliciones debemos cambiarlas a un documento aparte y separarlas en una carpeta por cada uno 
+    //es mucho codigo para estar en el game 
     this.enemies.forEach((enemy) => {
-      if (this.player.collides(enemy)) {
+      if (this.player.collides(enemy,"monster")) {
       const playerLife = this.player.playerLife
       let currentLive = playerLife.filter(heart => heart.heartPoints)
       let index = 0
@@ -91,6 +106,10 @@ class Game {
             }
           }
       }
+    })
+
+    this.map.forEach((platform,) => {
+      this.player.collides(platform, "platform")
     })
   }
 
