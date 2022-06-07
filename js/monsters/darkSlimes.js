@@ -11,7 +11,7 @@ class DarkSlimes {
     this.hitable = true
     this.vx = 0;
     this.vy = 0;
-
+    this.strength= 5
     this.tick = 0;
 
     this.tock = 0;

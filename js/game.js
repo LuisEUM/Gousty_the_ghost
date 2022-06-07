@@ -70,13 +70,28 @@ class Game {
   }
 
   checkCollisions() {
+
     this.enemies.forEach((enemy) => {
       if (this.player.collides(enemy)) {
-        this.player.playerLife.pop()  
+      const playerLife = this.player.playerLife
+      let currentLive = playerLife.filter(heart => heart.heartPoints)
+      let index = 0
+      let keepResting = true
+      let resultOfTheAttack = 0
+
+            console.log(currentLive)
+          if(currentLive[index].heartPoints >= 0) {
+            currentLive[index].heartPoints -= enemy.strength //restar el daño del enemigo 
+            resultOfTheAttack = currentLive[index].heartPoints // guardar el sobrante del daño
+            while (resultOfTheAttack < 0) {  // restar el sobrante del daño al resto de corazones
+                currentLive[index].heartPoints = 0
+                currentLive[index+1].heartPoints += resultOfTheAttack
+                resultOfTheAttack  = currentLive[index+1].heartPoints
+                index++
+            }
+          }
       }
-    });
-
-
+    })
   }
 
   gameOver() {

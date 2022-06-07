@@ -23,6 +23,7 @@ class Player {
     this.heartPoints = 1
     this.playerMaxHearts = 3
     this.playerLife = [this.heart1, this.heart2, this.heart3]
+    this.playerLife.reverse()
     //HASTA AQUI
 
     this.previousPositionX = this.x;
@@ -69,7 +70,7 @@ class Player {
 
     //friccion
     //ahora para frenar ponemos un coeficiente de friccion que frenara poco a poco el personaje
-    console.log(this.f)
+    //console.log(this.f)
     if(this.vy === 0){
       if(this.f) {
         this.vx *= 0.93;
@@ -216,7 +217,7 @@ class Player {
     }
 
     if (key === KEY_RIGHT) {
-      console.log(this.vx)
+      //console.log(this.vx) PEDRO
       this.f = false
       if (this.vx <= 12) {
         this.vx = 6;  //Velocidad de aceleracion
@@ -228,7 +229,7 @@ class Player {
 
     if (key === KEY_LEFT) {
       this.f = false
-      console.log(this.vx)
+      //console.log(this.vx) PEDRO
       if (this.vx >= -12) {
         this.vx = -6;  //Velocidad de aceleracion
       }
@@ -242,7 +243,7 @@ class Player {
       this.tack++;
       this.teck++;
 
-      console.log(this.teck);
+      //console.log(this.teck); PEDRO
 
 
       if (this.tack >= 1) {
@@ -294,7 +295,7 @@ class Player {
   keyUp(key) {
     if (key === KEY_RIGHT || key === KEY_LEFT) {
         this.f = true;
-        console.log(this.f)
+        //console.log(this.f)
         this.previousPositionX = this.x;
     }
 
