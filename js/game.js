@@ -71,41 +71,40 @@ class Game {
 
   checkCollisions() {
     this.enemies.forEach((enemy) => { //checkear todos los enemigos del mapa 
-      if (this.player.collides(enemy)) {
-        const playerLife = this.player.playerLife
-        let currentLive = playerLife.filter(heart => heart.heartPoints)
-        let index = 0
-        let resultOfTheAttack = 0
+      enemy.checkPlayerColisions(this.player)
+       if (this.player.collides(enemy)) {
+         const playerLife = this.player.playerLife
+         let currentLive = playerLife.filter(heart => heart.heartPoints)
+         let index = 0
+         let resultOfTheAttack = 0
 
-        if(this.player.attackMode === false){
-          if(currentLive[index].heartPoints >= 0) {
-            currentLive[index].heartPoints -= enemy.strength //restar el daño del enemigo 
-            resultOfTheAttack = currentLive[index].heartPoints // guardar el sobrante del daño
-            while (resultOfTheAttack < 0) {  // restar el sobrante del daño al resto de corazones
-                currentLive[index].heartPoints = 0
-                currentLive[index+1].heartPoints += resultOfTheAttack
-                resultOfTheAttack  = currentLive[index+1].heartPoints
-                index++
-            }
-          }
-        }
+         if(this.player.attackMode === false){
+           if(currentLive[index].heartPoints >= 0) {
+             currentLive[index].heartPoints -= enemy.strength //restar el daño del enemigo 
+             resultOfTheAttack = currentLive[index].heartPoints // guardar el sobrante del daño
+             while (resultOfTheAttack < 0) {  // restar el sobrante del daño al resto de corazones
+                 currentLive[index].heartPoints = 0
+                 currentLive[index+1].heartPoints += resultOfTheAttack
+                 resultOfTheAttack  = currentLive[index+1].heartPoints
+                 index++
+             }
+           }
+         }
 
-          console.log(this.player.attackMode);
-        let showlivesOnX = enemy.x + 20
-        let showlivesOnY = enemy.y - 50 
+           console.log(this.player.attackMode);
 
 
-        if(this.player.attackMode === true){
-          this.showMonsterLivesCooldown++
-          enemy.monsterLife[0].heartPoints  -= 1
-          this.hitable = true
-           // if(this.showMonsterLivesCooldown === 10){
-              enemy.monsterLife[0].draw(showlivesOnX, showlivesOnY, 30, 30)
-              this.showMonsterLivesCooldown = 0
-           // }
-        }
+         if(this.player.attackMode === true){
+           this.showMonsterLivesCooldown++
+           enemy.monsterLife[0].heartPoints  -= 1
+           this.hitable = true
+      //      // if(this.showMonsterLivesCooldown === 10){
+      //         this.showMonsterLivesCooldown = 0
+      //      // }
+         }
 
-      }
+       }
+      
     })
 
   }

@@ -19,9 +19,9 @@ class Player {
     this.attackMode = false
     this.attackModeCooldowm = 0
     //CORAZONES
-    this.heart1 = new Heart(ctx, 50)
-    this.heart2 = new Heart(ctx, 100)
-    this.heart3 = new Heart(ctx, 150)
+    this.heart1 = new Heart(ctx, 50, 50,)
+    this.heart2 = new Heart(ctx, 100, 50,)
+    this.heart3 = new Heart(ctx, 150, 50, )
 
     this.heartPoints = 2
     this.playerMaxHearts = 3
@@ -76,7 +76,7 @@ class Player {
     //console.log(this.f)
     if(this.vy === 0){
       if(this.f) {
-        this.vx *= 0.93;
+        this.vx *= 0.85;
       }
     }
 
@@ -348,7 +348,7 @@ class Player {
   }
 
   collides(monster) {
-    
+    console.log('hasta aqui')
     const colX = 
       this.x <= monster.x + monster.w - 20 &&  //derecha del player
       this.x + this.w - 20 >= monster.x;  //el mounstro esta a la izquierda
@@ -363,12 +363,7 @@ class Player {
         if(this.x < monster.x){
           this.vx -= 20
         }
-        if(this.vx <= -10 || this.vx >= 10){
-          setTimeout(()=>{
-            this.vx = 0
-          },200)
-        }
-
+        this.f = true;
         this.hitable = false
 
         setTimeout(() => [
