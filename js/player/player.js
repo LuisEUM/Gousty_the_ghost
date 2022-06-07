@@ -14,6 +14,8 @@ class Player {
     this.tack = 0;
     this.teck = 0;
     this.f = false
+    this.moving = true
+    this.xkey = true
 
     //CORAZONES
     this.heart1 = new Heart(ctx, 50)
@@ -75,9 +77,8 @@ class Player {
       if(this.f) {
         this.vx *= 0.93;
       }
-    }else{
-
     }
+
     this.playerLife.forEach((heart) => heart.draw());
   }
 
@@ -216,26 +217,24 @@ class Player {
       jumpAudio.play();
     }
 
-    if (key === KEY_RIGHT) {
-      //console.log(this.vx) PEDRO
-      this.f = false
-      if (this.vx <= 12) {
-        this.vx = 6;  //Velocidad de aceleracion
-      }
-      this.characterImg.src = "/img/Gousty_Sprite.png";
-      this.characterIsLookingRigth = true;
-      this.characterIsLookingLeft = false
-    }
+    if (key === KEY_RIGHT || key === KEY_LEFT) { //movimiento horizontal
 
-    if (key === KEY_LEFT) {
       this.f = false
-      //console.log(this.vx) PEDRO
-      if (this.vx >= -12) {
-        this.vx = -6;  //Velocidad de aceleracion
+      if (key === KEY_RIGHT) {
+        this.vx = 7;  //Velocidad 
+        this.characterImg.src = "/img/Gousty_Sprite.png";
+        this.characterIsLookingRigth = true;
+        this.characterIsLookingLeft = false
+        this.xkey = true;
       }
-      this.characterImg.src = "/img/Gousty_Sprite_Left.png";
-      this.characterIsLookingLeft = true;
-      this.characterIsLookingRigth = false;
+
+      if (key === KEY_LEFT) {
+        this.vx = -7;  //Velocidad 
+        this.characterImg.src = "/img/Gousty_Sprite_Left.png";
+        this.characterIsLookingLeft = true;
+        this.characterIsLookingRigth = false;
+        this.xkey = false;
+      }
     }
 
     if (key === KEY_CTRL && this.vx === 0) {
@@ -294,9 +293,16 @@ class Player {
 
   keyUp(key) {
     if (key === KEY_RIGHT || key === KEY_LEFT) {
-        this.f = true;
-        //console.log(this.f)
-        this.previousPositionX = this.x;
+
+      this.previousPositionX = this.x;
+
+      setTimeout(() => { //frenado con friccion
+        if((this.xkey && key === KEY_RIGHT) || (!(this.xkey) && key === KEY_LEFT)){
+          console.log("entrando")
+          this.f = true;
+        }
+      }, 50)
+
     }
 
     if (key === KEY_SPACE && this.characterIsLookingRigth) {
