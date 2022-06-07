@@ -92,7 +92,7 @@ class Game {
 
           console.log(this.player.attackMode);
         let showlivesOnX = enemy.x + 20
-        let showlivesOnY = enemy.y - 50
+        let showlivesOnY = enemy.y - 50 
 
 
         if(this.player.attackMode === true){
