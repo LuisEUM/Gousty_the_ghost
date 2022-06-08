@@ -11,12 +11,15 @@ class DarkSlimes {
     this.hitable = true
     this.vx = 0;
     this.vy = 0;
-    this.strength= 5
+    this.strength= 1
     this.tick = 0;
 
     this.tock = 0;
     this.bounceAttack = 0
     this.gravity = GRAVITY;
+
+    this.heart1 = new Heart(ctx, this.x, this.y)
+    this.monsterLife = [this.heart1]
 
     this.characterImg = new Image();
     this.characterImg.frames = 6;
@@ -32,17 +35,70 @@ class DarkSlimes {
   }
 
   draw() {
-    this.ctx.drawImage(
-      this.characterImg,
-      (this.characterImg.width * this.characterImg.frameIndex) / this.characterImg.frames , 
-      0, 
-      this.characterImg.width / 6, 
-      this.characterImg.height,
-      this.x,
-      this.y + 10,
-      this.w,
-      this.h
-    )
+    if(this.hitable){
+      this.ctx.drawImage(
+        this.characterImg,
+        (this.characterImg.width * this.characterImg.frameIndex) / this.characterImg.frames , 
+        0, 
+        this.characterImg.width / 6, 
+        this.characterImg.height,
+        this.x,
+        this.y + 10,
+        this.w,
+        this.h
+      )
+    }
+    if(!this.hitable && this.vx >= -1){
+      // if(!this.hitable && this.characterIsLookingRigth){
+      //   this.characterImg.src = '/img/Dark_Slime_Vulnerable_LookingRigth.png'
+      // }
+          
+      // if(!this.hitable && this.characterIsLookingLeft){
+         this.characterImg.src = '/img/Dark_Slime_Vulnerable_LookingLeft.png'
+      // }
+      this.ctx.drawImage(
+        this.characterImg,
+        (this.characterImg.width * this.characterImg.frameIndex) / this.characterImg.frames , 
+        0, 
+        this.characterImg.width / 6, 
+        this.characterImg.height,
+        this.x,
+        this.y + 10,
+        this.w,
+        this.h
+      )
+    }
+    if(!this.hitable && this.vx < -1){
+      // if(!this.hitable && this.characterIsLookingRigth){
+      //   this.characterImg.src = '/img/Dark_Slime_Vulnerable_LookingRigth.png'
+      // }
+          
+      // if(!this.hitable && this.characterIsLookingLeft){
+         this.characterImg.src = '/img/Dark_Slime_Vulnerable_LookingRigth.png'
+      // }
+      this.ctx.drawImage(
+        this.characterImg,
+        (this.characterImg.width * this.characterImg.frameIndex) / this.characterImg.frames , 
+        0, 
+        this.characterImg.width / 6, 
+        this.characterImg.height,
+        this.x,
+        this.y + 10,
+        this.w,
+        this.h
+      )
+    }
+
+    let showlivesOnX = this.x + 20
+    let showlivesOnY = this.y - 50 
+    if(this.hitable === true){
+      this.monsterLife[0].draw(showlivesOnX, showlivesOnY, 0.1, 0.1)
+    }
+    else if (this.hitable === false){
+      this.monsterLife[0].draw(showlivesOnX, showlivesOnY, 30, 30)
+    }
+
+    //this.monsterLife.forEach((heart) => heart.draw());
 
 
   }
@@ -67,12 +123,23 @@ class DarkSlimes {
     }
 
     if (this.characterIsLookingLeft){
-      this.vx = -1
+      if(this.hitable){ //CUANDO EL MOUNSTRUO SEA GOLPEABLE
+        this.vx = -1 // CON ESTO HACEMOS QUE SE MUEVA A LA IZQUIERDA
+      }
+      else{//CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
+        this.vy += 0.1
+      }
+
       this.characterImg.src = '/img/Dark_Slimes_Basic_Looking_LEFT.png'
     }
 
     if (this.characterIsLookingRigth){
-      this.vx = 1
+      if(this.hitable){ //CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
+        this.vx = 1 // CON ESTO HACEMOS QUE SE MUEVA A LA DERECHA
+      }
+      else{ //CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
+        this.vy += 0.1 
+      }
       this.characterImg.src = '/img/Dark_Slimes_Basic_Looking_RIGTH.png'
     }
 
@@ -95,7 +162,11 @@ class DarkSlimes {
       this.vx = 0;
       this.characterIsLookingRigth = true
       this.characterIsLookingLeft = false
-    }   
+    }
+    
+    
+    this.monsterLife.forEach((heart) => heart.move());
+
   }
 
   animate() {
@@ -112,47 +183,63 @@ class DarkSlimes {
     // TODO: return if enemy is inside the canvas based on x and y
   }
 
-  /* coliciones de vida del enemigo collides(player) {
-    
-    const colX = 
-      this.x <= player.x + player.w - 20 &&  //derecha del player
-      this.x + this.w - 20 >= player.x;  //el mounstro esta a la izquierda
-    const colY = 
-      this.y + this.h >= player.y + 20 && //arriba del player
-      this.y <= player.y + player.h -20; //abajo del player
-
-    if(colX && colY && this.hitable){
-
-        if( this.x > player.x){
-          player.vx -= 20
-        }
-        if(this.x < player.x){
-          player.vx += 20
-        }
-        if(player.vx <= -10 || player.vx >= 10){
-          setTimeout(()=>{
-            player.vx = 0
-          },200)
-        }
-        this.hitable = false
-    }
-
-    if(!this.hitable){
-      console.log("invulnerable")
-    }
-
-    setTimeout(() => [
-      this.hitable = true
-    ], 10000)
-
-    if(this.hitable === true){
-      return colX && colY
-    }
-  }*/
-
   bigJumpAttack(){
     this.vy = -7;
   }
+
+
+  checkPlayerColisions(player){
+    this.collides(player) 
+  }
+  
+  collides(player) {
+    const colX = 
+    player.x <= this.x + this.w - 20 &&  //derecha del player
+    player.x + player.w - 20 >= this.x;  //el mounstro esta a la izquierda
+    const colY = 
+    player.y + player.h >= this.y + 20 && //arriba del player
+    player.y <= this.y + this.h -20; //abajo del player
+
+    if(colX && colY && this.hitable){
+
+        if(player.x > this.x && player.basicAttackMode === true){ //mounstruo a la izquierda del player
+           console.log('IZQUIERDA DEL PLAYER')
+           this.vx = -0.5
+           this.x += this.vx
+           this.characterIsLookingRigth = true
+           this.characterIsLookingLeft = false
+           this.hitable = false
+           this.characterImg.src = '/img/Dark_Slime_Vulnerable_LookingRigth.png'
+        }
+
+        if(player.x < this.x && player.basicAttackMode === true){ //mounstruo a la derecha del player
+           console.log('DERECHA DEL PLAYER')
+           this.vx = 0.5
+           this.x += this.vx
+           this.characterIsLookingRigth = false
+           this.characterIsLookingLeft = true
+           this.hitable = false
+        }
+        if(this.isAlive() === true){
+          setTimeout(() => [
+            this.hitable = true
+          ], 6000)
+        }
+
+        return colX && colY
+
+    }
+  }
+
+  isAlive() {
+    let lastHeart = this.monsterLife.length - 1
+    if(this.monsterLife[lastHeart].heartPoints === 0){
+      this.vx = 0
+      this.vy = 0
+      return false
+    }else {
+      return true
+    }
+  }
+
 }
-
-
