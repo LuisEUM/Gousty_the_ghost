@@ -35,6 +35,8 @@ class Game {
 
       if(this.tick++ == 1){
         this.addPlatform();
+        this.addPlatform(600, 200, 100,40,);
+        this.addPlatform(0,this.ctx.canvas.height- 55,this.ctx.canvas.width,this.ctx.canvas.height);
       }
       if (this.tick > Math.random() * 200 + 100) {
         if(this.enemies.length < 1){
@@ -78,8 +80,8 @@ class Game {
     this.enemies.push(darkslimes);
   }
 
-  addPlatform() {
-    const platform = new Platform(this.ctx);
+  addPlatform(x,y,w,h,src) {
+    const platform = new Platform(this.ctx,x,y,w,h,src);
     this.map.push(platform);
   }
 
@@ -107,9 +109,9 @@ class Game {
           }
       }
     })
-
-    this.map.forEach((platform,) => {
-      this.player.collides(platform, "platform")
+    let vida = null
+    this.map.forEach((platform) => {   
+      vida = this.player.collides(platform, "platform", vida)
     })
   }
 

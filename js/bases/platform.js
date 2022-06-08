@@ -1,17 +1,18 @@
 class Platform{
-    constructor(ctx) {
+    constructor(ctx,x = 10,y = 330,w = 300,h = 40 , src = 'BACKGROUND - FOREST WITH STARS.png') {
         this.ctx = ctx;
-        this.x = 10;
-        this.y = 350;
-        this.w = 300;
-        this.h = 40;
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
     
         this.animateBackground = true;
         this.tick = 0;
         this.platformImg = new Image();
         this.platformImg.frames = 10;
         this.platformImg.frameIndex = 0;
-        this.platformImg.src = '/img/BACKGROUND - FOREST WITH STARS.png'; 
+        this.platformImg.src = "/img/" + src; 
+        console.log()
       }
 
       draw() {

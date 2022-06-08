@@ -17,8 +17,9 @@ class Player {
     this.f = false
     this.moving = true
     this.xkey = true
-    this.platform = false
+    this.ykey = false;
     this.jumpable = false
+    this.i = 0
 
     //CORAZONES
     this.heart1 = new Heart(ctx, 50)
@@ -71,27 +72,22 @@ class Player {
     );
     this.shadowballs.forEach((shadowball) => {
       shadowball.draw();
-    });
-
-    //friccion
-    //ahora para frenar ponemos un coeficiente de friccion que frenara poco a poco el personaje
-    //console.log(this.f)
-
-      if(this.f) {
-        this.vx *= 0.85;
-      }
-    
+    });    
 
     this.playerLife.forEach((heart) => heart.draw());
   }
 
   move() {
-    
-    if(this.platform &&  this.tuck == 0){
-      this.vy = 0
-      this.tuck = 1;
-    }else if(!this.platform){
+    if(!this.jumpable){
       this.vy += this.gravity;
+    }
+
+    //friccion
+    //ahora para frenar ponemos un coeficiente de friccion que frenara poco a poco el personaje
+    //console.log(this.f)
+
+    if(this.f) {
+      this.vx *= 0.85;
     }
     
     this.x += this.vx;
@@ -211,15 +207,17 @@ class Player {
       }
     }
     
-    if (key === KEY_UP && this.platform) {
-      // TODO: jump and play jump sound
-      this.vy = -14;
-      this.tuck = 0;
-      const jumpAudio = new Audio(
-        "/audio/Jump sound effect _ No copyright (192kbit_AAC).mp3"
-      );
-      jumpAudio.volume = 0.01;
-      jumpAudio.play();
+    if (key === KEY_UP) {
+      if(this.jumpable){
+        // TODO: jump and play jump sound
+        this.vy = -14;
+        const jumpAudio = new Audio(
+          "/audio/Jump sound effect _ No copyright (192kbit_AAC).mp3"
+        );
+        jumpAudio.volume = 0.01;
+        jumpAudio.play();
+        this.ykey = true;
+      }
     }
 
     if (key === KEY_RIGHT || key === KEY_LEFT) { //movimiento horizontal
@@ -251,7 +249,6 @@ class Player {
 
 
       if (this.tack >= 1) {
-        console.log("hasta aqui", this.teck);
 
         if (this.characterIsLookingRigth) {
           this.characterImg.src = "/img/Gousty_Head_Attack_RIGTH.png";
@@ -276,11 +273,9 @@ class Player {
     }
 
     if (key === KEY_CTRL) {
-      console.log(this.teck);
       this.teck++;
 
       if (this.teck === 5) {
-        console.log("llego");
         this.teck = 0;
         if (this.characterIsLookingRigth) {
           this.characterImg.src = "/img/Gousty_Head_Attack_RIGTH.png";
@@ -303,10 +298,18 @@ class Player {
 
       setTimeout(() => { //frenado con friccion
         if((this.xkey && key === KEY_RIGHT) || (!(this.xkey) && key === KEY_LEFT)){
-          console.log("entrando")
           this.f = true;
         }
       }, 10)
+
+    }
+    if (key === KEY_UP) {
+      if (this.ykey && this.vy <= 0) {
+        console.log("vamos a dormiiir")
+        this.vy *= .40;
+        this.ykey = false
+      }
+      
 
     }
 
@@ -343,7 +346,7 @@ class Player {
     }
   }
 
-  collides(object,type) {
+  collides(object,type, platforms = false) {
 
     if (type === "monster") {
       const colX = 
@@ -359,11 +362,6 @@ class Player {
           if(this.x < object.x){
             this.vx -= 20
           }
-          if(this.vx <= -10 || this.vx >= 10){
-            setTimeout(()=>{
-              this.vx = 0
-            },200)
-          }
 
           this.hitable = false
 
@@ -375,25 +373,48 @@ class Player {
       }
     }
     if (type === "platform") {
-      const colX = 
-        this.x <= object.x + object.w  &&  //derecha del player
-        this.x + this.w  >= object.x;  //el mounstro esta a la izquierda
-      const colY = 
-        this.y + this.h >= object.y - 20 && //arriba del player
-        this.y <= object.y + object.h +20; //abajo del player
-
-      if(colY){
-          this.platform = true
-          if(this.tuck == 1){
-            this.tuck = 0
-          }
-        }else{
-          this.platform = false
+        const colX = 
+          this.x < object.x + object.w  &&  //derecha del player
+          this.x + this.w  > object.x;  //el mounstro esta a la izquierda
+        const colY = 
+          this.y + this.h >= object.y - 20 &&
+          this.y + this.h < object.y; //abajo del player
+        const colYBot = 
+          this.y + this.h >= object.y - 10 &&
+          this.y + this.h < object.y + 10 + this.h; //abajo del player
+        
+        const colRX = 
+          this.x < object.x + object.w -10 &&  //derecha del player
+          this.x > object.x + object.w -20  //el mounstro esta a la izquierda
+        const colLX = 
+          this.x + this.w  < object.x + 20 &&
+          this.x + this.w  > object.x +10;
+        const colH = 
+          this.y + this.h >= object.y  && //arriba del player
+          this.y <= object.y + object.h ; //abajo del playerx
+        //izquierda de la plataforma
+        if(colLX && colH){
+          this.x = object.x - this.w +10
         }
-        if(colX){
-          this.vx = 0;
+        if(colYBot && colX){
+          this.vy = 0
+          this.vy += 4
+        }
+        if(colY && colX){
+          this.y = object.y - 20 - this.h
+          this.jumpable = true   
+          }else if(!platforms){
+            this.jumpable = false
+          }
+          if(colRX && colH){
+            this.x =  object.x + object.w -10
+          }
+
+        if (this.jumpable) {
+          return true
         }
       }
+      
   }
 
   addHearts(){
