@@ -12,12 +12,16 @@ class Player {
     this.tick = 0;
     this.tock = 0;
     this.tack = 0;
-    this.teck = 0;
     this.f = false
     this.moving = true
     this.xkey = true
-    this.attackMode = false
+    this.changeSwordSprite = 0 
+    this.playerCanAttack = true 
+
+    this.basicAttackMode = false
     this.attackModeCooldowm = 0
+    this.resetAnimationBasicAttack = 0;
+
     //CORAZONES
     this.heart1 = new Heart(ctx, 50, 50,)
     this.heart2 = new Heart(ctx, 100, 50,)
@@ -52,25 +56,79 @@ class Player {
     this.audioShadowball.loop = true;
     this.audioShadowball.currentTime = 1;
     this.hitted = false
+
+    
+    //Sword
+    this.sword = [];
+
   }
 
   draw() {
-    console.log(this.attackMode)
-    this.ctx.drawImage(
-      this.characterImg,
-      (this.characterImg.width * this.characterImg.frameIndex) /
-        this.characterImg.frames,
-      0,
-      this.characterImg.width / this.characterImg.frames,
-      this.characterImg.height,
-      this.x,
-      this.y,
-      this.w,
-      this.h
-    );
+    if(this.basicAttackMode === false){
+      this.ctx.drawImage(
+        this.characterImg,
+        (this.characterImg.width * this.characterImg.frameIndex) /
+          this.characterImg.frames,
+        0,
+        this.characterImg.width / this.characterImg.frames,
+        this.characterImg.height,
+        this.x,
+        this.y,
+        this.w,
+        this.h
+      );
+    }
+    console.log(this.basicAttackMode)
+
+    if(this.basicAttackMode === true && this.characterIsLookingRigth === true){
+      this.characterImg.src ='/img/GOUSTY/GOUSTY-SWORD-ATTACK-RIGTH.png'
+      this.ctx.drawImage(
+        this.characterImg,
+        (this.characterImg.width * this.characterImg.frameIndex) /
+          this.characterImg.frames,
+        0,
+        this.characterImg.width / this.characterImg.frames,
+        this.characterImg.height,
+        this.x,
+        this.y,
+        this.w,
+        this.h
+      );
+      }
+
+      if(this.basicAttackMode === true && this.characterIsLookingLeft === true){
+        this.characterImg.src ='/img/GOUSTY/GOUSTY-SWORD-ATTACK-LEFT.png'
+        this.ctx.drawImage(
+          this.characterImg,
+          (this.characterImg.width * this.characterImg.frameIndex) /
+            this.characterImg.frames,
+          0,
+          this.characterImg.width / this.characterImg.frames,
+          this.characterImg.height,
+          this.x,
+          this.y,
+          this.w,
+          this.h
+        );
+
+        }
+
+
+    ///activar que aparezcan las shadow ball
     this.shadowballs.forEach((shadowball) => {
       shadowball.draw();
     });
+
+    ///activar que aparezca SOLO una espada
+    if(this.sword.length <= 1){
+      this.sword.forEach((sword) => {
+        sword.draw();
+      });
+  
+    }
+
+    ///activar que aparezca la vida
+    this.playerLife.forEach((heart) => heart.draw());
 
     //friccion
     //ahora para frenar ponemos un coeficiente de friccion que frenara poco a poco el personaje
@@ -81,10 +139,29 @@ class Player {
       }
     }
 
-    this.playerLife.forEach((heart) => heart.draw());
+
   }
 
   move() {
+    this.tick++;
+
+    if (this.tick && this.basicAttackMode === false) {
+      if (this.tick  % 12 === 0 ) { //controlamos la velocidad de la animación sin ataques
+      this.characterImg.frameIndex++;
+        if (this.characterImg.frameIndex >= this.characterImg.frames) {
+          this.characterImg.frameIndex = 0;
+        }
+      }
+    }
+
+    if(this.tick % 6 === 0 && this.basicAttackMode === true) {  //el resto debe coincidir con el resto que indiquemos en la velocidad de la espada, esto controla la velocidad de la animación
+      this.characterImg.frameIndex++;
+      if (this.characterImg.frameIndex >= this.characterImg.frames) {
+        this.characterImg.frameIndex = 0;
+      }
+    } 
+
+
     this.vy += this.gravity;
 
     this.x += this.vx;
@@ -95,12 +172,7 @@ class Player {
       this.vy = 0;
     }
 
-    this.tick++;
 
-    if (this.tick >= 10) {
-      this.tick = 0;
-      this.animate();
-    }
 
     if (this.x + this.w > this.ctx.canvas.width) {
       this.x = this.ctx.canvas.width - this.w;
@@ -112,11 +184,21 @@ class Player {
       this.vx = 0;
     }
 
+
+    ///activar la animacion de cada shadowball
     this.shadowballs.forEach((shadowball) => {
       shadowball.move();
     });
-    this.previousPositionX = this.x;
 
+    ///activar la animacion de la espada
+    this.sword.forEach((sword) => {
+      sword.move();
+    });
+
+
+
+    //Guardar constantemente la poisión anterior para regresar al personaje
+    this.previousPositionX = this.x;
     // TODO: move player. v + a, position + v
     // TODO: check if floor to stop falling
     // TODO: animate based on tick
@@ -126,15 +208,6 @@ class Player {
 
   }
 
-  animate() {
-    if (this.vy === 0) {
-      this.characterImg.frameIndex++;
-
-      if (this.characterImg.frameIndex >= this.characterImg.frames) {
-        this.characterImg.frameIndex = 0;
-      }
-    }
-  }
 
   shoot(playerIsLookingRigth, PlayerIsLookingLeft) {
     if (playerIsLookingRigth) {
@@ -166,6 +239,46 @@ class Player {
     }
 
   }
+
+
+  slash(playerIsLookingRigth, PlayerIsLookingLeft) {
+    this.changeSwordSprite++ 
+    console.log(this.changeSwordSprite)
+
+
+    if (playerIsLookingRigth) {
+      const sword = new Sword(
+        this.ctx,
+        this.x + 24.3199,
+        this.y + this.h - 137.8201,
+        playerIsLookingRigth,
+        PlayerIsLookingLeft,
+        this.changeSwordSprite
+      );
+
+      this.sword.push(sword);
+    }
+
+    if (PlayerIsLookingLeft) {
+      const sword = new Sword(
+        this.ctx,
+        // this.x + this.w - 10,
+        // this.y + this.h - 60,
+        this.x - 105.9133,
+        this.y + this.h - 137.8201,
+        playerIsLookingRigth,
+        PlayerIsLookingLeft,
+        this.changeSwordSprite
+      );
+
+      this.sword.push(sword);
+    }
+    
+    if(this.changeSwordSprite >= 2 ){
+      this.changeSwordSprite = 0
+    }
+  }
+
 
 
   isAlive() {
@@ -246,75 +359,100 @@ class Player {
       }
     }
 
-    if (key === KEY_CTRL && this.vx === 0) {
-      this.characterImg.frameIndex = 0;
-      this.tack++;
-      this.teck++;
-      
-      //console.log(this.teck); PEDRO
 
-      if (this.tack >= 1) {
+    if(key === KEY_CTRL && this.playerCanAttack === true){ /// activar el ataque de la espada al PRESIONAR la tecla 
+      this.basicAttackMode = true
+      this.playerCanAttack = false
 
-        if (this.characterIsLookingRigth) {
-          this.characterImg.src = "/img/Gousty_Head_Attack_RIGTH.png";
-          this.vx += 0.5;
-          this.x += 50;
-          this.previousPositionX = this.x;
-          //this.audioShadowball.play()
+        if(this.basicAttackMode === true && this.characterIsLookingRigth ){
+            this.slash(this.characterIsLookingRigth, this.characterIsLookingLeft);
+            setTimeout(() => [
+              this.playerCanAttack = true,
+              this.basicAttackMode = false,
+              this.characterImg.src = "/img/Gousty_Sprite.png",
+              this.sword.pop(), //eliminamos la espada creada para que siempre sea una sola y se puede dibujar
+            ], 200)
+        }
+        if(this.basicAttackMode === true && this.characterIsLookingLeft){
+          this.characterImg.src = "/img/Gousty_Sprite_Left.png"
+          this.slash(this.characterIsLookingRigth, this.characterIsLookingLeft);
+          setTimeout(() => [
+            this.playerCanAttack = true,
+            this.basicAttackMode = false,
+            this.characterImg.src = "/img/Gousty_Sprite_Left.png",
+            this.sword.pop(), //eliminamos la espada creada para que siempre sea una sola y se puede dibujar
+          ], 200) 
         }
 
-        if (this.characterIsLookingLeft) {
-          this.characterImg.src = "/img/Gousty_Head_Attack_LEFT.png";
-          this.vx -= 0.5;
-          this.x -= 50;
-          this.previousPositionX = this.x;
-          //this.audioShadowball.play()
-        }
-
-        if (this.vx >= 1 || this.vx <= -1) {
-          this.vx = 0;
-        }
-      }
     }
 
-    if (key === KEY_CTRL) {
-      this.teck++;
-      this.attackMode = true
-      this.attackModeCooldowm++
+
+    // if (key === KEY_CTRL && this.vx === 0) {
+    //   this.characterImg.frameIndex = 0;
+    //   this.tack++;
+    //   this.teck++;
+      
+    //   //console.log(this.teck); PEDRO
+
+    //   if (this.tack >= 1) {
+
+    //     if (this.characterIsLookingRigth) {
+    //       this.characterImg.src = "/img/Gousty_Head_Attack_RIGTH.png";
+    //       this.vx += 0.5;
+    //       this.x += 50;
+    //       this.previousPositionX = this.x;
+    //       //this.audioShadowball.play()
+    //     }
+
+    //     if (this.characterIsLookingLeft) {
+    //       this.characterImg.src = "/img/Gousty_Head_Attack_LEFT.png";
+    //       this.vx -= 0.5;
+    //       this.x -= 50;
+    //       this.previousPositionX = this.x;
+    //       //this.audioShadowball.play()
+    //     }
+
+    //     if (this.vx >= 1 || this.vx <= -1) {
+    //       this.vx = 0;
+    //     }
+    //   }
+    // }
+
+    // if (key === KEY_CTRL) {
+    //   this.teck++;
+    //   this.basicAttackMode = true
+    //   this.attackModeCooldowm++
       
 
-      if (this.attackModeCooldowm >= 5) {
-        this.attackMode = false
-        this.attackModeCooldowm = 0
-      }
+    //   if (this.attackModeCooldowm >= 5) {
+    //     this.basicAttackMode = false
+    //     this.attackModeCooldowm = 0
+    //   }
 
-      if (this.teck === 5) {
-        this.teck = 0;
-        if (this.characterIsLookingRigth) {
-          this.characterImg.src = "/img/Gousty_Head_Attack_RIGTH.png";
-          this.vx += 1.2;
-          this.previousPositionX = this.x;
-        }
-        if (this.characterIsLookingLeft) {
-          this.characterImg.src = "/img/Gousty_Head_Attack_LEFT.png";
-          this.vx -= 1.2;
-          this.previousPositionX = this.x;
-        }
-      }
-    }
+    //   if (this.teck === 5) {
+    //     this.teck = 0;
+    //     if (this.characterIsLookingRigth) {
+    //       this.characterImg.src = "/img/Gousty_Head_Attack_RIGTH.png";
+    //       this.vx += 1.2;
+    //       this.previousPositionX = this.x;
+    //     }
+    //     if (this.characterIsLookingLeft) {
+    //       this.characterImg.src = "/img/Gousty_Head_Attack_LEFT.png";
+    //       this.vx -= 1.2;
+    //       this.previousPositionX = this.x;
+    //     }
+    //   }
+    // }
   }
 
   keyUp(key) {
     if (key === KEY_RIGHT || key === KEY_LEFT) {
-
       this.previousPositionX = this.x;
-
       setTimeout(() => { //frenado con friccion
         if((this.xkey && key === KEY_RIGHT) || (!(this.xkey) && key === KEY_LEFT)){
           this.f = true;
         }
       }, 50)
-
     }
 
     if (key === KEY_SPACE && this.characterIsLookingRigth) {
@@ -331,27 +469,27 @@ class Player {
       this.audioShadowball.currentTime = 0;
     }
 
-    if (key === KEY_CTRL && this.characterIsLookingRigth) {
-      this.characterImg.src = "/img/Gousty_Sprite.png";
-      this.vx = 0;
-      this.characterImg.frames = 6;
-      this.x = this.previousPositionX;
-      this.tack = 0;
-      this.teck = 0;
-      this.attackMode = false
 
-    }
+    // if (key === KEY_CTRL && this.characterIsLookingRigth) {
+    //   this.characterImg.src = "/img/Gousty_Sprite.png";
+    //   this.vx = 0;
+    //   this.characterImg.frames = 6;
+    //   this.x = this.previousPositionX;
+    //   this.tack = 0;
+    //   this.teck = 0;
+    //   this.basicAttackMode = false
+    // }
 
-    if (key === KEY_CTRL && this.characterIsLookingLeft) {
-      this.characterImg.src = "/img/Gousty_Sprite_Left.png";
-      this.vx = 0;
-      this.characterImg.frames = 6;
-      this.x = this.previousPositionX;
-      this.tack = 0;
-      this.teck = 0;
-      this.attackMode = false
+    // if (key === KEY_CTRL && this.characterIsLookingLeft) {
+    //   this.characterImg.src = "/img/Gousty_Sprite_Left.png";
+    //   this.vx = 0;
+    //   this.characterImg.frames = 6;
+    //   this.x = this.previousPositionX;
+    //   this.tack = 0;
+    //   this.teck = 0;
+    //   this.basicAttackMode = false
+    // }
 
-    }
   }
 
   collides(monster) {
@@ -381,7 +519,14 @@ class Player {
     }
   }
 
-  addHearts(){
-    //TODO CUANDO EL PERSONAJE TOQUE UN CORAZON DENTRO DEL MAPA SE LE AGREGARA UNA VIDA 
+  isAlive() {
+    let lastHeart = this.playerLife.length - 1
+    if(this.playerLife[lastHeart].heartPoints === 0){
+      this.vx = 0
+      this.vy = 0
+      return false
+    }else {
+      return true
+    }
   }
 }
