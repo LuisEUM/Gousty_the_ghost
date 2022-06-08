@@ -223,8 +223,15 @@ class Player {
     if (key === KEY_RIGHT || key === KEY_LEFT) { //movimiento horizontal
 
       this.f = false
+
       if (key === KEY_RIGHT) {
-        this.vx = 7;  //Velocidad 
+        if(!this.xkey && this.vx < 0 && this.jumpable){
+          setTimeout(() => { //cambiando de direccion
+            this.vx = 7;  //Velocidad 
+          }, 100)
+        }else{
+          this.vx = 7;  //Velocidad 
+        }
         this.characterImg.src = "/img/Gousty_Sprite.png";
         this.characterIsLookingRigth = true;
         this.characterIsLookingLeft = false
@@ -232,7 +239,13 @@ class Player {
       }
 
       if (key === KEY_LEFT) {
-        this.vx = -7;  //Velocidad 
+        if(this.xkey && this.vx > 0 && this.jumpable){
+          setTimeout(() => { //cambiando de direccion
+            this.vx = -7;  //Velocidad 
+          }, 100)
+        }else{
+          this.vx = -7;  //Velocidad 
+        }
         this.characterImg.src = "/img/Gousty_Sprite_Left.png";
         this.characterIsLookingLeft = true;
         this.characterIsLookingRigth = false;
@@ -300,17 +313,14 @@ class Player {
         if((this.xkey && key === KEY_RIGHT) || (!(this.xkey) && key === KEY_LEFT)){
           this.f = true;
         }
-      }, 10)
+      }, 40)
 
     }
     if (key === KEY_UP) {
       if (this.ykey && this.vy <= 0) {
-        console.log("vamos a dormiiir")
         this.vy *= .40;
         this.ykey = false
       }
-      
-
     }
 
     if (key === KEY_SPACE && this.characterIsLookingRigth) {
@@ -378,7 +388,7 @@ class Player {
           this.x + this.w  > object.x;  //el mounstro esta a la izquierda
         const colY = 
           this.y + this.h >= object.y - 20 &&
-          this.y + this.h < object.y; //abajo del player
+          this.y + this.h < object.y + 10; //abajo del player
         const colYBot = 
           this.y + this.h >= object.y - 10 &&
           this.y + this.h < object.y + 10 + this.h; //abajo del player
