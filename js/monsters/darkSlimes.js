@@ -203,7 +203,7 @@ class DarkSlimes {
 
     if(colX && colY && this.hitable){
 
-        if(player.x > this.x && player.attackMode === true){ //mounstruo a la izquierda del player
+        if(player.x > this.x && player.basicAttackMode === true){ //mounstruo a la izquierda del player
            console.log('IZQUIERDA DEL PLAYER')
            this.vx = -0.5
            this.x += this.vx
@@ -213,7 +213,7 @@ class DarkSlimes {
            this.characterImg.src = '/img/Dark_Slime_Vulnerable_LookingRigth.png'
         }
 
-        if(player.x < this.x && player.attackMode === true){ //mounstruo a la derecha del player
+        if(player.x < this.x && player.basicAttackMode === true){ //mounstruo a la derecha del player
            console.log('DERECHA DEL PLAYER')
            this.vx = 0.5
            this.x += this.vx
@@ -224,7 +224,7 @@ class DarkSlimes {
         if(this.isAlive() === true){
           setTimeout(() => [
             this.hitable = true
-          ], 1000)
+          ], 6000)
         }
 
         return colX && colY

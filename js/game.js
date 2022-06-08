@@ -90,18 +90,19 @@ class Game {
     this.enemiesForestMap1.forEach((enemy, index) => {
       //checkear todos los enemigos del mapa
       enemy.checkPlayerColisions(this.player);
+
       if (this.player.collides(enemy)) {
         const playerLife = this.player.playerLife;
         let monstersAlive = playerLife.filter((heart) => heart.heartPoints > 0);
         let index = 0;
         let resultOfTheAttack = 0;
-
-        if (this.player.attackMode === false) {
+        console.log(this.player.hitable)
+        if (this.player.hitable === false) { //si el player no esta en modo de ataque
           if (monstersAlive[index].heartPoints >= 0) {
-            monstersAlive[index].heartPoints -= enemy.strength; //restar el daño del enemigo
-            resultOfTheAttack = monstersAlive[index].heartPoints; // guardar el sobrante del daño
+            monstersAlive[index].heartPoints -= enemy.strength; //restar el daño del enemigo al player
+            resultOfTheAttack = monstersAlive[index].heartPoints; // guardar el sobrante del daño del enemigo
             while (resultOfTheAttack < 0) {
-              // restar el sobrante del daño al resto de corazones
+              // restar el sobrante del daño al resto de corazones del player
               monstersAlive[index].heartPoints = 0;
               monstersAlive[index + 1].heartPoints += resultOfTheAttack;
               resultOfTheAttack = monstersAlive[index + 1].heartPoints;
@@ -110,15 +111,17 @@ class Game {
           }
         }
 
-        if (this.player.attackMode === true) {
-          this.showMonsterLivesCooldown++;
-          enemy.monsterLife[0].heartPoints -= 1;
-          this.hitable = true;
-          if (enemy.monsterLife[0].heartPoints === 0) {
-            this.enemiesForestMap1.slice(index,1)
-          }
-        }
+
       }
+
+        // if (this.player.basicAttackMode === true) {
+        //   this.showMonsterLivesCooldown++;
+        //   enemy.monsterLife[0].heartPoints -= 1;
+        //   this.hitable = true;
+        //   if (enemy.monsterLife[0].heartPoints === 0) {
+        //     this.enemiesForestMap1.slice(index,1)
+        //   }
+        // }
       // CODIGO PARA CHEQUEAR SI ESTAN VIVOS DE FORMA ALTERNA
       // this.player.isAlive()
       // enemy.isAlive()

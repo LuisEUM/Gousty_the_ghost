@@ -17,7 +17,6 @@ class Player {
     this.xkey = true
     this.changeSwordSprite = 0 
     this.playerCanAttack = true 
-
     this.basicAttackMode = false
     this.attackModeCooldowm = 0
     this.resetAnimationBasicAttack = 0;
@@ -78,7 +77,37 @@ class Player {
         this.h
       );
     }
-    console.log(this.basicAttackMode)
+
+    if(this.basicAttackMode === false && this.hitable === false && this.characterIsLookingRigth === true){
+      this.characterImg.src ='/img/GOUSTY/GOUSTY_NO_HITABLE_LOOKING_RIGTH.png'
+      this.ctx.drawImage(
+        this.characterImg,
+        (this.characterImg.width * this.characterImg.frameIndex) /
+          this.characterImg.frames,
+        0,
+        this.characterImg.width / this.characterImg.frames,
+        this.characterImg.height,
+        this.x,
+        this.y,
+        this.w,
+        this.h
+      );
+    }
+    if(this.basicAttackMode === false && this.hitable === false && this.characterIsLookingLeft === true){
+      this.characterImg.src ='/img/GOUSTY/GOUSTY_NO_HITABLE_LOOKING_LEFT.png'
+      this.ctx.drawImage(
+        this.characterImg,
+        (this.characterImg.width * this.characterImg.frameIndex) /
+          this.characterImg.frames,
+        0,
+        this.characterImg.width / this.characterImg.frames,
+        this.characterImg.height,
+        this.x,
+        this.y,
+        this.w,
+        this.h
+      );
+    }
 
     if(this.basicAttackMode === true && this.characterIsLookingRigth === true){
       this.characterImg.src ='/img/GOUSTY/GOUSTY-SWORD-ATTACK-RIGTH.png'
@@ -145,7 +174,7 @@ class Player {
   move() {
     this.tick++;
 
-    if (this.tick && this.basicAttackMode === false) {
+    if (this.tick && this.basicAttackMode === false) { // Animacion de player en estado normal
       if (this.tick  % 12 === 0 ) { //controlamos la velocidad de la animación sin ataques
       this.characterImg.frameIndex++;
         if (this.characterImg.frameIndex >= this.characterImg.frames) {
@@ -154,13 +183,21 @@ class Player {
       }
     }
 
-    if(this.tick % 6 === 0 && this.basicAttackMode === true) {  //el resto debe coincidir con el resto que indiquemos en la velocidad de la espada, esto controla la velocidad de la animación
-      this.characterImg.frameIndex++;
+    if(this.tick % 6 === 0 && this.basicAttackMode === true) {  // Animacion de player en estado de ataque con espada 
+      this.characterImg.frameIndex++; 
       if (this.characterImg.frameIndex >= this.characterImg.frames) {
         this.characterImg.frameIndex = 0;
       }
     } 
 
+    if (this.tick && this.basicAttackMode === false && this.hitable === false) { // Animacion de player golpeado
+      if (this.tick  % 6 === 0 ) { //controlamos la velocidad de la animación sin ataques
+      this.characterImg.frameIndex++;
+        if (this.characterImg.frameIndex >= this.characterImg.frames) {
+          this.characterImg.frameIndex = 0;
+        }
+      }
+    }
 
     this.vy += this.gravity;
 
@@ -363,12 +400,14 @@ class Player {
     if(key === KEY_CTRL && this.playerCanAttack === true){ /// activar el ataque de la espada al PRESIONAR la tecla 
       this.basicAttackMode = true
       this.playerCanAttack = false
+      this.hitable = false
 
         if(this.basicAttackMode === true && this.characterIsLookingRigth ){
             this.slash(this.characterIsLookingRigth, this.characterIsLookingLeft);
             setTimeout(() => [
-              this.playerCanAttack = true,
-              this.basicAttackMode = false,
+              this.playerCanAttack = true, //el jugador puede atacar
+              this.basicAttackMode = false, //el jugador esta atando
+              this.hitable = true, // puede ser golpeado
               this.characterImg.src = "/img/Gousty_Sprite.png",
               this.sword.pop(), //eliminamos la espada creada para que siempre sea una sola y se puede dibujar
             ], 200)
@@ -377,8 +416,9 @@ class Player {
           this.characterImg.src = "/img/Gousty_Sprite_Left.png"
           this.slash(this.characterIsLookingRigth, this.characterIsLookingLeft);
           setTimeout(() => [
-            this.playerCanAttack = true,
-            this.basicAttackMode = false,
+            this.playerCanAttack = true, //el jugador puede atacar
+            this.basicAttackMode = false, //el jugador esta atando
+            this.hitable = true, // puede ser golpeado
             this.characterImg.src = "/img/Gousty_Sprite_Left.png",
             this.sword.pop(), //eliminamos la espada creada para que siempre sea una sola y se puede dibujar
           ], 200) 
@@ -501,6 +541,8 @@ class Player {
       this.y <= monster.y + monster.h -20; //abajo del player
 
     if(colX && colY && this.hitable){
+      this.playerCanAttack = false 
+
         if( this.x > monster.x){
           this.vx += 20
         }
@@ -511,7 +553,8 @@ class Player {
         this.hitable = false
 
         setTimeout(() => [
-          this.hitable = true
+          this.hitable = true,
+          this.playerCanAttack = true, 
         ], 1000)
 
         return colX && colY
