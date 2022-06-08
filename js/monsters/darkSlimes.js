@@ -35,17 +35,60 @@ class DarkSlimes {
   }
 
   draw() {
-    this.ctx.drawImage(
-      this.characterImg,
-      (this.characterImg.width * this.characterImg.frameIndex) / this.characterImg.frames , 
-      0, 
-      this.characterImg.width / 6, 
-      this.characterImg.height,
-      this.x,
-      this.y + 10,
-      this.w,
-      this.h
-    )
+    if(this.hitable){
+      this.ctx.drawImage(
+        this.characterImg,
+        (this.characterImg.width * this.characterImg.frameIndex) / this.characterImg.frames , 
+        0, 
+        this.characterImg.width / 6, 
+        this.characterImg.height,
+        this.x,
+        this.y + 10,
+        this.w,
+        this.h
+      )
+    }
+    if(!this.hitable && this.vx >= -1){
+      // if(!this.hitable && this.characterIsLookingRigth){
+      //   this.characterImg.src = '/img/Dark_Slime_Vulnerable_LookingRigth.png'
+      // }
+          
+      // if(!this.hitable && this.characterIsLookingLeft){
+         this.characterImg.src = '/img/Dark_Slime_Vulnerable_LookingLeft.png'
+      // }
+      this.ctx.drawImage(
+        this.characterImg,
+        (this.characterImg.width * this.characterImg.frameIndex) / this.characterImg.frames , 
+        0, 
+        this.characterImg.width / 6, 
+        this.characterImg.height,
+        this.x,
+        this.y + 10,
+        this.w,
+        this.h
+      )
+    }
+    if(!this.hitable && this.vx < -1){
+      // if(!this.hitable && this.characterIsLookingRigth){
+      //   this.characterImg.src = '/img/Dark_Slime_Vulnerable_LookingRigth.png'
+      // }
+          
+      // if(!this.hitable && this.characterIsLookingLeft){
+         this.characterImg.src = '/img/Dark_Slime_Vulnerable_LookingRigth.png'
+      // }
+      this.ctx.drawImage(
+        this.characterImg,
+        (this.characterImg.width * this.characterImg.frameIndex) / this.characterImg.frames , 
+        0, 
+        this.characterImg.width / 6, 
+        this.characterImg.height,
+        this.x,
+        this.y + 10,
+        this.w,
+        this.h
+      )
+    }
+
     let showlivesOnX = this.x + 20
     let showlivesOnY = this.y - 50 
     if(this.hitable === true){
@@ -148,44 +191,6 @@ class DarkSlimes {
 
   checkPlayerColisions(player){
     this.collides(player) 
-    // if (player.collides(this.monster)) {
-    //   console.log('hasta aqui')
-    //   const playerLife = player.playerLife
-    //   let currentLive = playerLife.filter(heart => heart.heartPoints)
-    //   let index = 0
-    //   let resultOfTheAttack = 0
-
-    //   if(player.attackMode === false){
-    //     if(currentLive[index].heartPoints >= 0) {
-    //       currentLive[index].heartPoints -= enemy.strength //restar el daño del enemigo 
-    //       resultOfTheAttack = currentLive[index].heartPoints // guardar el sobrante del daño
-    //       while (resultOfTheAttack < 0) {  // restar el sobrante del daño al resto de corazones
-    //           currentLive[index].heartPoints = 0
-    //           currentLive[index+1].heartPoints += resultOfTheAttack
-    //           resultOfTheAttack  = currentLive[index+1].heartPoints
-    //           index++
-    //       }
-    //     }
-    //   }
-
-    //     console.log(player.attackMode);
-
-
-    //   if(player.attackMode === true){
-
-    //       let showlivesOnX = enemy.x + 20
-    //       let showlivesOnY = enemy.y - 50 
-    //       enemy.monsterLife[0].draw(showlivesOnX, showlivesOnY, 30, 30)
-
-    //     this.showMonsterLivesCooldown++
-    //     enemy.monsterLife[0].heartPoints  -= 1
-    //     this.hitable = true
-    //      // if(this.showMonsterLivesCooldown === 10){
-    //         this.showMonsterLivesCooldown = 0
-    //      // }
-    //   }
-
-    //}
   }
   
   collides(player) {
@@ -205,6 +210,7 @@ class DarkSlimes {
            this.characterIsLookingRigth = true
            this.characterIsLookingLeft = false
            this.hitable = false
+           this.characterImg.src = '/img/Dark_Slime_Vulnerable_LookingRigth.png'
         }
 
         if(player.x < this.x && player.attackMode === true){ //mounstruo a la derecha del player
@@ -215,15 +221,25 @@ class DarkSlimes {
            this.characterIsLookingLeft = true
            this.hitable = false
         }
-
-
-
-        setTimeout(() => [
-          this.hitable = true
-        ], 1000)
+        if(this.isAlive() === true){
+          setTimeout(() => [
+            this.hitable = true
+          ], 1000)
+        }
 
         return colX && colY
 
+    }
+  }
+
+  isAlive() {
+    let lastHeart = this.monsterLife.length - 1
+    if(this.monsterLife[lastHeart].heartPoints === 0){
+      this.vx = 0
+      this.vy = 0
+      return false
+    }else {
+      return true
     }
   }
 

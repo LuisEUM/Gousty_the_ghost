@@ -55,6 +55,7 @@ class Player {
   }
 
   draw() {
+    console.log(this.attackMode)
     this.ctx.drawImage(
       this.characterImg,
       (this.characterImg.width * this.characterImg.frameIndex) /
@@ -168,7 +169,12 @@ class Player {
 
 
   isAlive() {
-    // TODO: return true if score is > 0
+    let lastHeart = this.playerLife.length - 1
+    if(this.playerLife[lastHeart].heartPoints === 0){
+      return false
+    }else {
+      return true
+    }
   }
 
   keyDown(key) {
@@ -273,7 +279,6 @@ class Player {
 
     if (key === KEY_CTRL) {
       this.teck++;
-      console.log(this.teck);
       this.attackMode = true
       this.attackModeCooldowm++
       
@@ -281,11 +286,9 @@ class Player {
       if (this.attackModeCooldowm >= 5) {
         this.attackMode = false
         this.attackModeCooldowm = 0
-
       }
 
       if (this.teck === 5) {
-        console.log("llego");
         this.teck = 0;
         if (this.characterIsLookingRigth) {
           this.characterImg.src = "/img/Gousty_Head_Attack_RIGTH.png";
@@ -335,6 +338,8 @@ class Player {
       this.x = this.previousPositionX;
       this.tack = 0;
       this.teck = 0;
+      this.attackMode = false
+
     }
 
     if (key === KEY_CTRL && this.characterIsLookingLeft) {
@@ -344,11 +349,12 @@ class Player {
       this.x = this.previousPositionX;
       this.tack = 0;
       this.teck = 0;
+      this.attackMode = false
+
     }
   }
 
   collides(monster) {
-    console.log('hasta aqui')
     const colX = 
       this.x <= monster.x + monster.w - 20 &&  //derecha del player
       this.x + this.w - 20 >= monster.x;  //el mounstro esta a la izquierda

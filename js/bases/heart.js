@@ -16,9 +16,6 @@ class Heart {
 
     draw(showlivesOnX, showlivesOnY, widhtMonsterHeart, heightMonsterHeart) {
 
-        
-        console.log(showlivesOnX)
-
         if (this.heartPoints === 2) {
             this.ctx.drawImage(
                 this.heartImg,
