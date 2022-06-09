@@ -11,7 +11,7 @@ class Platform{
         this.platformImg = new Image();
         this.platformImg.frames = 10;
         this.platformImg.frameIndex = 0;
-        this.platformImg.src = "/img/" + src; 
+        this.platformImg.src = "/img/BACKGROUND/" + src; 
         console.log()
       }
 

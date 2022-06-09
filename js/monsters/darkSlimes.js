@@ -24,7 +24,7 @@ class DarkSlimes {
     this.characterImg = new Image();
     this.characterImg.frames = 6;
     this.characterImg.frameIndex = 0;
-    this.characterImg.src = '/img/Dark_Slimes_Basic_Looking_LEFT.png'
+    this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_LEFT.png'
 
     // hacer saber al juego a donde mira el personaje principal
     this.characterIsLookingRigth = false;
@@ -54,7 +54,7 @@ class DarkSlimes {
       // }
           
       // if(!this.hitable && this.characterIsLookingLeft){
-         this.characterImg.src = '/img/Dark_Slime_Vulnerable_LookingLeft.png'
+         this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slime_Vulnerable_LookingLeft.png'
       // }
       this.ctx.drawImage(
         this.characterImg,
@@ -74,7 +74,7 @@ class DarkSlimes {
       // }
           
       // if(!this.hitable && this.characterIsLookingLeft){
-         this.characterImg.src = '/img/Dark_Slime_Vulnerable_LookingRigth.png'
+         this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slime_Vulnerable_LookingRigth.png'
       // }
       this.ctx.drawImage(
         this.characterImg,
@@ -130,7 +130,7 @@ class DarkSlimes {
         this.vy += 0.1
       }
 
-      this.characterImg.src = '/img/Dark_Slimes_Basic_Looking_LEFT.png'
+      this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_LEFT.png'
     }
 
     if (this.characterIsLookingRigth){
@@ -140,7 +140,7 @@ class DarkSlimes {
       else{ //CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
         this.vy += 0.1 
       }
-      this.characterImg.src = '/img/Dark_Slimes_Basic_Looking_RIGTH.png'
+      this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_RIGTH.png'
     }
 
     this.tick++;
@@ -209,7 +209,7 @@ class DarkSlimes {
            this.characterIsLookingRigth = true
            this.characterIsLookingLeft = false
            this.hitable = false
-           this.characterImg.src = '/img/Dark_Slime_Vulnerable_LookingRigth.png'
+           this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slime_Vulnerable_LookingRigth.png'
         }
 
         if(player.x < this.x && player.basicAttackMode === true){ //mounstruo a la derecha del player

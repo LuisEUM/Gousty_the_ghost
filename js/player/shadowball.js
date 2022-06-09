@@ -2,10 +2,10 @@ class Shadowball {
     constructor (ctx, x, y, playerIsLookingRigth, PlayerIsLookingLeft){
         this.ctx = ctx
 
-        this.w = 60
-        this.h = 60
-        this.x = x
-        this.y = y
+        this.w = 120
+        this.h = 120
+        this.x = x -18
+        this.y = y -30
         this.playerIsLookingRigth = playerIsLookingRigth
         this.PlayerIsLookingLeft = PlayerIsLookingLeft
         this.vx = 0;
@@ -16,7 +16,7 @@ class Shadowball {
         this.shadowballImg = new Image();
         this.shadowballImg.frames = 14;
         this.shadowballImg.frameIndex = 0;
-        this.shadowballImg.src = '/img/Gousty - Shodow Ball.png'
+        this.shadowballImg.src = '/img/GOUSTY/ShadowBall/Gousty - Shodow Ball.png'
     }
 
     draw() {
@@ -39,25 +39,25 @@ class Shadowball {
         this.x += this.vx;
         this.tick++
 
-        if (this.tick >= 14){
+        if (this.tick >= 4){
             this.animate();
         }
 
-        if (this.tick >= 50 && this.playerIsLookingRigth){
-            this.vx = 10;
+        if (this.tick >= 10 && this.playerIsLookingRigth){
+            this.vx = 20;
             this.x += this.vx;
             this.tick = 0
         }
 
-        if (this.tick >= 50 && this.PlayerIsLookingLeft){
-            this.vx = -10;
+        if (this.tick >= 10 && this.PlayerIsLookingLeft){
+            this.vx = -20;
             this.x += this.vx;
             this.tick = 0
         }
     }
 
     animate() {
-        if ((this.tick % 7 === 0 )) {
+        if ((this.tick % 2 === 0 )) {
             this.shadowballImg.frameIndex++;
             if (this.shadowballImg.frameIndex >= this.shadowballImg.frames) {
                 this.shadowballImg.frameIndex = 4;
