@@ -74,7 +74,7 @@ class Player {
   draw() {
 
 
-    if(this.basicAttackMode === false && this.jumpable === true ){
+    if(this.basicAttackMode === false && this.jumpable === true ){ // ANIMACIONES EN EL SUELO
       if(this.characterIsLookingRigth){
         this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite.png";
       }
@@ -96,7 +96,7 @@ class Player {
     } 
 
     console.log(this.vy)
-    if(this.basicAttackMode === false && this.jumpable === false ){
+    if(this.basicAttackMode === false && this.jumpable === false ){ // ANIMACIONES AL SALTAR Y CAER
       if(this.characterIsLookingRigth && this.vy < 0){
         this.characterImg.src ='/img/GOUSTY/OnAir/GOUSTY_JUMPING_RIGTH.png'
       }
@@ -125,7 +125,7 @@ class Player {
       );
     }
 
-    if(this.basicAttackMode === false && this.hitable === false){
+    if(this.basicAttackMode === false && this.hitable === false){ // ANIMACIONES AL SER GOLPEADO
       if(this.characterIsLookingRigth){
         this.characterImg.src ='/img/GOUSTY/NoHitable/GOUSTY_NO_HITABLE_LOOKING_RIGTH.png'
       }
@@ -148,11 +148,17 @@ class Player {
 
 
     if(this.basicAttackMode === true){
-      if(this.characterIsLookingRigth ) {
-        this.characterImg.src ='/img/GOUSTY/SWORD/GOUSTY-SWORD-ATTACK-RIGTH.png'
+      if(this.characterIsLookingRigth && this.jumpable === false ) {
+        this.characterImg.src ='/img/GOUSTY/SWORD/GoustyOnAir/GOUSTY_SWORD_ON_AIR_RIGTH.png'
       }
-      if(this.characterIsLookingLeft) {
-        this.characterImg.src ='/img/GOUSTY/SWORD/GOUSTY-SWORD-ATTACK-LEFT.png'
+      if(this.characterIsLookingLeft && this.jumpable === false) {
+        this.characterImg.src ='/img/GOUSTY/SWORD/GoustyOnAir/GOUSTY_SWORD_ON_AIR_LEFT.png'
+      }
+      if(this.characterIsLookingRigth && this.jumpable === true ) {
+        this.characterImg.src ='/img/GOUSTY/SWORD/GoustyOnAir/GOUSTY-SWORD-ON_EARTH_LOOKING-RIGTH.png'
+      }
+      if(this.characterIsLookingLeft && this.jumpable === true) {
+        this.characterImg.src ='/img/GOUSTY/SWORD/GoustyOnAir/GOUSTY-SWORD-ON_EARTH_LOOKING-LEFT.png'
       }
       this.ctx.drawImage(
         this.characterImg,
@@ -212,7 +218,7 @@ class Player {
         }
       }
     }
-    if(this.tick % 6 === 0 && this.basicAttackMode === true) {  // Animacion de player en estado de ataque con espada 
+    if(this.tick % 12 === 0 && this.basicAttackMode === true) {  // Animacion de player en estado de ataque con espada 
       this.characterImg.frameIndex++; 
       if (this.characterImg.frameIndex >= this.characterImg.frames) {
         this.characterImg.frameIndex = 0;
@@ -316,7 +322,8 @@ class Player {
         this.y + this.h - 137.8201,
         playerIsLookingRigth,
         PlayerIsLookingLeft,
-        this.changeSwordSprite
+        this.changeSwordSprite,
+        this.jumpable
       );
 
       this.sword.push(sword);
@@ -331,7 +338,8 @@ class Player {
         this.y + this.h - 137.8201,
         playerIsLookingRigth,
         PlayerIsLookingLeft,
-        this.changeSwordSprite
+        this.changeSwordSprite,
+        this.jumpable,
       );
 
       this.sword.push(sword);

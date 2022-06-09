@@ -1,5 +1,5 @@
 class Sword {
-    constructor (ctx, x, y, playerIsLookingRigth, PlayerIsLookingLeft, changeSprite){
+    constructor (ctx, x, y, playerIsLookingRigth, PlayerIsLookingLeft, changeSprite, isOnEarth){
         this.ctx = ctx
 
         this.w = 182.4574
@@ -19,59 +19,59 @@ class Sword {
         this.swordImg.frames = 3;
         this.swordImg.frameIndex = 0;
         this.swordImg.src = undefined
+        this.isOnEarth= isOnEarth
     }
 
     draw() {
-        if(this.PlayerIsLookingLeft === true){
-            switch (this.changeSprite) {
-                case 1:
-                    this.swordImg.src = '/img/GOUSTY/SWORD/SWORD-ATTACK-LEFT2_3FPS.png'  
-                    break;
-                case 2:
-                    this.swordImg.src = '/img/GOUSTY/SWORD/SWORD-ATTACK-LEFT1_3FPS.png'  
-                    break;
-                default:
-                    this.swordImg.src = '/img/GOUSTY/SWORD/SWORD-ATTACK-LEFT2_3FPS.png'
-                    break;
+        if(this.isOnEarth === true){
+            if(this.PlayerIsLookingLeft === true){ //Animacion en tierra
+                switch (this.changeSprite) {
+                    case 1:
+                        this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ON_EARTH_LOOKING_LEFT1.png'  
+                        break;
+                    case 2:
+                        this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ON_EARTH_LOOKING_LEFT2.png'  
+                        break;
+                    default:
+                        this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ON_EARTH_LOOKING_LEFT1.png'
+                        break;
+                }
             }
-            this.ctx.drawImage(
-                this.swordImg,
-                (this.swordImg.width * this.swordImg.frameIndex) / this.swordImg.frames , 
-                0, 
-                this.swordImg.width / 3, 
-                this.swordImg.height,
-                this.x,
-                this.y,
-                this.w,
-                this.h
-            )
+            if(this.playerIsLookingRigth === true){
+                switch (this.changeSprite) {
+                    case 1:
+                        this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ATTACK-RIGTH2_3FPS.png'  
+                        break;
+                    case 2:
+                        this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ATTACK-RIGTH1_3FPS.png'  
+                        break;
+                    default:
+                        this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ATTACK-RIGTH2_3FPS.png'
+                        break;
+                }
+            }
         }
         
-        if(this.playerIsLookingRigth === true){
-            switch (this.changeSprite) {
-                case 1:
-                    this.swordImg.src = '/img/GOUSTY/SWORD/SWORD-ATTACK-RIGTH2_3FPS.png'  
-                    break;
-                case 2:
-                    this.swordImg.src = '/img/GOUSTY/SWORD/SWORD-ATTACK-RIGTH1_3FPS.png'  
-                    break;
-                default:
-                    this.swordImg.src = '/img/GOUSTY/SWORD/SWORD-ATTACK-RIGTH2_3FPS.png'
-                    break;
+        if(this.isOnEarth === false){ //Animacion en el aire
+            if(this.PlayerIsLookingLeft === true){
+                this.swordImg.src = '/img/GOUSTY/SWORD/OnAir/SWORD_ON_AIR_LEFT.png'  
             }
-            this.ctx.drawImage(
-                this.swordImg,
-                (this.swordImg.width * this.swordImg.frameIndex) / this.swordImg.frames , 
-                0, 
-                this.swordImg.width / 3, 
-                this.swordImg.height,
-                this.x,
-                this.y,
-                this.w,
-                this.h
-            )
+            if(this.playerIsLookingRigth === true){
+                this.swordImg.src = '/img/GOUSTY/SWORD/OnAir/SWORD_ON_AIR_RIGTH.png'  
+            }
         }
-
+        
+        this.ctx.drawImage(
+            this.swordImg,
+            (this.swordImg.width * this.swordImg.frameIndex) / this.swordImg.frames , 
+            0, 
+            this.swordImg.width / this.swordImg.frames, 
+            this.swordImg.height,
+            this.x,
+            this.y,
+            this.w,
+            this.h
+        )
     }
     
     move() {
