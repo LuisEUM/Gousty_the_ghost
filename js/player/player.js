@@ -125,23 +125,13 @@ class Player {
       );
     }
 
-    if(this.basicAttackMode === false && this.hitable === false && this.characterIsLookingRigth === true){
-      this.characterImg.src ='/img/GOUSTY/NoHitable/GOUSTY_NO_HITABLE_LOOKING_RIGTH.png'
-      this.ctx.drawImage(
-        this.characterImg,
-        (this.characterImg.width * this.characterImg.frameIndex) /
-          this.characterImg.frames,
-        0,
-        this.characterImg.width / this.characterImg.frames,
-        this.characterImg.height,
-        this.x,
-        this.y,
-        this.w,
-        this.h
-      );
-    }
-    if(this.basicAttackMode === false && this.hitable === false && this.characterIsLookingLeft === true){
-      this.characterImg.src ='/img/GOUSTY/NoHitable/GOUSTY_NO_HITABLE_LOOKING_LEFT.png'
+    if(this.basicAttackMode === false && this.hitable === false){
+      if(this.characterIsLookingRigth){
+        this.characterImg.src ='/img/GOUSTY/NoHitable/GOUSTY_NO_HITABLE_LOOKING_RIGTH.png'
+      }
+      if(this.characterIsLookingLeft){
+        this.characterImg.src ='/img/GOUSTY/NoHitable/GOUSTY_NO_HITABLE_LOOKING_LEFT.png'
+      }
       this.ctx.drawImage(
         this.characterImg,
         (this.characterImg.width * this.characterImg.frameIndex) /
@@ -156,8 +146,9 @@ class Player {
       );
     }
 
+
     if(this.basicAttackMode === true){
-      if(this.characterIsLookingRigth) {
+      if(this.characterIsLookingRigth ) {
         this.characterImg.src ='/img/GOUSTY/SWORD/GOUSTY-SWORD-ATTACK-RIGTH.png'
       }
       if(this.characterIsLookingLeft) {
