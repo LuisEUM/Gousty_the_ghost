@@ -553,7 +553,7 @@ class Player {
           this.y + this.h < object.y + 10; //abajo del player
         const colYBot = 
           this.y + this.h >= object.y - 10 &&
-          this.y + this.h < object.y + 10 + this.h; //abajo del player
+          this.y + this.h < object.y + this.h; //abajo del player
         
         const colRX = 
           this.x < object.x + object.w -10 &&  //derecha del player
@@ -567,10 +567,10 @@ class Player {
         //izquierda de la plataforma
         if(colLX && colH){
           this.x = object.x - this.w +10
-          
         }
         if(colYBot && colX){
           this.vy = 0
+          this.vy += 2
         }
         if(colY && colX){
           this.y = object.y - 20 - this.h
@@ -581,7 +581,6 @@ class Player {
           if(colRX && colH){
             this.x =  object.x + object.w -10
           }
-
         if (this.jumpable) {
           return true
         }
