@@ -27,6 +27,7 @@ class Player {
     this.basicAttackMode = false
     this.attackModeCooldowm = 0
     this.resetAnimationBasicAttack = 0;
+    this.shadowballsCD = false
 
 
     //CORAZONES
@@ -46,7 +47,7 @@ class Player {
 
     this.characterImg = new Image();
     this.characterImg.frameIndex = 0;
-    this.characterImg.src = "/img/Gousty_Sprite.png";
+    this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite.png";
     this.framesCharacter = 6;
     this.characterImg.frames = 6;
 
@@ -87,7 +88,7 @@ class Player {
     }
 
     if(this.basicAttackMode === false && this.hitable === false && this.characterIsLookingRigth === true){
-      this.characterImg.src ='/img/GOUSTY/GOUSTY_NO_HITABLE_LOOKING_RIGTH.png'
+      this.characterImg.src ='/img/GOUSTY/NoHitable/GOUSTY_NO_HITABLE_LOOKING_RIGTH.png'
       this.ctx.drawImage(
         this.characterImg,
         (this.characterImg.width * this.characterImg.frameIndex) /
@@ -102,7 +103,7 @@ class Player {
       );
     }
     if(this.basicAttackMode === false && this.hitable === false && this.characterIsLookingLeft === true){
-      this.characterImg.src ='/img/GOUSTY/GOUSTY_NO_HITABLE_LOOKING_LEFT.png'
+      this.characterImg.src ='/img/GOUSTY/NoHitable/GOUSTY_NO_HITABLE_LOOKING_LEFT.png'
       this.ctx.drawImage(
         this.characterImg,
         (this.characterImg.width * this.characterImg.frameIndex) /
@@ -118,7 +119,7 @@ class Player {
     }
 
     if(this.basicAttackMode === true && this.characterIsLookingRigth === true){
-      this.characterImg.src ='/img/GOUSTY/GOUSTY-SWORD-ATTACK-RIGTH.png'
+      this.characterImg.src ='/img/GOUSTY/SWORD/GOUSTY-SWORD-ATTACK-RIGTH.png'
       this.ctx.drawImage(
         this.characterImg,
         (this.characterImg.width * this.characterImg.frameIndex) /
@@ -134,7 +135,7 @@ class Player {
       }
 
       if(this.basicAttackMode === true && this.characterIsLookingLeft === true){
-        this.characterImg.src ='/img/GOUSTY/GOUSTY-SWORD-ATTACK-LEFT.png'
+        this.characterImg.src ='/img/GOUSTY/SWORD/GOUSTY-SWORD-ATTACK-LEFT.png'
         this.ctx.drawImage(
           this.characterImg,
           (this.characterImg.width * this.characterImg.frameIndex) /
@@ -337,41 +338,42 @@ class Player {
 
   keyDown(key) {
     if (key === KEY_SPACE) {
-      this.tock++;
-      let previousImgLookingSide = this.characterImg.src;
-      if (this.characterIsLookingRigth) {
-        this.characterImg.src =
-          "/img/Gousty Loading - Loading Shadow Ball (2).png";
-
-        this.audioShadowball.play();
-      }
-      if (this.characterIsLookingLeft) {
-        this.characterImg.src =
-          "/img/Gousty_Loading_Loading_Shadow Ball_LEFT.png";
-
-        this.audioShadowball.play();
-      }
-      if (this.tock >= 30 && this.characterIsLookingRigth) {
-        this.characterIsLookingLeft = false;
-        this.shoot(this.characterIsLookingRigth, this.characterIsLookingLeft);
-        this.tock = 15;
-        this.characterImg.src = previousImgLookingSide;
-
-        this.audioShadowball.currentTime = 2;
-      }
-
-      if (this.tock >= 28 && this.characterIsLookingLeft) {
-        this.characterIsLookingRigth = false;
-        this.shoot(this.characterIsLookingRigth, this.characterIsLookingLeft);
-        this.tock = 14;
-        this.characterImg.src = previousImgLookingSide;
-
-        this.audioShadowball.currentTime = 2;
-
-        if (this.vx > 0) {
-          this.audioShadowball.pause();
+      if (this.shadowballsCD) {
+        let previousImgLookingSide = this.characterImg.src;
+        if (this.characterIsLookingRigth) {
+          this.characterImg.src =
+            "/img/GOUSTY/ShadowBall/Gousty Loading - Loading Shadow Ball (2).png";
+  
+          this.audioShadowball.play();
         }
+        if (this.characterIsLookingLeft) {
+          this.characterImg.src =
+            "/img/GOUSTY/ShadowBall/Gousty_Loading_Loading_Shadow Ball_LEFT.png";
+  
+          this.audioShadowball.play();
+        }
+        if (this.characterIsLookingRigth) {
+          this.characterIsLookingLeft = false;
+          this.shoot(this.characterIsLookingRigth, this.characterIsLookingLeft);
+          this.tock = 15;
+          this.characterImg.src = previousImgLookingSide;
+  
+          this.audioShadowball.currentTime = 2;
+        }
+  
+        if (this.characterIsLookingLeft) {
+          this.characterIsLookingRigth = false;
+          this.shoot(this.characterIsLookingRigth, this.characterIsLookingLeft);
+          this.characterImg.src = previousImgLookingSide;
+          this.audioShadowball.currentTime = 2;
+  
+          if (this.vx > 0) {
+            this.audioShadowball.pause();
+          }
+        }
+        this.shadowballsCD = false;
       }
+
     }
     
     if (key === KEY_UP) {
@@ -384,6 +386,7 @@ class Player {
         jumpAudio.volume = 0.01;
         jumpAudio.play();
         this.ykey = true;
+        this.shadowballsCD = true
       }
     }
 
@@ -395,11 +398,11 @@ class Player {
         if(!this.xkey && this.vx < 0 && this.jumpable){
           setTimeout(() => { //cambiando de direccion
             this.vx = 7;  //Velocidad 
-          }, 100)
+          }, 50)
         }else{
           this.vx = 7;  //Velocidad 
         }
-        this.characterImg.src = "/img/Gousty_Sprite.png";
+        this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite.png";
         this.characterIsLookingRigth = true;
         this.characterIsLookingLeft = false
         this.xkey = true;
@@ -409,11 +412,11 @@ class Player {
         if(this.xkey && this.vx > 0 && this.jumpable){
           setTimeout(() => { //cambiando de direccion
             this.vx = -7;  //Velocidad 
-          }, 100)
+          }, 50)
         }else{
           this.vx = -7;  //Velocidad 
         }
-        this.characterImg.src = "/img/Gousty_Sprite_Left.png";
+        this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite_Left.png";
         this.characterIsLookingLeft = true;
         this.characterIsLookingRigth = false;
         this.xkey = false;
@@ -432,18 +435,18 @@ class Player {
               this.playerCanAttack = true, //el jugador puede atacar
               this.basicAttackMode = false, //el jugador esta atando
               this.hitable = true, // puede ser golpeado
-              this.characterImg.src = "/img/Gousty_Sprite.png",
+              this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite.png",
               this.sword.pop(), //eliminamos la espada creada para que siempre sea una sola y se puede dibujar
             ], 200)
         }
         if(this.basicAttackMode === true && this.characterIsLookingLeft){
-          this.characterImg.src = "/img/Gousty_Sprite_Left.png"
+          this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite_Left.png"
           this.slash(this.characterIsLookingRigth, this.characterIsLookingLeft);
           setTimeout(() => [
             this.playerCanAttack = true, //el jugador puede atacar
             this.basicAttackMode = false, //el jugador esta atando
             this.hitable = true, // puede ser golpeado
-            this.characterImg.src = "/img/Gousty_Sprite_Left.png",
+            this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite_Left.png",
             this.sword.pop(), //eliminamos la espada creada para que siempre sea una sola y se puede dibujar
           ], 200) 
         }
@@ -459,6 +462,7 @@ class Player {
         }
       }, 40)
     }
+    
     if (key === KEY_UP) {
       if (this.ykey && this.vy <= 0) {
         this.vy *= .40;
@@ -468,14 +472,14 @@ class Player {
 
     if (key === KEY_SPACE && this.characterIsLookingRigth) {
       this.tock = 0;
-      this.characterImg.src = "/img/Gousty_Sprite.png";
+      this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite.png";
       this.audioShadowball.pause();
       this.audioShadowball.currentTime = 0;
     }
 
     if (key === KEY_SPACE && this.characterIsLookingLeft) {
       this.tock = 0;
-      this.characterImg.src = "/img/Gousty_Sprite_Left.png";
+      this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite_Left.png";
       this.audioShadowball.pause();
       this.audioShadowball.currentTime = 0;
     }

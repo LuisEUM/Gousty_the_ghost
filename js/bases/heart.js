@@ -10,7 +10,7 @@ class Heart {
         this.heartImg = new Image();
         this.heartImg.frames = 6;
         this.heartImg.frameIndex = 0;
-        this.heartImg.src = '/img/Gousty_Hearts.png'
+        this.heartImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts.png'
         this.heartPoints = 2
     }
 
@@ -30,7 +30,7 @@ class Heart {
             )
         }
         if (this.heartPoints === 1) {
-            this.heartImg.src = '/img/Gousty_Hearts_With_Half life.png'
+            this.heartImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts_With_Half life.png'
 
             this.ctx.drawImage(
                 this.heartImg,
@@ -45,7 +45,7 @@ class Heart {
             )
         }
         if (this.heartPoints <= 0) {
-            this.heartImg.src = '/img/Gousty_Hearts_With_No_Points.png'
+            this.heartImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts_With_No_Points.png'
 
             this.ctx.drawImage(
                 this.heartImg,
