@@ -28,7 +28,7 @@ class Player {
     this.attackModeCooldowm = 0
     this.resetAnimationBasicAttack = 0;
     this.shadowballsCD = false
-
+    this.isOnAir= false
 
     //CORAZONES
     this.heart1 = new Heart(ctx, 50, 50,)
@@ -72,7 +72,45 @@ class Player {
   }
 
   draw() {
-    if(this.basicAttackMode === false){
+
+
+    if(this.basicAttackMode === false && this.jumpable === true ){
+      if(this.characterIsLookingRigth){
+        this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite.png";
+      }
+      if(this.characterIsLookingLeft){
+        this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite_Left.png";
+      } 
+        this.ctx.drawImage(
+        this.characterImg,
+        (this.characterImg.width * this.characterImg.frameIndex) /
+          this.characterImg.frames,
+        0,
+        this.characterImg.width / this.characterImg.frames,
+        this.characterImg.height,
+        this.x,
+        this.y,
+        this.w,
+        this.h
+      );
+    } 
+
+    console.log(this.vy)
+    if(this.basicAttackMode === false && this.jumpable === false ){
+      if(this.characterIsLookingRigth && this.vy < 0){
+        this.characterImg.src ='/img/GOUSTY/OnAir/GOUSTY_JUMPING_RIGTH.png'
+      }
+      if(this.characterIsLookingLeft && this.vy < 0){
+        this.characterImg.src ='/img/GOUSTY/OnAir/GOUSTY_JUMPING_LEFT.png'
+      }
+
+      if(this.characterIsLookingRigth && this.vy > 0){
+        this.characterImg.src ='/img/GOUSTY/OnAir/GOUSTY_FALLING_RIGTH.png'
+      }
+      if(this.characterIsLookingLeft && this.vy > 0){
+        this.characterImg.src ='/img/GOUSTY/OnAir/GOUSTY_FALLING_LEFT.png'
+      }
+      
       this.ctx.drawImage(
         this.characterImg,
         (this.characterImg.width * this.characterImg.frameIndex) /
@@ -118,8 +156,13 @@ class Player {
       );
     }
 
-    if(this.basicAttackMode === true && this.characterIsLookingRigth === true){
-      this.characterImg.src ='/img/GOUSTY/SWORD/GOUSTY-SWORD-ATTACK-RIGTH.png'
+    if(this.basicAttackMode === true){
+      if(this.characterIsLookingRigth) {
+        this.characterImg.src ='/img/GOUSTY/SWORD/GOUSTY-SWORD-ATTACK-RIGTH.png'
+      }
+      if(this.characterIsLookingLeft) {
+        this.characterImg.src ='/img/GOUSTY/SWORD/GOUSTY-SWORD-ATTACK-LEFT.png'
+      }
       this.ctx.drawImage(
         this.characterImg,
         (this.characterImg.width * this.characterImg.frameIndex) /
@@ -134,22 +177,7 @@ class Player {
       );
       }
 
-      if(this.basicAttackMode === true && this.characterIsLookingLeft === true){
-        this.characterImg.src ='/img/GOUSTY/SWORD/GOUSTY-SWORD-ATTACK-LEFT.png'
-        this.ctx.drawImage(
-          this.characterImg,
-          (this.characterImg.width * this.characterImg.frameIndex) /
-            this.characterImg.frames,
-          0,
-          this.characterImg.width / this.characterImg.frames,
-          this.characterImg.height,
-          this.x,
-          this.y,
-          this.w,
-          this.h
-        );
 
-        }
 
 
     ///activar que aparezcan las shadow ball
@@ -184,6 +212,7 @@ class Player {
     }
     this.tick++;
 
+
     if (this.tick && this.basicAttackMode === false) { // Animacion de player en estado normal
       if (this.tick  % 12 === 0 ) { //controlamos la velocidad de la animación sin ataques
       this.characterImg.frameIndex++;
@@ -192,7 +221,6 @@ class Player {
         }
       }
     }
-
     if(this.tick % 6 === 0 && this.basicAttackMode === true) {  // Animacion de player en estado de ataque con espada 
       this.characterImg.frameIndex++; 
       if (this.characterImg.frameIndex >= this.characterImg.frames) {
@@ -289,8 +317,6 @@ class Player {
 
   slash(playerIsLookingRigth, PlayerIsLookingLeft) {
     this.changeSwordSprite++ 
-    console.log(this.changeSwordSprite)
-
 
     if (playerIsLookingRigth) {
       const sword = new Sword(
@@ -377,6 +403,8 @@ class Player {
     }
     
     if (key === KEY_UP) {
+
+
       if(this.jumpable){
         // TODO: jump and play jump sound
         this.vy = -14;
@@ -388,6 +416,9 @@ class Player {
         this.ykey = true;
         this.shadowballsCD = true
       }
+    }
+    if(key === KEY_DOWN && this.isOnAir === true){
+
     }
 
     if (key === KEY_RIGHT || key === KEY_LEFT) { //movimiento horizontal
@@ -402,6 +433,7 @@ class Player {
         }else{
           this.vx = 7;  //Velocidad 
         }
+        
         this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite.png";
         this.characterIsLookingRigth = true;
         this.characterIsLookingLeft = false
@@ -535,10 +567,10 @@ class Player {
         //izquierda de la plataforma
         if(colLX && colH){
           this.x = object.x - this.w +10
+          
         }
         if(colYBot && colX){
           this.vy = 0
-          this.vy += 4
         }
         if(colY && colX){
           this.y = object.y - 20 - this.h
