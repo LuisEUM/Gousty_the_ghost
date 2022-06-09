@@ -1,4 +1,4 @@
-class Items {
+class Item {
     constructor(ctx) {
       // TODO: init player attributes: position, size, v, a, img, audio, score, tick
       this.ctx = ctx
@@ -7,7 +7,6 @@ class Items {
       this.h = 30
       this.x =  ctx.canvas.width - this.w
       this.y = ctx.canvas.height - EARTH - this.h - 100
-      this.hitable = true
       this.vx = 0;
       this.vy = 0;
       this.tick = 0;
@@ -19,7 +18,7 @@ class Items {
       this.characterImg = new Image();
       this.characterImg.frames = 6;
       this.characterImg.frameIndex = 0;
-      this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_LEFT.png'
+      this.characterImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts.png'
   
       // hacer saber al juego a donde mira el personaje principal
       this.characterIsLookingRigth = false;
@@ -30,7 +29,7 @@ class Items {
     }
   
     draw() {
-      if(this.hitable){
+      if( true){
         this.ctx.drawImage(
           this.characterImg,
           (this.characterImg.width * this.characterImg.frameIndex) / this.characterImg.frames , 
@@ -46,25 +45,24 @@ class Items {
     }
   
     move() {
-      this.vy += this.gravity;
-      // por si queremos un random de drop this.x += this.vx;
-      this.y += this.vy;
-      this.tock++
-  
-      if (this.tock >= 30) {
-        this.bounceAttack = Math.floor(Math.random()*10)
-          if(this.bounceAttack >= 5){
-            this.bigJumpAttack()
-          }
-        this.tock = 0
-      } 
-  
-      if (this.y >= ctx.canvas.height - EARTH - this.h) {
-        this.y = ctx.canvas.height - EARTH - this.h;
-        this.vy = -2; // CON ESTO HACEMOS QUE SE MUEVA SALTANDO
-      }
-        this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_LEFT.png'
-      }
+        this.vy += this.gravity;
+        // por si queremos un random de drop this.x += this.vx;
+        this.y += this.vy;
+        this.tock++
+    
+        if (this.tock >= 30) {
+          this.bounceAttack = Math.floor(Math.random()*10)
+            if(this.bounceAttack >= 5){
+              this.bigJumpAttack()
+            }
+          this.tock = 0
+        } 
+    
+        if (this.y >= ctx.canvas.height - EARTH - this.h) {
+          this.y = ctx.canvas.height - EARTH - this.h;
+          this.vy = -2; // CON ESTO HACEMOS QUE SE MUEVA SALTANDO
+        }
+        this.characterImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts.png';
   
       if (this.characterIsLookingRigth){
         if(this.hitable){ //CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
@@ -73,7 +71,7 @@ class Items {
         else{ //CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
           this.vy += 0.1 
         }
-        this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_RIGTH.png'
+        this.characterImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts.png'
       }
   
       this.tick++;
@@ -125,9 +123,9 @@ class Items {
       player.y <= this.y + this.h -20; //abajo del player
   
       if(colX && colY){
-  
+      
 
-          return colX && colY
+        return colX && colY
       }
     }
 

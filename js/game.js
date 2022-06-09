@@ -9,6 +9,7 @@ class Game {
     this.player = new Player(ctx);
 
     this.map = [];
+    this.items = [];
     this.darkslimes = new DarkSlimes(ctx);
     this.enemiesForestMap1 = [];
     this.deleteEnemy = false;
@@ -31,12 +32,15 @@ class Game {
 
       this.tick++;
 
+      if(this.tick == 1){
+        this.addItems();
+      }
 
       if(this.tick++ == 1){
         this.addPlatform(50, 200, 200,40);
         this.addPlatform(750, 200, 200,40);
         this.addPlatform(375, 400, 200,40);
-        //this.addPlatform(0,this.ctx.canvas.height- 55,this.ctx.canvas.width,this.ctx.canvas.height);
+        this.addPlatform(0,this.ctx.canvas.height- 55,this.ctx.canvas.width,this.ctx.canvas.height);
       }
 
       if (this.tick > 100) {
@@ -64,6 +68,7 @@ class Game {
     this.background.draw();
     this.player.draw();
     this.checkCollisions();
+    this.items.forEach((item) => item.draw());
     this.map.forEach((platform) => platform.draw());
     this.enemiesForestMap1.forEach((enemy) => enemy.draw());
     this.removeDeathEnemy()
@@ -99,9 +104,14 @@ class Game {
     this.map.push(platform);
   }
 
+  addItems() {
+    const item = new Item(this.ctx);
+    this.items.push(item);
+  }
+
   checkCollisions() {
       
-    this.enemiesForestMap1.forEach((enemy, index) => {
+    this.enemiesForestMap1.forEach((enemy) => {
       //checkear todos los enemigos del mapa
       enemy.checkPlayerColisions(this.player);
 
