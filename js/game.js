@@ -33,9 +33,10 @@ class Game {
 
 
       if(this.tick++ == 1){
-        this.addPlatform();
-        this.addPlatform(600, 200, 100,40,);
-        this.addPlatform(0,this.ctx.canvas.height- 55,this.ctx.canvas.width,this.ctx.canvas.height);
+        this.addPlatform(50, 200, 200,40);
+        this.addPlatform(750, 200, 200,40);
+        this.addPlatform(375, 400, 200,40);
+        //this.addPlatform(0,this.ctx.canvas.height- 55,this.ctx.canvas.width,this.ctx.canvas.height);
       }
 
       if (this.tick > 100) {
