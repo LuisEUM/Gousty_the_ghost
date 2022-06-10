@@ -113,7 +113,7 @@ class Game {
       
     this.enemiesForestMap1.forEach((enemy) => {
       //checkear todos los enemigos del mapa
-      console.log(this.player.collides(enemy, "monster"))
+      //console.log(this.player.collides(enemy, "monster"))
       if (this.player.collides(enemy, "monster")) {
 
         const playerLife = this.player.playerLife;
@@ -153,10 +153,24 @@ class Game {
   }
 
   setListeners() {
-    document.addEventListener("keydown", (event) =>
-      this.player.keyDown(event.key)
+    let keysPressed = {};
+
+    document.addEventListener("keydown", (event) => {
+      keysPressed[event.key] = true;
+      this.player.keyDown(event.key);
+      
+      if (keysPressed['z']) {
+        this.player.swordAtack(keysPressed)
+      }
+    }     
     );
-    document.addEventListener("keyup", (event) => this.player.keyUp(event.key));
+    document.addEventListener("keyup", (event) => {
+      this.player.keyUp(event.key);
+
+      delete keysPressed[event.key];
+
+      // delete  this.keysPressed[event.key];
+    });
   }
 }
 //probando

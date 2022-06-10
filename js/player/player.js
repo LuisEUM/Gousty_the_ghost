@@ -42,7 +42,7 @@ class Player {
     //HASTA AQUI
 
     this.previousPositionX = this.x;
-
+    
     this.gravity = GRAVITY;
 
     this.characterImg = new Image();
@@ -63,12 +63,13 @@ class Player {
     this.audioShadowball.volume = 0.05;
     this.audioShadowball.loop = true;
     this.audioShadowball.currentTime = 1;
-    this.hitted = false
+    this.hitted = false;
 
     
     //Sword
     this.sword = [];
-
+    this.usingKEYUP = true
+    
     //weapons sword + shadowballs
     this.weapons = []
   }
@@ -150,7 +151,6 @@ class Player {
       this.sword.forEach((sword) => {
         sword.draw();
       });
-  
     }
 
     ///activar que aparezca la vida
@@ -275,25 +275,47 @@ class Player {
   }
 
 
-  slash(playerIsLookingRigth, PlayerIsLookingLeft) {
+  slash(playerIsLookingRigth, PlayerIsLookingLeft, attackUpOnTheGround) {
     this.changeSwordSprite++ 
 
-    if (playerIsLookingRigth) {
-      const sword = new Sword(
+
+    if (attackUpOnTheGround === true && playerIsLookingRigth) {
+      this.usingKEYUP = true
+      const slash = new Sword(
+        this.ctx,
+        // this.x + this.w - 10,
+        // this.y + this.h - 60,
+        this.x - 37.7714,
+        this.y - 106.538,
+        playerIsLookingRigth,
+        PlayerIsLookingLeft,
+        this.changeSwordSprite,
+        this.jumpable,
+        this.usingKEYUP
+      );
+      console.log('esta presionando la tecla arriba y creamos la espada')
+      this.sword.push(slash);
+    }
+
+    else if (playerIsLookingRigth && attackUpOnTheGround === false) {
+      this.usingKEYUP = false
+      const slash = new Sword(
         this.ctx,
         this.x + 24.3199,
         this.y + this.h - 137.8201,
         playerIsLookingRigth,
         PlayerIsLookingLeft,
         this.changeSwordSprite,
-        this.jumpable
+        this.jumpable,
+        this.usingKEYUP,
       );
-
-      this.sword.push(sword);
+      console.log('esta mirando a la derecha')
+      this.sword.push(slash);
     }
 
-    if (PlayerIsLookingLeft) {
-      const sword = new Sword(
+    else if (PlayerIsLookingLeft && attackUpOnTheGround === false) {
+      this.usingKEYUP = false
+      const slash = new Sword(
         this.ctx,
         // this.x + this.w - 10,
         // this.y + this.h - 60,
@@ -303,14 +325,15 @@ class Player {
         PlayerIsLookingLeft,
         this.changeSwordSprite,
         this.jumpable,
+        this.usingKEYUP,
       );
-
-      this.sword.push(sword);
+      console.log('esta mirando a la izqueirda')
+      this.sword.push(slash);
     }
-    
     if(this.changeSwordSprite >= 2 ){
       this.changeSwordSprite = 0
     }
+
   }
 
 
@@ -324,7 +347,36 @@ class Player {
     }
   }
 
+  swordAtack(key){
+    console.log(key) //con esto sabemos que teclas recibe
+    //(key[KEY_UP] === true) con este metodo se agrega la segunda tecla que queremos, en este caso es la tecla de arriba
+
+    if(key[KEY_UP] === true){
+      console.log('presiona el arriba y el ataque y esta en tierra')
+      this.basicAttackMode = true
+      this.playerCanAttack = false
+      this.slash(this.characterIsLookingRigth, this.characterIsLookingLeft, true);
+    }
+    
+    else if(this.playerCanAttack === true){ /// activar el ataque de la espada al PRESIONAR la tecla 
+      this.basicAttackMode = true
+      this.playerCanAttack = false
+      this.slash(this.characterIsLookingRigth, this.characterIsLookingLeft, false )
+    }
+
+
+    setTimeout(() => [
+      this.playerCanAttack = true, //el jugador puede atacar
+      this.basicAttackMode = false, //el jugador esta atando
+      this.sword.shift(), //eliminamos la espada creada para que siempre sea una sola y se puede dibujar
+    ], 300)
+
+  }
+
+
+
   keyDown(key) {
+    console.log(key)
     if (key === KEY_SPACE) {
       if (this.shadowballsCD) {
         let previousImgLookingSide = this.characterImg.src;
@@ -364,7 +416,7 @@ class Player {
 
     }
     
-    if (key === KEY_UP) {
+    if (key === KEY_CTRL) {
 
 
       if(this.jumpable){
@@ -379,7 +431,7 @@ class Player {
         this.shadowballsCD = true
       }
     }
-    if(key === KEY_DOWN && this.isOnAir === true){
+    if(key === KEY_DOWN){
 
     }
 
@@ -417,17 +469,6 @@ class Player {
       }
     }
 
-
-    if(key === KEY_CTRL && this.playerCanAttack === true){ /// activar el ataque de la espada al PRESIONAR la tecla 
-      this.basicAttackMode = true
-      this.playerCanAttack = false
-      this.slash(this.characterIsLookingRigth, this.characterIsLookingLeft);
-      setTimeout(() => [
-        this.playerCanAttack = true, //el jugador puede atacar
-        this.basicAttackMode = false, //el jugador esta atando
-        this.sword.pop(), //eliminamos la espada creada para que siempre sea una sola y se puede dibujar
-      ], 200)      
-    }
   }
 
   keyUp(key) {
@@ -440,7 +481,7 @@ class Player {
       }, 40)
     }
     
-    if (key === KEY_UP) {
+    if (key === KEY_CTRL) {
       if (this.ykey && this.vy <= 0) {
         this.vy *= .40;
         this.ykey = false
@@ -493,7 +534,6 @@ class Player {
         let strike = false
         this.sword.forEach((slash) => {
           strike = slash.collides(object, strike)
-          console.log(strike)
         });
         this.shadowballs.forEach((shadowball) => {
           strike = shadowball.collides(object, strike)

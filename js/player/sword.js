@@ -1,5 +1,5 @@
 class Sword {
-    constructor (ctx, x, y, playerIsLookingRigth, PlayerIsLookingLeft, changeSprite, isOnEarth){
+    constructor (ctx, x, y, playerIsLookingRigth, PlayerIsLookingLeft, changeSprite, isOnEarth, attackUpOnTheGround = false){
         this.ctx = ctx
 
         this.w = 182.4574
@@ -20,39 +20,52 @@ class Sword {
         this.swordImg.frameIndex = 0;
         this.swordImg.src
         this.isOnEarth= isOnEarth
+        this.attackUpOnTheGround = attackUpOnTheGround
     }
 
     draw() {
         if(this.isOnEarth === true){
-            if(this.PlayerIsLookingLeft === true){ //Animacion en tierra
-                switch (this.changeSprite) {
-                    case 1:
-                        this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ON_EARTH_LOOKING_LEFT1.png'  
-                        break;
-                    case 2:
-                        this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ON_EARTH_LOOKING_LEFT2.png'  
-                        break;
-                    default:
-                        this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ON_EARTH_LOOKING_LEFT1.png'
-                        break;
+            console.log('esta en el suelo', this.attackUpOnTheGround)
+           if(this.PlayerIsLookingLeft === true && this.attackUpOnTheGround === false){ //Animacion en tierra
+                    switch (this.changeSprite) {
+                        case 1:
+                            this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ON_EARTH_LOOKING_LEFT1.png'  
+                            break;
+                        case 2:
+                            this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ON_EARTH_LOOKING_LEFT2.png'  
+                            break;
+                        default:
+                            this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ON_EARTH_LOOKING_LEFT1.png'
+                            break;
                 }
+
             }
-            if(this.playerIsLookingRigth === true){
-                switch (this.changeSprite) {
-                    case 1:
-                        this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ATTACK-RIGTH2_3FPS.png'  
-                        break;
-                    case 2:
-                        this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ATTACK-RIGTH1_3FPS.png'  
-                        break;
-                    default:
-                        this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ATTACK-RIGTH2_3FPS.png'
-                        break;
+            else if (this.playerIsLookingRigth === true && this.attackUpOnTheGround === false){
+                    switch (this.changeSprite) {
+                        case 1:
+                            this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ATTACK-RIGTH2_3FPS.png'  
+                            break;
+                        case 2:
+                            this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ATTACK-RIGTH1_3FPS.png'  
+                            break;
+                        default:
+                            this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ATTACK-RIGTH2_3FPS.png'
+                            break;
+                    }  
+            }
+            else if(this.attackUpOnTheGround === true){
+                console.log('ataque de arriba')
+                if(this.PlayerIsLookingLeft === true){
+                    this.swordImg.src = '/img/GOUSTY/SWORD/OnAir/SWORD_ON_AIR_LEFT.png'  
+                }
+                if(this.playerIsLookingRigth === true){
+                    this.swordImg.src = '/img/GOUSTY/SWORD/OnAir/SWORD_ON_AIR_RIGTH.png'  
                 }
             }
         }
         
-        if(this.isOnEarth === false){ //Animacion en el aire
+        else if(this.isOnEarth === false){ //Animacion en el aire
+            console.log('en el aire')
             if(this.PlayerIsLookingLeft === true){
                 this.swordImg.src = '/img/GOUSTY/SWORD/OnAir/SWORD_ON_AIR_LEFT.png'  
             }
@@ -72,14 +85,14 @@ class Sword {
             this.w,
             this.h
         )
+        
     }
     
     move() {
         this.tick++
-        if ((this.tick % 2 === 0 )) { //velocidad de la animación, recuerda cambiar a la vez la velocidad de la animación en el personaje con el mismo valor
+        if ((this.tick >= 3)) { //velocidad de la animación, recuerda cambiar a la vez la velocidad de la animación en el personaje con el mismo valor
             this.swordImg.frameIndex++;
-            if (this.swordImg.frameIndex >= this.swordImg.frames) {
-            }
+            this.tick = 0
         }
     }
 
