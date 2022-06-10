@@ -5,9 +5,7 @@ class Game {
 
     this.background = new Background(ctx);
     this.platform = new Platform(ctx);
-
     this.player = new Player(ctx);
-
     this.map = [];
     this.items = [];
     this.darkslimes = new DarkSlimes(ctx);
@@ -29,7 +27,6 @@ class Game {
     this.interval = setInterval(() => {
       this.draw();
       this.move();
-
       this.tick++;
 
       if(this.tick == 1){
@@ -160,6 +157,7 @@ class Game {
       this.player.keyDown(event.key);
       
       if (keysPressed['z']) {
+        console.log(keysPressed)
         this.player.swordAtack(keysPressed)
       }
     }     

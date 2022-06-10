@@ -1,3 +1,4 @@
+
 class Player {
   constructor(ctx) {
     // TODO: init player attributes: position, size, v, a, img, audio, score, tick
@@ -68,14 +69,25 @@ class Player {
     
     //Sword
     this.sword = [];
-    this.usingKEYUP = true
+    this.usingKEYUP = null
     
     //weapons sword + shadowballs
     this.weapons = []
+
+
   }
 
   draw() {
-
+    this.characterImg.frameIndex = 0
+    if(this.usingKEYUP === true && this.basicAttackMode === true && this.jumpable === false){ //Atacando hacia arriba
+      console.log('ss')
+      if(this.characterIsLookingRigth){
+        this.characterImg.src = GOUSTY_SWORD_ON_AIR_UP_LOOKING_RIGTH
+      }
+      if(this.characterIsLookingLeft){
+        this.characterImg.src = GOUSTY_SWORD_ON_EARTH_UP_LOOKING_LEFT
+      } 
+    }
 
     if(this.basicAttackMode === false && this.jumpable === true){ // ANIMACIONES EN EL SUELO
       if(this.characterIsLookingRigth){
@@ -100,7 +112,6 @@ class Player {
       if(this.characterIsLookingLeft && this.vy > 0){
         this.characterImg.src ='/img/GOUSTY/OnAir/GOUSTY_FALLING_LEFT.png'
       }
-
     }
 
     if(this.hitable === false){ // ANIMACIONES AL SER GOLPEADO
@@ -112,20 +123,33 @@ class Player {
       }
     }
 
+
+
+
     if(this.basicAttackMode === true){//animacion de personaje con la espada
-      if(this.characterIsLookingRigth && this.jumpable === false ) {
-        this.characterImg.src ='/img/GOUSTY/SWORD/GoustyOnAir/GOUSTY_SWORD_ON_AIR_RIGTH.png'
+      if (this.jumpable === false){ // EL PERSONAJE SALTO Y ESTA EN EL AIRE
+        if(this.characterIsLookingRigth){
+          this.characterImg.src = GOUSTY_SWORD_ON_AIR_UP_LOOKING_RIGTH
+        }
+        else if(this.characterIsLookingLeft){
+          this.characterImg.src = GOUSTY_SWORD_ON_AIR_UP_LOOKING_LEFT
+        }
       }
-      if(this.characterIsLookingLeft && this.jumpable === false) {
-        this.characterImg.src ='/img/GOUSTY/SWORD/GoustyOnAir/GOUSTY_SWORD_ON_AIR_LEFT.png'
+      if (this.jumpable === true){ // EL PERSONAJE SALTO Y ESTA EN EL AIRE
+        if(this.characterIsLookingRigth) {
+          this.characterImg.src = GOUSTY_SWORD_ON_EARTH_LOOKING_RIGTH
+        }
+        else if(this.characterIsLookingLeft) {
+          this.characterImg.src = GOUSTY_SWORD_ON_EARTH_LOOKING_LEFT
+        }
       }
-      if(this.characterIsLookingRigth && this.jumpable === true ) {
-        this.characterImg.src ='/img/GOUSTY/SWORD/GoustyOnAir/GOUSTY-SWORD-ON_EARTH_LOOKING-RIGTH.png'
-      }
-      if(this.characterIsLookingLeft && this.jumpable === true) {
-        this.characterImg.src ='/img/GOUSTY/SWORD/GoustyOnAir/GOUSTY-SWORD-ON_EARTH_LOOKING-LEFT.png'
-      }
+      
+
+
     }
+
+    console.log(this.usingKEYUP)
+
     this.ctx.drawImage(
       this.characterImg,
       (this.characterImg.width * this.characterImg.frameIndex) /
@@ -138,7 +162,6 @@ class Player {
       this.w,
       this.h
     );
-
 
 
     ///activar que aparezcan las shadow ball
@@ -158,7 +181,6 @@ class Player {
 
     //friccion
     //ahora para frenar ponemos un coeficiente de friccion que frenara poco a poco el personaje
-    //console.log(this.f)
     if(this.vy === 0){
       if(this.f) {
         this.vx *= 0.85;
@@ -199,7 +221,6 @@ class Player {
 
     //friccion
     //ahora para frenar ponemos un coeficiente de friccion que frenara poco a poco el personaje
-    //console.log(this.f)
 
     if(this.f) {
       this.vx *= 0.85;
@@ -280,7 +301,6 @@ class Player {
 
 
     if (attackUpOnTheGround === true && playerIsLookingRigth) {
-      this.usingKEYUP = true
       const slash = new Sword(
         this.ctx,
         // this.x + this.w - 10,
@@ -293,8 +313,8 @@ class Player {
         this.jumpable,
         this.usingKEYUP
       );
-      console.log('esta presionando la tecla arriba y creamos la espada')
       this.sword.push(slash);
+      this.usingKEYUP = true
     }
 
     else if (playerIsLookingRigth && attackUpOnTheGround === false) {
@@ -309,7 +329,6 @@ class Player {
         this.jumpable,
         this.usingKEYUP,
       );
-      console.log('esta mirando a la derecha')
       this.sword.push(slash);
     }
 
@@ -327,7 +346,6 @@ class Player {
         this.jumpable,
         this.usingKEYUP,
       );
-      console.log('esta mirando a la izqueirda')
       this.sword.push(slash);
     }
     if(this.changeSwordSprite >= 2 ){
@@ -348,11 +366,9 @@ class Player {
   }
 
   swordAtack(key){
-    console.log(key) //con esto sabemos que teclas recibe
     //(key[KEY_UP] === true) con este metodo se agrega la segunda tecla que queremos, en este caso es la tecla de arriba
 
     if(key[KEY_UP] === true){
-      console.log('presiona el arriba y el ataque y esta en tierra')
       this.basicAttackMode = true
       this.playerCanAttack = false
       this.slash(this.characterIsLookingRigth, this.characterIsLookingLeft, true);
@@ -366,17 +382,17 @@ class Player {
 
 
     setTimeout(() => [
+      this.usingKEYUP = false,
       this.playerCanAttack = true, //el jugador puede atacar
-      this.basicAttackMode = false, //el jugador esta atando
+      this.basicAttackMode = false, //el jugador esta atacando
       this.sword.shift(), //eliminamos la espada creada para que siempre sea una sola y se puede dibujar
-    ], 300)
+    ], 600)
 
   }
 
 
 
   keyDown(key) {
-    console.log(key)
     if (key === KEY_SPACE) {
       if (this.shadowballsCD) {
         let previousImgLookingSide = this.characterImg.src;

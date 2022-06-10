@@ -1,7 +1,7 @@
 class Sword {
     constructor (ctx, x, y, playerIsLookingRigth, PlayerIsLookingLeft, changeSprite, isOnEarth, attackUpOnTheGround = false){
         this.ctx = ctx
-
+        
         this.w = 182.4574
         this.h = 175.5429
         this.x = x
@@ -21,56 +21,60 @@ class Sword {
         this.swordImg.src
         this.isOnEarth= isOnEarth
         this.attackUpOnTheGround = attackUpOnTheGround
+
+
     }
 
+
+
     draw() {
+        if(this.attackUpOnTheGround === true){
+            console.log('PRESIONA ARRIBA')
+            if(this.PlayerIsLookingLeft === true){
+                this.swordImg.src = SWORD_ON_EARTH_UP_LOOKING_LEFT
+            }
+            if(this.playerIsLookingRigth === true){
+                this.swordImg.src = SWORD_ON_EARTH_UP_LOOKING_RIGTH
+            }
+        }
+
         if(this.isOnEarth === true){
-            console.log('esta en el suelo', this.attackUpOnTheGround)
-           if(this.PlayerIsLookingLeft === true && this.attackUpOnTheGround === false){ //Animacion en tierra
+           if(this.PlayerIsLookingLeft === true && this.attackUpOnTheGround === false){ //Animacion en tierra mirando a la izquierda
                     switch (this.changeSprite) {
                         case 1:
-                            this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ON_EARTH_LOOKING_LEFT1.png'  
+                            this.swordImg.src = SWORD_ON_EARTH_LOOKING_LEFT1 
                             break;
                         case 2:
-                            this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ON_EARTH_LOOKING_LEFT2.png'  
+                            this.swordImg.src = SWORD_ON_EARTH_LOOKING_LEFT2  
                             break;
                         default:
-                            this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ON_EARTH_LOOKING_LEFT1.png'
+                            this.swordImg.src = SWORD_ON_EARTH_LOOKING_LEFT1
                             break;
                 }
 
             }
-            else if (this.playerIsLookingRigth === true && this.attackUpOnTheGround === false){
+            else if (this.playerIsLookingRigth === true && this.attackUpOnTheGround === false){ //Animacion en tierra mirando a la izquierda
                     switch (this.changeSprite) {
                         case 1:
-                            this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ATTACK-RIGTH2_3FPS.png'  
+                            this.swordImg.src = SWORD_ATTACK_RIGTH1
                             break;
                         case 2:
-                            this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ATTACK-RIGTH1_3FPS.png'  
+                            this.swordImg.src = SWORD_ATTACK_RIGTH2
                             break;
                         default:
-                            this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ATTACK-RIGTH2_3FPS.png'
+                            this.swordImg.src = SWORD_ATTACK_RIGTH1
                             break;
                     }  
             }
-            else if(this.attackUpOnTheGround === true){
-                console.log('ataque de arriba')
-                if(this.PlayerIsLookingLeft === true){
-                    this.swordImg.src = '/img/GOUSTY/SWORD/OnAir/SWORD_ON_AIR_LEFT.png'  
-                }
-                if(this.playerIsLookingRigth === true){
-                    this.swordImg.src = '/img/GOUSTY/SWORD/OnAir/SWORD_ON_AIR_RIGTH.png'  
-                }
-            }
+
         }
         
         else if(this.isOnEarth === false){ //Animacion en el aire
-            console.log('en el aire')
             if(this.PlayerIsLookingLeft === true){
-                this.swordImg.src = '/img/GOUSTY/SWORD/OnAir/SWORD_ON_AIR_LEFT.png'  
+                this.swordImg.src = SWORD_ON_AIR_LEFT 
             }
             if(this.playerIsLookingRigth === true){
-                this.swordImg.src = '/img/GOUSTY/SWORD/OnAir/SWORD_ON_AIR_RIGTH.png'  
+                this.swordImg.src = SWORD_ON_AIR_RIGTH  
             }
         }
         
@@ -113,5 +117,15 @@ class Sword {
                 return false
             }    
         }
-    }
 
+        switchSprite(sprite){
+            switch (sprite) {
+                case value:
+                    
+                    break;
+            
+                default:
+                    break;
+            }
+        }
+    }
