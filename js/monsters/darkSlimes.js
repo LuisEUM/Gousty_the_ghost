@@ -24,7 +24,7 @@ class DarkSlimes {
     this.characterImg = new Image();
     this.characterImg.frames = 6;
     this.characterImg.frameIndex = 0;
-    this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_LEFT.png'
+    this.characterImg.src
 
     // hacer saber al juego a donde mira el personaje principal
     this.characterIsLookingRigth = false;
@@ -35,7 +35,22 @@ class DarkSlimes {
   }
 
   draw() {
-    if(this.hitable){
+    if(this.hitable == false){
+      if(this.characterIsLookingRigth){   
+        this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slime_Vulnerable_LookingLeft.png'
+      }
+      if(this.characterIsLookingLeft){ 
+        this.characterImg.src ='/img/MONSTERS/DarkSlime/Dark_Slime_Vulnerable_LookingRigth.png'
+      }
+    }else{
+      this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_LEFT.png'
+      if(this.characterIsLookingRigth){   
+        this.characterImg.src ='/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_RIGTH.png'
+      }
+      if(this.characterIsLookingLeft){ 
+        this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_LEFT.png'
+      }
+    }
       this.ctx.drawImage(
         this.characterImg,
         (this.characterImg.width * this.characterImg.frameIndex) / this.characterImg.frames , 
@@ -47,47 +62,8 @@ class DarkSlimes {
         this.w,
         this.h
       )
-    }
-    if(!this.hitable && this.vx >= -1){
-      // if(!this.hitable && this.characterIsLookingRigth){
-      //   this.characterImg.src = '/img/Dark_Slime_Vulnerable_LookingRigth.png'
-      // }
-          
-      // if(!this.hitable && this.characterIsLookingLeft){
-         this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slime_Vulnerable_LookingLeft.png'
-      // }
-      this.ctx.drawImage(
-        this.characterImg,
-        (this.characterImg.width * this.characterImg.frameIndex) / this.characterImg.frames , 
-        0, 
-        this.characterImg.width / 6, 
-        this.characterImg.height,
-        this.x,
-        this.y + 10,
-        this.w,
-        this.h
-      )
-    }
-    if(!this.hitable && this.vx < -1){
-      // if(!this.hitable && this.characterIsLookingRigth){
-      //   this.characterImg.src = '/img/Dark_Slime_Vulnerable_LookingRigth.png'
-      // }
-          
-      // if(!this.hitable && this.characterIsLookingLeft){
-         this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slime_Vulnerable_LookingRigth.png'
-      // }
-      this.ctx.drawImage(
-        this.characterImg,
-        (this.characterImg.width * this.characterImg.frameIndex) / this.characterImg.frames , 
-        0, 
-        this.characterImg.width / 6, 
-        this.characterImg.height,
-        this.x,
-        this.y + 10,
-        this.w,
-        this.h
-      )
-    }
+    
+
 
     let showlivesOnX = this.x + 20
     let showlivesOnY = this.y - 50 
@@ -130,7 +106,6 @@ class DarkSlimes {
         this.vy += 0.1
       }
 
-      this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_LEFT.png'
     }
 
     if (this.characterIsLookingRigth){
@@ -140,7 +115,6 @@ class DarkSlimes {
       else{ //CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
         this.vy += 0.1 
       }
-      this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_RIGTH.png'
     }
 
     this.tick++;
@@ -185,50 +159,6 @@ class DarkSlimes {
 
   bigJumpAttack(){
     this.vy = -7;
-  }
-
-
-  checkPlayerColisions(player){
-    this.collides(player) 
-  }
-  
-  collides(player) {
-    const colX = 
-    player.x <= this.x + this.w - 20 &&  //derecha del player
-    player.x + player.w - 20 >= this.x;  //el mounstro esta a la izquierda
-    const colY = 
-    player.y + player.h >= this.y + 20 && //arriba del player
-    player.y <= this.y + this.h -20; //abajo del player
-
-    if(colX && colY && this.hitable){
-
-        if(player.x > this.x && player.basicAttackMode === true){ //mounstruo a la izquierda del player
-           console.log('IZQUIERDA DEL PLAYER')
-           this.vx = -0.5
-           this.x += this.vx
-           this.characterIsLookingRigth = true
-           this.characterIsLookingLeft = false
-           this.hitable = false
-           this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slime_Vulnerable_LookingRigth.png'
-        }
-
-        if(player.x < this.x && player.basicAttackMode === true){ //mounstruo a la derecha del player
-           console.log('DERECHA DEL PLAYER')
-           this.vx = 0.5
-           this.x += this.vx
-           this.characterIsLookingRigth = false
-           this.characterIsLookingLeft = true
-           this.hitable = false
-        }
-        if(this.isAlive() === true){
-          setTimeout(() => [
-            this.hitable = true
-          ], 6000)
-        }
-
-        return colX && colY
-
-    }
   }
 
   isAlive() {

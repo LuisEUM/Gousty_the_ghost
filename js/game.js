@@ -113,48 +113,27 @@ class Game {
       
     this.enemiesForestMap1.forEach((enemy) => {
       //checkear todos los enemigos del mapa
-      enemy.checkPlayerColisions(this.player);
-
+      console.log(this.player.collides(enemy, "monster"))
       if (this.player.collides(enemy, "monster")) {
+
         const playerLife = this.player.playerLife;
         let monstersAlive = playerLife.filter((heart) => heart.heartPoints > 0);
         let index = 0;
         let resultOfTheAttack = 0;
 
-
-        if (this.player.hitable === false) { //si el player no esta en modo de ataque
-          if (monstersAlive[index].heartPoints >= 0) {
-            monstersAlive[index].heartPoints -= enemy.strength; //restar el daño del enemigo al player
-            resultOfTheAttack = monstersAlive[index].heartPoints; // guardar el sobrante del daño del enemigo
-            while (resultOfTheAttack < 0) {
-              // restar el sobrante del daño al resto de corazones del player
-              monstersAlive[index].heartPoints = 0;
-              monstersAlive[index + 1].heartPoints += resultOfTheAttack;
-              resultOfTheAttack = monstersAlive[index + 1].heartPoints;
-              index++;
-            }
+        console.log(this.player.hitable, monstersAlive[index].heartPoints >= 0)
+        if (monstersAlive[index].heartPoints >= 0) {
+          monstersAlive[index].heartPoints -= enemy.strength; //restar el daño del enemigo al player
+          resultOfTheAttack = monstersAlive[index].heartPoints; // guardar el sobrante del daño del enemigo
+          while (resultOfTheAttack < 0) {
+            // restar el sobrante del daño al resto de corazones del player
+            monstersAlive[index].heartPoints = 0;
+            monstersAlive[index + 1].heartPoints += resultOfTheAttack;
+            resultOfTheAttack = monstersAlive[index + 1].heartPoints;
+            index++;
           }
         }
-
-        console.log(this.player.basicAttackMode)
-
-        if (this.player.basicAttackMode === false) {
-          console.log('paso')
-          this.showMonsterLivesCooldown++;
-          enemy.monsterLife[0].heartPoints -= 1;
-          this.hitable = true;
-          if (enemy.monsterLife[0].heartPoints === 0) {
-            this.enemiesForestMap1.slice(index,1)
-
-        this.player.isAlive()
-        enemy.isAlive()
-
-        if(enemy.isAlive() === false){
-          this.enemiesForestMap1.slice(enemy)
-        }
-        }
-          }
-        }
+      }
     })
     let vida = null
     this.map.forEach((platform) => {   

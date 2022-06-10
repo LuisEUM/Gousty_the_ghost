@@ -69,33 +69,22 @@ class Player {
     //Sword
     this.sword = [];
 
+    //weapons sword + shadowballs
+    this.weapons = []
   }
 
   draw() {
 
 
-    if(this.basicAttackMode === false && this.jumpable === true ){ // ANIMACIONES EN EL SUELO
+    if(this.basicAttackMode === false && this.jumpable === true){ // ANIMACIONES EN EL SUELO
       if(this.characterIsLookingRigth){
         this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite.png";
       }
       if(this.characterIsLookingLeft){
         this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite_Left.png";
       } 
-        this.ctx.drawImage(
-        this.characterImg,
-        (this.characterImg.width * this.characterImg.frameIndex) /
-          this.characterImg.frames,
-        0,
-        this.characterImg.width / this.characterImg.frames,
-        this.characterImg.height,
-        this.x,
-        this.y,
-        this.w,
-        this.h
-      );
     } 
 
-    console.log(this.vy)
     if(this.basicAttackMode === false && this.jumpable === false ){ // ANIMACIONES AL SALTAR Y CAER
       if(this.characterIsLookingRigth && this.vy < 0){
         this.characterImg.src ='/img/GOUSTY/OnAir/GOUSTY_JUMPING_RIGTH.png'
@@ -110,44 +99,19 @@ class Player {
       if(this.characterIsLookingLeft && this.vy > 0){
         this.characterImg.src ='/img/GOUSTY/OnAir/GOUSTY_FALLING_LEFT.png'
       }
-      
-      this.ctx.drawImage(
-        this.characterImg,
-        (this.characterImg.width * this.characterImg.frameIndex) /
-          this.characterImg.frames,
-        0,
-        this.characterImg.width / this.characterImg.frames,
-        this.characterImg.height,
-        this.x,
-        this.y,
-        this.w,
-        this.h
-      );
+
     }
 
-    if(this.basicAttackMode === false && this.hitable === false){ // ANIMACIONES AL SER GOLPEADO
+    if(this.hitable === false){ // ANIMACIONES AL SER GOLPEADO
       if(this.characterIsLookingRigth){
         this.characterImg.src ='/img/GOUSTY/NoHitable/GOUSTY_NO_HITABLE_LOOKING_RIGTH.png'
       }
       if(this.characterIsLookingLeft){
         this.characterImg.src ='/img/GOUSTY/NoHitable/GOUSTY_NO_HITABLE_LOOKING_LEFT.png'
       }
-      this.ctx.drawImage(
-        this.characterImg,
-        (this.characterImg.width * this.characterImg.frameIndex) /
-          this.characterImg.frames,
-        0,
-        this.characterImg.width / this.characterImg.frames,
-        this.characterImg.height,
-        this.x,
-        this.y,
-        this.w,
-        this.h
-      );
     }
 
-
-    if(this.basicAttackMode === true){
+    if(this.basicAttackMode === true){//animacion de personaje con la espada
       if(this.characterIsLookingRigth && this.jumpable === false ) {
         this.characterImg.src ='/img/GOUSTY/SWORD/GoustyOnAir/GOUSTY_SWORD_ON_AIR_RIGTH.png'
       }
@@ -160,20 +124,19 @@ class Player {
       if(this.characterIsLookingLeft && this.jumpable === true) {
         this.characterImg.src ='/img/GOUSTY/SWORD/GoustyOnAir/GOUSTY-SWORD-ON_EARTH_LOOKING-LEFT.png'
       }
-      this.ctx.drawImage(
-        this.characterImg,
-        (this.characterImg.width * this.characterImg.frameIndex) /
-          this.characterImg.frames,
-        0,
-        this.characterImg.width / this.characterImg.frames,
-        this.characterImg.height,
-        this.x,
-        this.y,
-        this.w,
-        this.h
-      );
-      }
-
+    }
+    this.ctx.drawImage(
+      this.characterImg,
+      (this.characterImg.width * this.characterImg.frameIndex) /
+        this.characterImg.frames,
+      0,
+      this.characterImg.width / this.characterImg.frames,
+      this.characterImg.height,
+      this.x,
+      this.y,
+      this.w,
+      this.h
+    );
 
 
 
@@ -226,7 +189,7 @@ class Player {
     } 
 
     if (this.tick && this.basicAttackMode === false && this.hitable === false) { // Animacion de player golpeado
-      if (this.tick  % 6 === 0 ) { //controlamos la velocidad de la animación sin ataques
+      if (this.tick  % 12 === 0 ) { //controlamos la velocidad de la animación sin ataques
       this.characterImg.frameIndex++;
         if (this.characterImg.frameIndex >= this.characterImg.frames) {
           this.characterImg.frameIndex = 0;
@@ -458,29 +421,12 @@ class Player {
     if(key === KEY_CTRL && this.playerCanAttack === true){ /// activar el ataque de la espada al PRESIONAR la tecla 
       this.basicAttackMode = true
       this.playerCanAttack = false
-      this.hitable = false
-
-        if(this.basicAttackMode === true && this.characterIsLookingRigth ){
-            this.slash(this.characterIsLookingRigth, this.characterIsLookingLeft);
-            setTimeout(() => [
-              this.playerCanAttack = true, //el jugador puede atacar
-              this.basicAttackMode = false, //el jugador esta atando
-              this.hitable = true, // puede ser golpeado
-              this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite.png",
-              this.sword.pop(), //eliminamos la espada creada para que siempre sea una sola y se puede dibujar
-            ], 200)
-        }
-        if(this.basicAttackMode === true && this.characterIsLookingLeft){
-          this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite_Left.png"
-          this.slash(this.characterIsLookingRigth, this.characterIsLookingLeft);
-          setTimeout(() => [
-            this.playerCanAttack = true, //el jugador puede atacar
-            this.basicAttackMode = false, //el jugador esta atando
-            this.hitable = true, // puede ser golpeado
-            this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite_Left.png",
-            this.sword.pop(), //eliminamos la espada creada para que siempre sea una sola y se puede dibujar
-          ], 200) 
-        }
+      this.slash(this.characterIsLookingRigth, this.characterIsLookingLeft);
+      setTimeout(() => [
+        this.playerCanAttack = true, //el jugador puede atacar
+        this.basicAttackMode = false, //el jugador esta atando
+        this.sword.pop(), //eliminamos la espada creada para que siempre sea una sola y se puede dibujar
+      ], 200)      
     }
   }
 
@@ -503,14 +449,12 @@ class Player {
 
     if (key === KEY_SPACE && this.characterIsLookingRigth) {
       this.tock = 0;
-      this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite.png";
       this.audioShadowball.pause();
       this.audioShadowball.currentTime = 0;
     }
 
     if (key === KEY_SPACE && this.characterIsLookingLeft) {
       this.tock = 0;
-      this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite_Left.png";
       this.audioShadowball.pause();
       this.audioShadowball.currentTime = 0;
     }
@@ -525,23 +469,60 @@ class Player {
       const colY = 
         this.y + this.h >= object.y + 20 && //arriba del player
         this.y <= object.y + object.h -20; //abajo del player
-      if(colX && colY && this.hitable){
-          if( this.x > object.x){
-            this.vx += 20
-          }
-          if(this.x < object.x){
-            this.vx -= 20
-          }
-
-          this.hitable = false
-
-          setTimeout(() => [
-            this.hitable = true,
-            this.playerCanAttack = true,
-          ], 1000)
-          
-          return colX && colY
+    
+        if(colX && colY){//condicional del mounstrue        
+          if (this.hitable) {
+            if( this.x > object.x){
+              this.vx += 17
+            }
+            if(this.x < object.x){
+              this.vx -= 17
+            }
+  
+            this.hitable = false
+  
+            setTimeout(() => [
+              this.hitable = true,
+              this.playerCanAttack = true,
+            ], 10000)
+          }  
       }
+
+       //monster
+       if (object.hitable) {  
+        let strike = false
+        this.sword.forEach((slash) => {
+          strike = slash.collides(object, strike)
+          console.log(strike)
+        });
+        this.shadowballs.forEach((shadowball) => {
+          strike = shadowball.collides(object, strike)
+        });
+
+        if (strike) {
+          if (this.x > object.x) {
+            object.vx = -0.5
+            object.x += this.vx
+            object.characterIsLookingRigth = true
+            object.characterIsLookingLeft = false
+            object.hitable = false
+          }
+          if (this.x < object.x) {
+            object.vx = 0.5
+            object.x += object.vx
+            object.characterIsLookingRigth = false
+            object.characterIsLookingLeft = true
+            object.hitable = false
+          }
+  
+          object.hitable = false
+          setTimeout(() => [
+            object.hitable = true,
+          ], 1000)
+        }
+      }
+
+      return colX && colY
     }
     if (type === "platform") {
         const colX = 
