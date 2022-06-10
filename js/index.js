@@ -7,5 +7,3 @@ const game = new Game(ctx);
 // TODO: change button text based on game interval
 game.start()
 
-const swordSprites = new Sprite(ctx, 50, 50,100,100,'/img/GOUSTY/SWORD/OnAir/SWORD_ON_AIR_UP_LOOKING_RIGTH.png')
-swordSprites.draw(ctx)

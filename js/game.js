@@ -34,31 +34,15 @@ class Game {
       }
 
       if(this.tick++ == 1){
-        this.addPlatform(50, 200, 200,40);
-        this.addPlatform(750, 200, 200,40);
-        this.addPlatform(375, 400, 200,40);
-        this.addPlatform(0,this.ctx.canvas.height- 55,this.ctx.canvas.width,this.ctx.canvas.height);
-      }
-
-      if (this.tick > 100) {
-        if (this.enemiesForestMap1.length < 2) {
-          ///aqui agregamoos a los mounstruos
-          this.tick = 0;
-          this.addEnemy();
-        }
-      }
+        this.addPlatform(60, 200, 200, 40, PLATFORMS_FOREST_PLATFORM_2);
+        this.addPlatform(740, 200, 200,40, PLATFORMS_FOREST_PLATFORM_2);
+        this.addPlatform(380, 360, 200,40, PLATFORMS_FOREST_PLATFORM_2);
+        this.addPlatform(0, 540 ,this.ctx.canvas.width, 60, PLATFORMS_FOREST_FLOOR);
+      }       
     }, 1000 / FPS);
   }
 
-  stop() {
-    this.audio.pause();
-    clearInterval(this.interval);
-    this.interval = null;
-  }
-
-  clear() {
-    // this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    // this.enemiesForestMap1 = this.enemiesForestMap1.filter((e) => e.isVisible());
+  stop() {               
   }
 
   draw() {

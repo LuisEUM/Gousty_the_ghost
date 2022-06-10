@@ -11,7 +11,7 @@ class Background {
     this.backgroundImg = new Image();
     this.backgroundImg.frames = 10;
     this.backgroundImg.frameIndex = 0;
-    this.backgroundImg.src = '/img/BACKGROUND/SPRITE BACKGROUND - FOREST.png';
+    this.backgroundImg.src = BACKGROUND_FOREST_WITH_STARS;
     this.backgroundMusic = new Audio('/audio/MapleStory Piano - Eternal Swamp Background.mp3');
     this.backgroundMusic.volume = 0.1;
     this.backgroundMusic.loop = true;
