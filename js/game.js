@@ -115,12 +115,13 @@ class Game {
       //checkear todos los enemigos del mapa
       enemy.checkPlayerColisions(this.player);
 
-      if (this.player.collides(enemy)) {
+      if (this.player.collides(enemy, "monster")) {
         const playerLife = this.player.playerLife;
         let monstersAlive = playerLife.filter((heart) => heart.heartPoints > 0);
         let index = 0;
         let resultOfTheAttack = 0;
-        console.log(this.player.hitable)
+
+
         if (this.player.hitable === false) { //si el player no esta en modo de ataque
           if (monstersAlive[index].heartPoints >= 0) {
             monstersAlive[index].heartPoints -= enemy.strength; //restar el daño del enemigo al player
@@ -134,28 +135,34 @@ class Game {
             }
           }
         }
-      }
+
+        console.log(this.player.basicAttackMode)
+
+        if (this.player.basicAttackMode === false) {
+          console.log('paso')
+          this.showMonsterLivesCooldown++;
+          enemy.monsterLife[0].heartPoints -= 1;
+          this.hitable = true;
+          if (enemy.monsterLife[0].heartPoints === 0) {
+            this.enemiesForestMap1.slice(index,1)
+
+        this.player.isAlive()
+        enemy.isAlive()
+
+        if(enemy.isAlive() === false){
+          this.enemiesForestMap1.slice(enemy)
+        }
+        }
+          }
+        }
     })
     let vida = null
     this.map.forEach((platform) => {   
       vida = this.player.collides(platform, "platform", vida)
     })
 
-        // if (this.player.basicAttackMode === true) {
-        //   this.showMonsterLivesCooldown++;
-        //   enemy.monsterLife[0].heartPoints -= 1;
-        //   this.hitable = true;
-        //   if (enemy.monsterLife[0].heartPoints === 0) {
-        //     this.enemiesForestMap1.slice(index,1)
-        //   }
-        // }
-      // CODIGO PARA CHEQUEAR SI ESTAN VIVOS DE FORMA ALTERNA
-      // this.player.isAlive()
-      // enemy.isAlive()
-      // if(enemy.isAlive() === false){
-      //   this.enemiesForestMap1.slice(enemy)
-      // }
-    //});
+
+
   }
 
   gameOver() {
