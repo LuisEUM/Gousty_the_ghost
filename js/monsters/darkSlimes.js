@@ -1,13 +1,13 @@
 class DarkSlimes {
-  constructor(ctx) {
+  constructor(ctx, x, y, characterIsLookingRigth) {
     // TODO: init player attributes: position, size, v, a, img, audio, score, tick
     this.ctx = ctx
 
     this.w = 80;
     this.h = 70;
     this.x =  ctx.canvas.width - this.w;
-    this.x =  0;
-    this.y = ctx.canvas.height - EARTH - this.h - 100;
+    this.x =  x || 0;
+    this.y = y || ctx.canvas.height - EARTH - this.h - 100;
     this.hitable = true;
     this.vx = 0;
     this.vy = 0;
@@ -27,8 +27,8 @@ class DarkSlimes {
     this.characterImg.src;
 
     // hacer saber al juego a donde mira el personaje principal
-    this.characterIsLookingRigth = false;
-    this.characterIsLookingLeft = true;
+    this.characterIsLookingRigth = characterIsLookingRigth || false;
+  //  this.characterIsLookingLeft = true;
 
     // TODO: init enemy. set x,y randomly top or right.
     // TODO: play fireball audio
@@ -39,7 +39,7 @@ class DarkSlimes {
       if(this.characterIsLookingRigth){   
         this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slime_Vulnerable_LookingLeft.png'
       }
-      if(this.characterIsLookingLeft){ 
+      if(!this.characterIsLookingRigth){ 
         this.characterImg.src ='/img/MONSTERS/DarkSlime/Dark_Slime_Vulnerable_LookingRigth.png'
       }
     }else{
@@ -47,7 +47,7 @@ class DarkSlimes {
       if(this.characterIsLookingRigth){   
         this.characterImg.src ='/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_RIGTH.png'
       }
-      if(this.characterIsLookingLeft){ 
+      if(!this.characterIsLookingRigth){ 
         this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_LEFT.png'
       }
     }
@@ -83,7 +83,7 @@ class DarkSlimes {
       this.vy = -6; // CON ESTO HACEMOS QUE SE MUEVA SALTANDO
     }
 
-    if (this.characterIsLookingLeft){
+    if (!this.characterIsLookingRigth){
       if(this.hitable){ //CUANDO EL MOUNSTRUO SEA GOLPEABLE
         this.vx = -1 // CON ESTO HACEMOS QUE SE MUEVA A LA IZQUIERDA
       }
@@ -113,14 +113,12 @@ class DarkSlimes {
       this.x = this.ctx.canvas.width - this.w;
       this.vx = 0;
       this.characterIsLookingRigth = false
-      this.characterIsLookingLeft = true
     }
 
     if (this.x < 0) {  //pared de la izquierda
       this.x = 0;
       this.vx = 0;
       this.characterIsLookingRigth = true
-      this.characterIsLookingLeft = false
     }
     
     

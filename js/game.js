@@ -1,17 +1,18 @@
+
+
 class Game {
   constructor(ctx) {
     this.ctx = ctx;
     this.interval = null;
-
-    this.background = new Background(ctx);
-    this.platform = new Platform(ctx);
+    this.background = null;
 
     this.player = new Player(ctx);
-
+    this.level = 0
     this.map = [];
     this.items = [];
-    this.darkslimes = new DarkSlimes(ctx);
-    this.enemiesForestMap1 = [];
+
+    this.enemies = [];
+    
     this.deleteEnemy = false;
     this.showMonsterLivesCooldown = 0;
     this.tick = 0;
@@ -22,6 +23,20 @@ class Game {
     this.ctx.font = "80px Poppins";
     this.setListeners();
     this.init = true
+    this.stages = [
+      {                                //0 estas son las olas Wavess
+          map: [
+            new Platform(this.ctx,50, 300, 200,40),
+            new Platform(this.ctx,750, 300, 200,40), 
+            new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
+          ],
+          items:[ new Item(this.ctx)],
+          enemies:[new DarkSlimes(this.ctx, 940, null, true), new DarkSlimes(this.ctx)],
+          background: new Background(this.ctx)
+      }
+      // nextlevel
+    ]
+    this.setupLevel()
   }
 
   start() {
@@ -32,23 +47,18 @@ class Game {
       this.move();
 
       this.tick++;
-      
-      if(this.init){
-        this.addPlatform(50, 300, 200,40);
-        this.addPlatform(750, 300, 200,40);
-        //this.addPlatform(375, 400, 200,40);
-        this.addItems();
-        this.addPlatform(0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR);
-        this.init = false
-      }
 
       if (this.tick > 100) {
-        if (this.enemiesForestMap1.length < 2) {
+        if (this.enemies.length < 2) {
           ///aqui agregamoos a los mounstruos
           this.tick = 0;
           this.addEnemy();
         }
       }
+      if(this.enemies.length === 0 && this.stages.length !== this.level + 1){ // &&  si me quedan mas niveles avanzar al siguiente nivel 
+        this.nextLevel()
+      }
+      /// TODO implentar el ENDGAME
     }, 1000 / FPS);
   }
 
@@ -60,7 +70,7 @@ class Game {
 
   clear() {
     // this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    // this.enemiesForestMap1 = this.enemiesForestMap1.filter((e) => e.isVisible());
+    // this.enemies = this.enemies.filter((e) => e.isVisible());
   }
 
   draw() {
@@ -69,44 +79,44 @@ class Game {
     this.checkCollisions();
     this.items.forEach((item) => item.draw());
     this.map.forEach((platform) => platform.draw());
-    this.enemiesForestMap1.forEach((enemy) => enemy.draw());
+    this.enemies.forEach((enemy) => enemy.draw());
     this.removeObjects()
+  }
+
+  setupLevel(){
+    this.map = this.stages[this.level].map
+    this.enemies = this.stages[this.level].enemies
+    this.items = this.stages[this.level].items
+    this.background = this.stages[this.level].background
+  }
+
+  nextLevel(){
+    this.level++
+    this.setupLevel()
   }
 
   move() {
     this.background.move();
     this.player.move();
-    this.enemiesForestMap1.forEach((enemy) => enemy.move());
+    this.enemies.forEach((enemy) => enemy.move());
     this.items.forEach((item) => item.move());
   }
 
-  addEnemy() {
-    const darkslimes = new DarkSlimes(this.ctx);
-    this.enemiesForestMap1.push(darkslimes);
-  }
 
   removeObjects(){ 
-    this.enemiesForestMap1.forEach(
+    this.enemies.forEach(
       (monster, index) => {
         if(monster.isAlive() === false){
-          this.enemiesForestMap1.splice(index,1)
+          this.enemies.splice(index,1)
         }
       }
     );
   }
 
-  addPlatform(x,y,w,h,src) {
-    const platform = new Platform(this.ctx,x,y,w,h,src);
-    this.map.push(platform);
-  }
 
-  addItems() {
-    const item = new Item(this.ctx);
-    this.items.push(item);
-  }
 
   checkCollisions() {
-    this.enemiesForestMap1.forEach((enemy) => {
+    this.enemies.forEach((enemy) => {
       //checkear todos los enemigos del mapa
       if (this.player.collides(enemy, "monster")){
         
@@ -124,13 +134,15 @@ class Game {
         this.items.splice(index,1);
       }
     })
+
+
   }
 
   gameOver() {
     this.stop();
     this.ctx.fillText("GAME OVER", 270, 300);
 
-    //this.enemiesForestMap1 = [];
+    //this.enemies = [];
     this.player = new Player(ctx);
   }
 
