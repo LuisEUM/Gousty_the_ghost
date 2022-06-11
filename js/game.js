@@ -21,6 +21,7 @@ class Game {
     this.gameOverAudio = new Audio("audio/game-over.mp3");
     this.ctx.font = "80px Poppins";
     this.setListeners();
+    this.init = true
   }
 
   start() {
@@ -31,16 +32,14 @@ class Game {
       this.move();
 
       this.tick++;
-
-      if(this.tick == 1){
+      
+      if(this.init){
+        this.addPlatform(50, 300, 200,40);
+        this.addPlatform(750, 300, 200,40);
+        //this.addPlatform(375, 400, 200,40);
         this.addItems();
-      }
-
-      if(this.tick++ == 1){
-        this.addPlatform(50, 200, 200,40);
-        this.addPlatform(750, 200, 200,40);
-        this.addPlatform(375, 400, 200,40);
-        this.addPlatform(0,this.ctx.canvas.height- 55,this.ctx.canvas.width,this.ctx.canvas.height);
+        this.addPlatform(0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR);
+        this.init = false
       }
 
       if (this.tick > 100) {
@@ -71,13 +70,14 @@ class Game {
     this.items.forEach((item) => item.draw());
     this.map.forEach((platform) => platform.draw());
     this.enemiesForestMap1.forEach((enemy) => enemy.draw());
-    this.removeDeathEnemy()
+    this.removeObjects()
   }
 
   move() {
     this.background.move();
     this.player.move();
     this.enemiesForestMap1.forEach((enemy) => enemy.move());
+    this.items.forEach((item) => item.move());
   }
 
   addEnemy() {
@@ -85,15 +85,11 @@ class Game {
     this.enemiesForestMap1.push(darkslimes);
   }
 
-  removeDeathEnemy(){ 
-    this.teck++
+  removeObjects(){ 
     this.enemiesForestMap1.forEach(
       (monster, index) => {
         if(monster.isAlive() === false){
-          if(this.teck >= 90){
-            this.enemiesForestMap1.splice(index,1)
-            this.teck = 0
-          }
+          this.enemiesForestMap1.splice(index,1)
         }
       }
     );
@@ -110,38 +106,24 @@ class Game {
   }
 
   checkCollisions() {
-      
     this.enemiesForestMap1.forEach((enemy) => {
       //checkear todos los enemigos del mapa
-      console.log(this.player.collides(enemy, "monster"))
-      if (this.player.collides(enemy, "monster")) {
-
-        const playerLife = this.player.playerLife;
-        let monstersAlive = playerLife.filter((heart) => heart.heartPoints > 0);
-        let index = 0;
-        let resultOfTheAttack = 0;
-
-        console.log(this.player.hitable, monstersAlive[index].heartPoints >= 0)
-        if (monstersAlive[index].heartPoints >= 0) {
-          monstersAlive[index].heartPoints -= enemy.strength; //restar el daño del enemigo al player
-          resultOfTheAttack = monstersAlive[index].heartPoints; // guardar el sobrante del daño del enemigo
-          while (resultOfTheAttack < 0) {
-            // restar el sobrante del daño al resto de corazones del player
-            monstersAlive[index].heartPoints = 0;
-            monstersAlive[index + 1].heartPoints += resultOfTheAttack;
-            resultOfTheAttack = monstersAlive[index + 1].heartPoints;
-            index++;
-          }
-        }
+      if (this.player.collides(enemy, "monster")){
+        
       }
     })
-    let vida = null
+    //platform check
     this.map.forEach((platform) => {   
-      vida = this.player.collides(platform, "platform", vida)
+      platform.collider(this.player)
     })
-
-
-
+    //items check
+    this.items.forEach((item,index) => {   
+      if(item.collides(this.player)){
+        
+        this.player.hearts.healup(2);
+        this.items.splice(index,1);
+      }
+    })
   }
 
   gameOver() {

@@ -31,14 +31,9 @@ class Player {
     this.isOnAir= false
 
     //CORAZONES
-    this.heart1 = new Heart(ctx, 50, 50,)
-    this.heart2 = new Heart(ctx, 100, 50,)
-    this.heart3 = new Heart(ctx, 150, 50, )
+    this.hearts = new Hearts(ctx);
 
-    this.heartPoints = 2
-    this.playerMaxHearts = 3
-    this.playerLife = [this.heart1, this.heart2, this.heart3]
-    this.playerLife.reverse()
+    this.hearts.createlife(4);
     //HASTA AQUI
 
     this.previousPositionX = this.x;
@@ -70,7 +65,7 @@ class Player {
     this.sword = [];
 
     //weapons sword + shadowballs
-    this.weapons = []
+    this.weapons = [];
   }
 
   draw() {
@@ -82,7 +77,7 @@ class Player {
       }
       if(this.characterIsLookingLeft){
         this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite_Left.png";
-      } 
+      }
     } 
 
     if(this.basicAttackMode === false && this.jumpable === false ){ // ANIMACIONES AL SALTAR Y CAER
@@ -113,16 +108,16 @@ class Player {
 
     if(this.basicAttackMode === true){//animacion de personaje con la espada
       if(this.characterIsLookingRigth && this.jumpable === false ) {
-        this.characterImg.src ='/img/GOUSTY/SWORD/GoustyOnAir/GOUSTY_SWORD_ON_AIR_RIGTH.png'
+        this.characterImg.src = GOUSTY_SWORD_ON_AIR_RIGTH
       }
       if(this.characterIsLookingLeft && this.jumpable === false) {
-        this.characterImg.src ='/img/GOUSTY/SWORD/GoustyOnAir/GOUSTY_SWORD_ON_AIR_LEFT.png'
+        this.characterImg.src = GOUSTY_SWORD_ON_AIR_LEFT
       }
       if(this.characterIsLookingRigth && this.jumpable === true ) {
-        this.characterImg.src ='/img/GOUSTY/SWORD/GoustyOnAir/GOUSTY-SWORD-ON_EARTH_LOOKING-RIGTH.png'
+        this.characterImg.src = GOUSTY_SWORD_ON_EARTH_LOOKING_RIGTH
       }
       if(this.characterIsLookingLeft && this.jumpable === true) {
-        this.characterImg.src ='/img/GOUSTY/SWORD/GoustyOnAir/GOUSTY-SWORD-ON_EARTH_LOOKING-LEFT.png'
+        this.characterImg.src = GOUSTY_SWORD_ON_EARTH_LOOKING_LEFT
       }
     }
     this.ctx.drawImage(
@@ -154,7 +149,7 @@ class Player {
     }
 
     ///activar que aparezca la vida
-    this.playerLife.forEach((heart) => heart.draw());
+    this.hearts.draw()
 
     //friccion
     //ahora para frenar ponemos un coeficiente de friccion que frenara poco a poco el personaje
@@ -238,8 +233,7 @@ class Player {
     // TODO: animate based on tick
     // TODO: move score
 
-    this.playerLife.forEach((heart) => heart.move());
-
+    this.hearts.move()
   }
 
 
@@ -366,7 +360,6 @@ class Player {
     
     if (key === KEY_UP) {
 
-
       if(this.jumpable){
         // TODO: jump and play jump sound
         this.vy = -14;
@@ -460,9 +453,7 @@ class Player {
     }
   }
 
-  collides(object,type, platforms = false) {
-
-    if (type === "monster") {
+  collides(object) {
       const colX = 
         this.x <= object.x + object.w - 20 &&  //derecha del player
         this.x + this.w - 20 >= object.x;  //el mounstro esta a la izquierda
@@ -480,11 +471,11 @@ class Player {
             }
   
             this.hitable = false
-  
+            this.hearts.loselife(1)
             setTimeout(() => [
               this.hitable = true,
               this.playerCanAttack = true,
-            ], 10000)
+            ], 1000)
           }  
       }
 
@@ -493,7 +484,6 @@ class Player {
         let strike = false
         this.sword.forEach((slash) => {
           strike = slash.collides(object, strike)
-          console.log(strike)
         });
         this.shadowballs.forEach((shadowball) => {
           strike = shadowball.collides(object, strike)
@@ -514,68 +504,16 @@ class Player {
             object.characterIsLookingLeft = true
             object.hitable = false
           }
-  
+          
+          object.heartsM.loselife(1)
           object.hitable = false
           setTimeout(() => [
             object.hitable = true,
           ], 1000)
         }
-      }
-
       return colX && colY
     }
-    if (type === "platform") {
-        const colX = 
-          this.x < object.x + object.w  &&  //derecha del player
-          this.x + this.w  > object.x;  //el mounstro esta a la izquierda
-        const colY = 
-          this.y + this.h >= object.y - 20 &&
-          this.y + this.h < object.y + 10; //abajo del player
-        const colYBot = 
-          this.y + this.h >= object.y - 10 &&
-          this.y + this.h < object.y + this.h; //abajo del player
-        
-        const colRX = 
-          this.x < object.x + object.w -10 &&  //derecha del player
-          this.x > object.x + object.w -20  //el mounstro esta a la izquierda
-        const colLX = 
-          this.x + this.w  < object.x + 20 &&
-          this.x + this.w  > object.x +10;
-        const colH = 
-          this.y + this.h >= object.y  && //arriba del player
-          this.y <= object.y + object.h ; //abajo del playerx
-        //izquierda de la plataforma
-        if(colLX && colH){
-          this.x = object.x - this.w +10
-        }
-        if(colYBot && colX){
-          this.vy = 0
-          this.vy += 2
-        }
-        if(colY && colX){
-          this.y = object.y - 20 - this.h
-          this.jumpable = true   
-          }else if(!platforms){
-            this.jumpable = false
-          }
-          if(colRX && colH){
-            this.x =  object.x + object.w -10
-          }
-        if (this.jumpable) {
-          return true
-        }
-      }
       
   }
 
-  isAlive() {
-    let lastHeart = this.playerLife.length - 1
-    if(this.playerLife[lastHeart].heartPoints === 0){
-      this.vx = 0
-      this.vy = 0
-      return false
-    }else {
-      return true
-    }
-  }
 }

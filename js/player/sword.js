@@ -27,26 +27,26 @@ class Sword {
             if(this.PlayerIsLookingLeft === true){ //Animacion en tierra
                 switch (this.changeSprite) {
                     case 1:
-                        this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ON_EARTH_LOOKING_LEFT1.png'  
+                        this.swordImg.src = SWORD_ON_EARTH_LOOKING_LEFT1 
                         break;
                     case 2:
-                        this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ON_EARTH_LOOKING_LEFT2.png'  
+                        this.swordImg.src = SWORD_ON_EARTH_LOOKING_LEFT2  
                         break;
                     default:
-                        this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ON_EARTH_LOOKING_LEFT1.png'
+                        this.swordImg.src = SWORD_ON_EARTH_LOOKING_LEFT1
                         break;
                 }
             }
             if(this.playerIsLookingRigth === true){
                 switch (this.changeSprite) {
                     case 1:
-                        this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ATTACK-RIGTH2_3FPS.png'  
+                        this.swordImg.src = SWORD_ON_EARTH_LOOKING_RIGTH1  
                         break;
                     case 2:
-                        this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ATTACK-RIGTH1_3FPS.png'  
+                        this.swordImg.src = SWORD_ON_EARTH_LOOKING_RIGTH2  
                         break;
                     default:
-                        this.swordImg.src = '/img/GOUSTY/SWORD/OnEarth/SWORD-ATTACK-RIGTH2_3FPS.png'
+                        this.swordImg.src = SWORD_ON_EARTH_LOOKING_RIGTH1
                         break;
                 }
             }
@@ -54,10 +54,10 @@ class Sword {
         
         if(this.isOnEarth === false){ //Animacion en el aire
             if(this.PlayerIsLookingLeft === true){
-                this.swordImg.src = '/img/GOUSTY/SWORD/OnAir/SWORD_ON_AIR_LEFT.png'  
+                this.swordImg.src = SWORD_ON_AIR_DOWN_LOOKING_RIGTH  
             }
             if(this.playerIsLookingRigth === true){
-                this.swordImg.src = '/img/GOUSTY/SWORD/OnAir/SWORD_ON_AIR_RIGTH.png'  
+                this.swordImg.src = SWORD_ON_AIR_DOWN_LOOKING_LEFT  
             }
         }
         

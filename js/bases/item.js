@@ -4,7 +4,7 @@ class Item {
       this.ctx = ctx
   
       this.w = 50
-      this.h = 30
+      this.h = 50
       this.x =  ctx.canvas.width - this.w
       this.y = ctx.canvas.height - EARTH - this.h - 100
       this.vx = 0;
@@ -16,20 +16,14 @@ class Item {
       this.gravity = GRAVITY;
   
       this.characterImg = new Image();
-      this.characterImg.frames = 6;
+      this.characterImg.frames = 5;
       this.characterImg.frameIndex = 0;
-      this.characterImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts.png'
+      this.characterImg.src = '/img/ITEMS/POTIONS/POTION_FULL_HEART.png'
   
-      // hacer saber al juego a donde mira el personaje principal
-      this.characterIsLookingRigth = false;
-      this.characterIsLookingLeft = true;
-  
-      // TODO: init enemy. set x,y randomly top or right.
-      // TODO: play fireball audio
+
     }
   
     draw() {
-      if( true){
         this.ctx.drawImage(
           this.characterImg,
           (this.characterImg.width * this.characterImg.frameIndex) / this.characterImg.frames , 
@@ -41,7 +35,6 @@ class Item {
           this.w,
           this.h
         )
-      }
     }
   
     move() {
@@ -60,19 +53,9 @@ class Item {
     
         if (this.y >= ctx.canvas.height - EARTH - this.h) {
           this.y = ctx.canvas.height - EARTH - this.h;
-          this.vy = -2; // CON ESTO HACEMOS QUE SE MUEVA SALTANDO
+          this.vy = -4; // CON ESTO HACEMOS QUE SE MUEVA SALTANDO
         }
-        this.characterImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts.png';
   
-      if (this.characterIsLookingRigth){
-        if(this.hitable){ //CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
-          this.vx = 1 // CON ESTO HACEMOS QUE SE MUEVA A LA DERECHA
-        }
-        else{ //CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
-          this.vy += 0.1 
-        }
-        this.characterImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts.png'
-      }
   
       this.tick++;
   
@@ -107,26 +90,17 @@ class Item {
     }
  
     bigJumpAttack(){
-      this.vy = -4;
-    }
-  
-    checkPlayerColisions(player){
-      this.collides(player) 
+      this.vy = -6;
     }
     
     collides(player) {
       const colX = 
-      player.x <= this.x + this.w - 20 &&  //derecha del player
-      player.x + player.w - 20 >= this.x;  //el mounstro esta a la izquierda
+        player.x <= this.x + this.w - 20 &&  //derecha del player
+        player.x + player.w - 20 >= this.x;  //el mounstro esta a la izquierda
       const colY = 
-      player.y + player.h >= this.y + 20 && //arriba del player
-      player.y <= this.y + this.h -20; //abajo del player
-  
-      if(colX && colY){
-      
+        player.y + player.h >= this.y + 20 && //arriba del player
+        player.y <= this.y + this.h -20; //abajo del player
 
-        return colX && colY
-      }
+      return colX && colY
     }
-
   }
