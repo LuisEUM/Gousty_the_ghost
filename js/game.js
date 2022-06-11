@@ -33,7 +33,17 @@ class Game {
           items:[ new Item(this.ctx)],
           enemies:[new DarkSlimes(this.ctx, 940, null, true), new DarkSlimes(this.ctx)],
           background: new Background(this.ctx)
-      }
+      },
+      {                                //0 estas son las olas Wavess
+        map: [
+          new Platform(this.ctx,50, 300, 200,40),
+          new Platform(this.ctx,750, 300, 200,40), 
+          new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
+        ],
+        items:[ new Item(this.ctx)],
+        enemies:[new DarkSlimes(this.ctx, 940, null, true), new DarkSlimes(this.ctx)],
+        background: new Background(this.ctx)
+    }
       // nextlevel
     ]
     this.setupLevel()
@@ -52,7 +62,7 @@ class Game {
         if (this.enemies.length < 2) {
           ///aqui agregamoos a los mounstruos
           this.tick = 0;
-          this.addEnemy();
+          //this.addEnemy();
         }
       }
       if(this.enemies.length === 0 && this.stages.length !== this.level + 1){ // &&  si me quedan mas niveles avanzar al siguiente nivel 
@@ -123,13 +133,13 @@ class Game {
       }
     })
     //platform check
+    let platformscheck = null
     this.map.forEach((platform) => {   
-      platform.collider(this.player)
+      platformscheck = platform.collider(this.player,platformscheck)
     })
     //items check
     this.items.forEach((item,index) => {   
       if(item.collides(this.player)){
-        
         this.player.hearts.healup(2);
         this.items.splice(index,1);
       }

@@ -27,13 +27,18 @@ class Player {
     this.basicAttackMode = false
     this.attackModeCooldowm = 0
     this.resetAnimationBasicAttack = 0;
-    this.shadowballsCD = false
     this.isOnAir= false
+    this.dash = false
 
     //CORAZONES
     this.hearts = new Hearts(ctx);
 
-    this.hearts.createlife(4);
+    this.hearts.createlife(3);
+    //HASTA AQUI
+    //MANA
+    this.MpContainer = new MpContainer(ctx);
+
+    this.MpContainer.createlife(3);
     //HASTA AQUI
 
     this.previousPositionX = this.x;
@@ -150,6 +155,8 @@ class Player {
 
     ///activar que aparezca la vida
     this.hearts.draw()
+    ///activar que aparezca el mana
+    this.MpContainer.draw()
 
     //friccion
     //ahora para frenar ponemos un coeficiente de friccion que frenara poco a poco el personaje
@@ -165,6 +172,7 @@ class Player {
     if(!this.jumpable){
       this.vy += this.gravity;
     }
+    
     this.tick++;
 
 
@@ -234,6 +242,7 @@ class Player {
     // TODO: move score
 
     this.hearts.move()
+    this.MpContainer.move()
   }
 
 
@@ -319,8 +328,7 @@ class Player {
   }
 
   keyDown(key) {
-    if (key === KEY_SPACE) {
-      if (this.shadowballsCD) {
+    if (key.toUpperCase() === KEY_V && this.MpContainer.isAvailable()) {
         let previousImgLookingSide = this.characterImg.src;
         if (this.characterIsLookingRigth) {
           this.characterImg.src =
@@ -353,27 +361,22 @@ class Player {
             this.audioShadowball.pause();
           }
         }
-        this.shadowballsCD = false;
-      }
-
     }
     
-    if (key === KEY_UP) {
+    if (key.toUpperCase() === KEY_Z) {
 
       if(this.jumpable){
         // TODO: jump and play jump sound
         this.vy = -14;
+        
         const jumpAudio = new Audio(
           "/audio/Jump sound effect _ No copyright (192kbit_AAC).mp3"
         );
         jumpAudio.volume = 0.01;
         jumpAudio.play();
         this.ykey = true;
-        this.shadowballsCD = true
+        this.jumpable = false
       }
-    }
-    if(key === KEY_DOWN && this.isOnAir === true){
-
     }
 
     if (key === KEY_RIGHT || key === KEY_LEFT) { //movimiento horizontal
@@ -409,9 +412,33 @@ class Player {
         this.xkey = false;
       }
     }
+    if(key.toUpperCase() === KEY_C){
+      if (!this.dash) {
+        this.dash = true;
 
+        if(this.characterIsLookingRigth){
+          this.vx = 50
+        }else{
+          this.vx = -50
+        }
+        this.hitable = false
+        setTimeout(() => { //frenado con friccion
+          if(this.characterIsLookingRigth){
+            this.vx = 7
+          }else{
+            this.vx = -7
+          }
+          this.hitable = true
+  
+        }, 100)
+        setTimeout(() => { //frenado con friccion
+          this.dash = false
+        }, 300)
+      }
 
-    if(key === KEY_CTRL && this.playerCanAttack === true){ /// activar el ataque de la espada al PRESIONAR la tecla 
+    }
+
+    if(key.toUpperCase() === KEY_X && this.playerCanAttack === true){ /// activar el ataque de la espada al PRESIONAR la tecla 
       this.basicAttackMode = true
       this.playerCanAttack = false
       this.slash(this.characterIsLookingRigth, this.characterIsLookingLeft);
@@ -433,24 +460,19 @@ class Player {
       }, 40)
     }
     
-    if (key === KEY_UP) {
+    if (key.toUpperCase() === KEY_Z) {
       if (this.ykey && this.vy <= 0) {
         this.vy *= .40;
         this.ykey = false
       }
     }
 
-    if (key === KEY_SPACE && this.characterIsLookingRigth) {
+    if (key.toUpperCase() === KEY_V ) {
       this.tock = 0;
       this.audioShadowball.pause();
       this.audioShadowball.currentTime = 0;
     }
 
-    if (key === KEY_SPACE && this.characterIsLookingLeft) {
-      this.tock = 0;
-      this.audioShadowball.pause();
-      this.audioShadowball.currentTime = 0;
-    }
   }
 
   collides(object) {
@@ -474,8 +496,7 @@ class Player {
             this.hearts.loselife(1)
             setTimeout(() => [
               this.hitable = true,
-              this.playerCanAttack = true,
-            ], 1000)
+            ], 1500)
           }  
       }
 
@@ -485,20 +506,23 @@ class Player {
         this.sword.forEach((slash) => {
           strike = slash.collides(object, strike)
         });
+        if(strike){
+          this.MpContainer.healup(1)
+        }
         this.shadowballs.forEach((shadowball) => {
           strike = shadowball.collides(object, strike)
         });
 
         if (strike) {
           if (this.x > object.x) {
-            object.vx = -0.5
+            object.vx = -2
             object.x += this.vx
             object.characterIsLookingRigth = true
             object.characterIsLookingLeft = false
             object.hitable = false
           }
           if (this.x < object.x) {
-            object.vx = 0.5
+            object.vx = 2
             object.x += object.vx
             object.characterIsLookingRigth = false
             object.characterIsLookingLeft = true

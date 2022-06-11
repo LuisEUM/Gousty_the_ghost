@@ -11,13 +11,13 @@ class Hearts {
         this.maxhp = hpmax;
         if(hpmax > 0) {
             for (let index = 0; index < hpmax; index++) {
-                this.lifeup(index + 1)
+                this.lifeup(index)
             }
         }
     }
 
     lifeup(position){
-        const hearts = new Heart(this.ctx, 50 * position);
+        const hearts = new Heart(this.ctx, 45 * position);
         this.hearts.push(hearts)
     }
 

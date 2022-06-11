@@ -79,6 +79,7 @@ class Sword {
         if ((this.tick % 2 === 0 )) { //velocidad de la animación, recuerda cambiar a la vez la velocidad de la animación en el personaje con el mismo valor
             this.swordImg.frameIndex++;
             if (this.swordImg.frameIndex >= this.swordImg.frames) {
+                this.swordImg.frameIndex = 3
             }
         }
     }

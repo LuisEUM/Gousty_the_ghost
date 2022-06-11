@@ -4,8 +4,11 @@ const KEY_DOWN = "ArrowDown";
 const KEY_LEFT = "ArrowLeft";
 const KEY_SPACE = " ";
 const KEY_CTRL = "Control";
-const KEY_Z = "z";
-const KEY_X = "x";
+
+const KEY_Z = "Z";
+const KEY_X = "X";
+const KEY_C = "C";
+const KEY_V = "V";
 
 
 const FPS = 60;

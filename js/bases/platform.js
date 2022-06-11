@@ -29,43 +29,23 @@ class Platform{
         )
       }
 
-      collider(object){
+      collider(object, platformscheck = false){
           const colX = 
           object.x < this.x + this.w  &&  //derecha del player
           object.x + object.w  > this.x;  //el mounstro esta a la izquierda
           const colY = 
           object.y + object.h >= this.y - 20 &&
-          object.y + object.h < this.y + 10; //abajo del player
-          const colYBot = 
-          object.y >= this.y - 10 &&
-          object.y < this.y + object.h; //abajo del player
-          
-          const colRX = 
-          object.x < this.x + this.w -10 &&  //derecha del player
-          object.x > this.x + this.w -20  //el mounstro esta a la izquierda
-          const colLX = 
-          object.x + object.w  < this.x + 20 &&
-          object.x + object.w  > this.x +10;
-          const colH = 
-          object.y + object.h >= this.y  && //arriba del player
-          object.y <= this.y + this.h ; //abajo del playerx
+          object.y + object.h < this.y + 20; //abajo del player
           
           //izquierda de la plataforma
-          if(colLX && colH){
-            object.x = this.x - object.w +10
-          }
-          if(colYBot && colX){
-            object.vy = 0
-            object.vy += 2
-          }
-          if(colY && colX){
-            object.y = this.y - 20 - object.h
-            object.jumpable = true   
-            }else{
-              object.jumpable = false
-            }
-            if(colRX && colH){
-              object.x =  this.x + this.w -10
-            }
+
+          if(colY && colX){    
+            object.y = this.y - 20 - object.h          
+            object.jumpable = true       
+            }else if(!platformscheck){
+              object.jumpable = false 
+            }   if (object.jumpable) {
+              return true
+            } 
       }
 }
