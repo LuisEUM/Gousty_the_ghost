@@ -1,12 +1,12 @@
 class Item {
-    constructor(ctx) {
+    constructor(ctx,x = 200,y = 20) {
       // TODO: init player attributes: position, size, v, a, img, audio, score, tick
       this.ctx = ctx
   
       this.w = 50
       this.h = 50
-      this.x =  ctx.canvas.width - this.w
-      this.y = ctx.canvas.height - EARTH - this.h - 100
+      this.x = x
+      this.y = y
       this.vx = 0;
       this.vy = 0;
       this.tick = 0;

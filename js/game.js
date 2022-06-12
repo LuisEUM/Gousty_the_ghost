@@ -118,6 +118,9 @@ class Game {
       (monster, index) => {
         if(monster.isAlive() === false){
           this.enemies.splice(index,1)
+          if(Math.floor(Math.random() * 10) + 1>7){
+            this.items.push(new Item(this.ctx, monster.x ,monster.y))
+          } 
         }
       }
     );
