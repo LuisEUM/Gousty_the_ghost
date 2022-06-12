@@ -10,11 +10,74 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap" rel="stylesheet">
 </head>
+<header>
+    <nav>
+      <ul>
+        <li><a href="#section1" target="_blank" rel="noopener noreferrer"> Intro </a></li>
+        <li><a href="#section2" target="_blank" rel="noopener noreferrer"> How to Play? </a> </li>          
+        <li><a href="#section3" target="_blank" rel="noopener noreferrer"> Let's PLAY </a> </li>
+      </ul>
+    </nav>
+    <section class="heroImage">
+        
+      <h1> Gousty Adventures </h1>
+      <h3> Born like a project lives like a dream. <br> Are you ready to accept the challenge?... </h3>  
+      <h3> Let´s go! </h3>
+      <section class="containerDownArrow">
+        <div id="downArrow"> </div>
+      </section>
+      
+    </section>
+  </header>
 <body>
-    <canvas id="canvas" width="1000" height="600"></canvas>
-    <div>
-        <button id="btn">PLAY</button>
+</section>
+<div id="section1">
+  <div class="block2 one">
+    <h4>We Indtroduce you to: </h4>
+    <h2><span class="underline--magical"> Gousty, </span> The Ghost</h2>
+    <h6>Yes... It's a Ghost. </h6>
+
+    <p class="block2Text">
+        Gousty is <span  class="underline--magical">the most adventurous ghost from this world and the afterworld. </span>
+        He's always looking for fun and normally he gets in trouble because is a little arrogant. 
+        <br>
+        <br>
+        Gousty is very mischievous but with one of the purest souls you will know.
+        <br>
+        <br>
+        You will help him?
+    </p>
+    <section class="containerButtonsWithAnimation">
+        <div id="yesButton"> </div>
+        <div id="noButton"> </div>
+    </section>
+  </div>
+  <div class="block2 two">
+    <img src="/img/WEB/Gousty_For_WEB.gif" alt="HD Music" class="imageBlock2">
+  </div>
+</div>
+</section>
+<section>
+    <div id="section2">
+
+        <div class="block3">
+          <h4> We only can tell you which buttons you can use for using Gousty abilities. You have to play for discover it.</h4>
+          <img src = "/img/WEB/Keyboard.png" alt="My Happy SVG" class="imageBlock3"/>
+            <p class="block3Text">You can use only the purple keys pointed in this image. We can't give you a tutorial, you have to hurry and play!</p>
+        </div>
     </div>
+</section>
+<section id="section3">
+    <canvas id="canvas" width="1000" height="600"></canvas>
+    <section id="controls">
+        <div>
+            <button id="btn" onclick="changeImage()">
+              <img src = "/img/WEB/play.svg" alt="My Happy SVG" class="imageBlock3 "/>
+              PLAY</button>
+        </div>
+    </section>
+</section>
+
     <script src="js/bases/constants.js"></script>
     <script src="js/bases/score.js"></script>
     <script src="js/bases/background.js"></script>
@@ -27,6 +90,8 @@
     <script src="js/player/sword.js"></script>
     <script src="js/player/player.js"></script>
     <script src="js/game.js"></script>
+    <script src="js/lottie.js"></script>
     <script src="js/index.js"></script>
+    <script src="js/scripts.js"></script>
 </body>
 </html>
