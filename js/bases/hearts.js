@@ -3,7 +3,6 @@ class Hearts {
         this.hearts = []
         this.ctx = ctx
         this.maxhp
-        this.hp
         this.xmonsterpixel =10;
     }
 

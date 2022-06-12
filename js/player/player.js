@@ -507,7 +507,7 @@ class Player {
           strike = slash.collides(object, strike)
         });
         if(strike){
-          this.MpContainer.healup(1)
+          this.MpContainer.winMp(1)
         }
         this.shadowballs.forEach((shadowball) => {
           strike = shadowball.collides(object, strike)

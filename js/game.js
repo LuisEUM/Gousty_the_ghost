@@ -31,7 +31,7 @@ class Game {
             new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
           ],
           items:[ new Item(this.ctx)],
-          enemies:[new DarkSlimes(this.ctx, 940, null, true), new DarkSlimes(this.ctx)],
+          enemies:[new DarkSlimes(this.ctx, 940, null, true), new SpeedSlimes(this.ctx)],
           background: new Background(this.ctx)
       },
       {                                //0 estas son las olas Wavess
@@ -108,7 +108,7 @@ class Game {
   move() {
     this.background.move();
     this.player.move();
-    this.enemies.forEach((enemy) => enemy.move());
+    this.enemies.forEach((enemy) => enemy.move(this.player));
     this.items.forEach((item) => item.move());
   }
 
@@ -135,7 +135,10 @@ class Game {
     //platform check
     let platformscheck = null
     this.map.forEach((platform) => {   
-      platformscheck = platform.collider(this.player,platformscheck)
+      platformscheck = platform.collider(this.player,platformscheck, true)
+    this.enemies.forEach((enemy) => {  
+      enemy.platformscheck =  platform.collider(enemy, enemy.platformscheck)
+    })
     })
     //items check
     this.items.forEach((item,index) => {   

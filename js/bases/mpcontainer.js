@@ -2,31 +2,31 @@ class MpContainer {
     constructor(ctx){
         this.mpContainers = []
         this.ctx = ctx
-        this.maxhp
+        this.maxmp
         this.xmonsterpixel =10;
     }
 
-    createlife(hpmax){
-        this.maxhp = hpmax;
-        if(hpmax > 0) {
-            for (let index = 0; index < hpmax; index++) {
-                this.lifeup(index)
+    createlife(mpmax){
+        this.maxmp = mpmax;
+        if(mpmax > 0) {
+            for (let index = 0; index < mpmax; index++) {
+                this.MpUp(index)
             }
         }
     }
 
-    lifeup(position){
+    MpUp(position){
         const mpContainers = new Mp(this.ctx, 45 * position);
         this.mpContainers.push(mpContainers)
     }
 
-    healup(number){
+    winMp(number){
         try {
-            let arrmpContainers = this.mpContainers.filter(heart => heart.heartPoints < 3);
+            let arrmpContainers = this.mpContainers.filter(mps => mps.mp < 3);
             while(arrmpContainers && number){ 
-                arrmpContainers[0].heartPoints += 1;
+                arrmpContainers[0].mp += 1;
                 number -= 1
-                arrmpContainers = this.mpContainers.filter(heart => heart.heartPoints < 3);
+                arrmpContainers = this.mpContainers.filter(mps => mps.mp < 3);
             } 
         } catch (error) {
             console.log("vida maxima")
@@ -34,13 +34,13 @@ class MpContainer {
 
     }
 
-    loselife(number){
+    loseMp(number){
         try {
-            let arrmpContainers = this.mpContainers.filter(heart => heart.heartPoints > 0).reverse();
+            let arrmpContainers = this.mpContainers.filter(mps => mps.mp> 0).reverse();
             while(arrmpContainers && number){   
-                arrmpContainers[0].heartPoints -= 1;
+                arrmpContainers[0].mp -= 1;
                 number -= 1
-                arrmpContainers = this.mpContainers.filter(heart => heart.heartPoints > 0).reverse();
+                arrmpContainers = this.mpContainers.filter(mps => mps.mp > 0).reverse();
             } 
         } catch (error) {
             console.log("muerto")
@@ -48,9 +48,8 @@ class MpContainer {
     }
 
     isAvailable(){
-        
-        if(this.mpContainers.filter(heart => heart.heartPoints === 3).length){
-            this.loselife(3)
+        if(this.mpContainers.filter(mps => mps.mp === 3).length){
+            this.loseMp(3)
             return true
         }else{
             return false
@@ -58,14 +57,14 @@ class MpContainer {
     }
 
     draw(x = undefined,y = undefined, w = undefined, h = undefined){
-        this.mpContainers.forEach(heart => {
-            heart.draw(x,y,w,h)
+        this.mpContainers.forEach(mp => {
+            mp.draw(x,y,w,h)
         });
     }
     
     move(){
-        this.mpContainers.forEach(heart => {
-            heart.move()
+        this.mpContainers.forEach(mp => {
+            mp.move()
         });
     }
 }

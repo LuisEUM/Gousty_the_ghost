@@ -29,23 +29,46 @@ class Platform{
         )
       }
 
-      collider(object, platformscheck = false){
-          const colX = 
-          object.x < this.x + this.w  &&  //derecha del player
-          object.x + object.w  > this.x;  //el mounstro esta a la izquierda
-          const colY = 
-          object.y + object.h >= this.y - 20 &&
-          object.y + object.h < this.y + 20; //abajo del player
-          
-          //izquierda de la plataforma
-
-          if(colY && colX){    
-            object.y = this.y - 20 - object.h          
-            object.jumpable = true       
-            }else if(!platformscheck){
+      collider(object, platformscheck = false,type = false /*es true si es el player y false para posciones y enemigos */){
+          if (type) {
+            const colX = 
+            object.x < this.x + this.w  &&  //derecha del player
+            object.x + object.w  > this.x;  //el mounstro esta a la izquierda
+            const colY = 
+            object.y + object.h >= this.y - 20 &&
+            object.y + object.h < this.y + 20; //abajo del player
+            
+            //izquierda de la plataforma
+  
+            if(colY && colX){    
+              object.y = this.y - 20 - object.h          
+              object.jumpable = true       
+              }else if(!platformscheck){
+                object.jumpable = false 
+              }   
+              if (object.jumpable) {
+                return true
+              } 
+          }else{
+            const colX = 
+            object.x < this.x + this.w  &&  //derecha del player
+            object.x + object.w  > this.x;  //el mounstro esta a la izquierda
+            const colY = 
+            object.y + object.h >= this.y  &&
+            object.y + object.h < this.y + 20; //abajo del player
+            
+            //izquierda de la plataforma
+  
+            if(colY && colX){    
+              object.y = this.y - object.h 
+              object.jumpable = true  
+            }else if(!object.platformscheck){
               object.jumpable = false 
-            }   if (object.jumpable) {
+            }   
+            if (object.jumpable) {
               return true
             } 
+          }
+
       }
 }

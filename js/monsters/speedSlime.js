@@ -1,4 +1,4 @@
-class DarkSlimes {
+class SpeedSlimes {
   constructor(ctx, x, y, characterIsLookingRigth) {
     // TODO: init player attributes: position, size, v, a, img, audio, score, tick
     this.ctx = ctx
@@ -13,13 +13,14 @@ class DarkSlimes {
     this.vy = 0;
     this.strength= 1;
     this.tick = 0;
+    this.platformscheck;
+    this.jump = false
     this.tock = 0;
     this.bounceAttack = 0;
     this.gravity = GRAVITY;
-    this.platformscheck;
-    this.jumpable = false
+
     this.heartsM = new Hearts(ctx);
-    this.heartsM.createlife(2);
+    this.heartsM.createlife(1);
 
     this.characterImg = new Image();
     this.characterImg.frames = 6;
@@ -64,52 +65,16 @@ class DarkSlimes {
       )
   }
 
-  move() {
-    
+  move(player) {
     if(!this.jumpable){
       this.vy += this.gravity;
     }else{
       this.vy = -6;
       this.jumpable = false
     }
-
     this.x += this.vx;
     this.y += this.vy;
     this.tock++
-
-    if (this.tock >= 120) {
-      this.bounceAttack = Math.floor(Math.random()*10)
-        if(this.bounceAttack >= 5){
-          this.bigJumpAttack()
-        }
-      this.tock = 0
-    } 
-
-    if (!this.characterIsLookingRigth){
-      if(this.hitable){ //CUANDO EL MOUNSTRUO SEA GOLPEABLE
-        this.vx = -1 // CON ESTO HACEMOS QUE SE MUEVA A LA IZQUIERDA
-      }
-      else{//CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
-        this.vy += 0.1
-      }
-
-    }
-
-    if (this.characterIsLookingRigth){
-      if(this.hitable){ //CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
-        this.vx = 1 // CON ESTO HACEMOS QUE SE MUEVA A LA DERECHA
-      }
-      else{ //CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
-        this.vy += 0.1 
-      }
-    }
-
-    this.tick++;
-
-    if (this.tick >= 15 && this.y >= ctx.canvas.height - EARTH - this.h) { 
-      this.tick = 0;
-      this.animate();
-    }
 
     if (this.x + this.w > this.ctx.canvas.width) { //pared de la derecha
       this.x = this.ctx.canvas.width - this.w;
@@ -120,7 +85,37 @@ class DarkSlimes {
       this.x = 0;
       this.characterIsLookingRigth = true
     }
+
+    this.tick++;
+
+    if (this.tick >= 15 && this.y >= ctx.canvas.height - EARTH - this.h) { 
+      this.tick = 0;
+      this.animate();
+    }
+
     
+    if(player.y < this.y - 200){
+      if (!this.characterIsLookingRigth){
+        if(this.hitable){ //CUANDO EL MOUNSTRUO SEA GOLPEABLE
+          this.vx = -1 // CON ESTO HACEMOS QUE SE MUEVA A LA IZQUIERDA
+        }
+        else{//CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
+          this.vy += 0.1
+        }
+  
+      }
+  
+      if (this.characterIsLookingRigth){
+        if(this.hitable){ //CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
+          this.vx = 1 // CON ESTO HACEMOS QUE SE MUEVA A LA DERECHA
+        }
+        else{ //CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
+          this.vy += 0.1 
+        }
+      }
+    }else{
+      this.follow(player);
+    }
     
     this.heartsM.move();
 
@@ -136,12 +131,16 @@ class DarkSlimes {
     }
   }
 
-  isVisible() {
-    // TODO: return if enemy is inside the canvas based on x and y
-  }
-
-  bigJumpAttack(){
-    this.vy = -14;
+  follow(player){
+      if(player.x  > this.x + 60){
+        this.characterIsLookingRigth = true
+        this.vx = 4
+      }else if(player.x  < this.x - 60){
+        this.characterIsLookingRigth = false
+        this.vx = -4
+      }else{
+        this.vx = 0
+      }
   }
 
   isAlive() {

@@ -10,20 +10,20 @@ class Mp {
         this.mpImg = new Image();
         this.mpImg.frames = 6;
         this.mpImg.frameIndex = 0;
-        this.mpPoints = 3
+        this.mp = 3
     }
 
     draw() {
-        if (this.mpPoints === 3) {
+        if (this.mp === 3) {
             this.mpImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts.png'
         }
-        if (this.mpPoints === 2) {
+        if (this.mp === 2) {
             this.mpImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts.png'
         }
-        if (this.mpPoints === 1) {
+        if (this.mp === 1) {
             this.mpImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts_With_Half life.png'
         }
-        if (this.mpPoints <= 0) {
+        if (this.mp <= 0) {
             this.mpImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts_With_No_Points.png'
         }
         this.ctx.drawImage(
