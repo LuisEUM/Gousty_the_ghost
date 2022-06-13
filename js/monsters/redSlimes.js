@@ -43,8 +43,6 @@ class RedSlimes {
         this.characterImg.src = REDSLIME_CRYING_LOOKING_RIGTH
       }
     }else{
-      this.characterImg.frameIndex = 3;
-
       if(this.characterIsLookingRigth){   
         this.characterImg.src = REDSLIME_LOOKING_RIGTH
       }

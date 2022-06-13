@@ -89,8 +89,8 @@ class Game {
   }
 
   clear() {
-    // this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    // this.enemies = this.enemies.filter((e) => e.isVisible());
+    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    this.enemies = this.enemies.filter((e) => e.isVisible());
   }
 
   draw() {
@@ -159,14 +159,17 @@ class Game {
         this.items.splice(index,1);
       }
     })
+
+    if(this.player.hearts.isAlive() === false){
+      this.gameOver()
+    }
   }
 
   gameOver() {
+  setTimeout(() => {
     this.stop();
     this.ctx.fillText("GAME OVER", 270, 300);
-
-    //this.enemies = [];
-    this.player = new Player(ctx);
+  }, 1000);
   }
 
   setListeners() {
