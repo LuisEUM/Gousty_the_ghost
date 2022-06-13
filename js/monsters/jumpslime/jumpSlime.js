@@ -37,18 +37,17 @@ class DarkSlimes {
     draw() {
       if(this.hitable == false){
         if(this.characterIsLookingRigth){   
-          this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slime_Vulnerable_LookingLeft.png'
+          this.characterImg.src = REDSLIME_CRYING_LOOKING_LEFT
         }
         if(!this.characterIsLookingRigth){ 
-          this.characterImg.src ='/img/MONSTERS/DarkSlime/Dark_Slime_Vulnerable_LookingRigth.png'
+          this.characterImg.src = REDSLIME_CRYING_LOOKING_RIGTH
         }
       }else{
-        this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_LEFT.png'
         if(this.characterIsLookingRigth){   
-          this.characterImg.src ='/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_RIGTH.png'
+          this.characterImg.src = REDSLIME_LOOKING_RIGTH
         }
         if(!this.characterIsLookingRigth){ 
-          this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_LEFT.png'
+          this.characterImg.src = REDSLIME_LOOKING_LEFT
         }
       }
         this.ctx.drawImage(

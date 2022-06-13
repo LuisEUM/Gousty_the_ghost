@@ -8,9 +8,12 @@ class Leaf {
         this.y = y -30
 
         //pendiete por calcular la recta
-        // let m = (player.x - this.x) / (player.y + 25 - this.y)
-        this.vx = ((player.x - this.x) /100)
-        this.vy = ((player.y + 25 - this.y) /100)
+        let xDir = player.x - this.x
+        let yDir = player.y - this.y
+        let vu =Math.sqrt(Math.pow(xDir, 2) + Math.pow(-yDir , 2))
+
+        this.vx = (xDir /vu)* 14
+        this.vy = (yDir / vu) * 14
         this.tick = 0;
     
         this.shadowballImg = new Image();
