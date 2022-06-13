@@ -31,7 +31,7 @@ class Game {
           ],
           items:[ new Item(this.ctx)],
 
-          enemies:[new DarkSlimes(this.ctx, 940, null, true), new FastSlimes(this.ctx),new LeafSlime(this.ctx, 800, 200, true), new RedSlimes(this.ctx, 0, null, true)],
+          enemies:[new SwordSlime(this.ctx)],
           background: new Background(this.ctx)
       },
       {                                //1 estas son las olas Wavess

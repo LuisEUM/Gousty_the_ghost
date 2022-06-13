@@ -126,7 +126,6 @@ class LeafSlime {
     animate() {
 
         this.characterImg.frameIndex++;
-        console.log(this.characterImg.frameIndex)
         if (this.characterImg.frameIndex >= this.characterImg.frames) {
           this.characterImg.frameIndex = 0;
         }

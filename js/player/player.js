@@ -150,7 +150,6 @@ class Player {
       this.sword.forEach((sword) => {
         sword.draw();
       });
-  
     }
 
     ///activar que aparezca la vida
@@ -488,6 +487,10 @@ class Player {
         if(object.leafs !== undefined)
           object.leafs.forEach((leaf) => {
             hit = leaf.collides(player, hit)
+          });
+        if(object.arrswordS !== undefined)
+          object.arrswordS.forEach((sword) => {
+            hit = sword.collides(player, hit)
           });
 
         if(colX && colY || hit){//condicional del mounstrue        
