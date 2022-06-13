@@ -475,16 +475,24 @@ class Player {
 
   }
 
-  collides(object) {
+  collides(object, player) {
       const colX = 
         this.x <= object.x + object.w - 20 &&  //derecha del player
         this.x + this.w - 20 >= object.x;  //el mounstro esta a la izquierda
       const colY = 
         this.y + this.h >= object.y + 20 && //arriba del player
         this.y <= object.y + object.h -20; //abajo del player
-    
-        if(colX && colY){//condicional del mounstrue        
+        
+        let hit = false
+        //golpe con proyectiles
+        if(object.leafs !== undefined)
+          object.leafs.forEach((leaf) => {
+            hit = leaf.collides(player, hit)
+          });
+
+        if(colX && colY || hit){//condicional del mounstrue        
           if (this.hitable) {
+        
             if( this.x > object.x){
               this.vx += 17
             }
