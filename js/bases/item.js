@@ -77,7 +77,7 @@ class Item {
   
       this.tick++;
   
-      if (this.tick >= 15 && this.y >= ctx.canvas.height - EARTH - this.h) { 
+      if (this.tick >= 15) { 
         this.tick = 0;
         this.animate();
       }
@@ -98,13 +98,11 @@ class Item {
     }
   
     animate() {
-      if (this.vy) {
         this.characterImg.frameIndex++;
   
         if (this.characterImg.frameIndex >= this.characterImg.frames) {
           this.characterImg.frameIndex = 0;
         }
-      }
     }
  
     bigJumpAttack(){

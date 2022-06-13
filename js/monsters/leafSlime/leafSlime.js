@@ -49,7 +49,6 @@ class LeafSlime {
         this.characterImg.src = DARKSLIME_CRYING_LOOKING_RIGTH
       }
     }else{
-      this.characterImg.frameIndex = 3;
       if(this.characterIsLookingRigth){   
         this.characterImg.src = DARKSLIME_LOOKING_RIGTH
       }
@@ -110,7 +109,7 @@ class LeafSlime {
 
         this.tick++;
 
-        if (this.tick >= 15 && this.y >= ctx.canvas.height - EARTH - this.h) { 
+        if (this.tick >= 30) { 
         this.tick = 0;
         this.animate();
         }
@@ -125,13 +124,11 @@ class LeafSlime {
     }
   
     animate() {
-      if (this.vy) {
+
         this.characterImg.frameIndex++;
-  
         if (this.characterImg.frameIndex >= this.characterImg.frames) {
           this.characterImg.frameIndex = 0;
         }
-      }
     }
 
     //seguir al personaje 
