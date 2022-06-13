@@ -1,5 +1,5 @@
 class Item {
-    constructor(ctx,x = 200,y = 20) {
+    constructor(ctx,x = 200,y = 20, type = false /*type de 1 a 4 media vida de 5 a 7 mana de 8 a 9 vida completa y 10 te recupera toda la vida*/) {
       // TODO: init player attributes: position, size, v, a, img, audio, score, tick
       this.ctx = ctx
   
@@ -10,7 +10,7 @@ class Item {
       this.vx = 0;
       this.vy = -6;
       this.tick = 0;
-  
+      
       this.tock = 0;
       this.bounceAttack = 0
       this.gravity = GRAVITY;
@@ -18,7 +18,25 @@ class Item {
       this.characterImg = new Image();
       this.characterImg.frames = 5;
       this.characterImg.frameIndex = 0;
-      this.characterImg.src = '/img/ITEMS/POTIONS/POTION_FULL_HEART.png'
+
+      this.rn;
+      //rng de tipos de poscion
+      if(!type){
+        this.rn = Math.floor((Math.random() * 10) + 1);
+      }else{
+        this.rn = type
+      }
+
+      if(this.rn <= 4){
+        this.characterImg.src = '/img/ITEMS/POTIONS/POTION_HALF_HEART.png'
+      }else if(this.rn <= 7){
+        this.characterImg.src = '/img/ITEMS/POTIONS/POTION_FULL_HEART.png'
+      }else if(this.rn <= 9){
+        this.characterImg.src = '/img/ITEMS/POTIONS/POTION_POWER_UP.png'
+      }else{
+        this.characterImg.src = '/img/ITEMS/POTIONS/POTION_FULL_LIFE.png'
+      }
+
   
 
     }
@@ -100,6 +118,18 @@ class Item {
       const colY = 
         player.y + player.h >= this.y + 20 && //arriba del player
         player.y <= this.y + this.h -20; //abajo del player
+
+      if(colX && colY){
+        if(this.rn <= 4){
+          player.hearts.healup(1);
+        }else if(this.rn <= 7){
+          player.hearts.healup(2);
+        }else if(this.rn <= 9){
+          player.MpContainer.winMp(player.MpContainer.maxmp * 2);
+        }else{
+          player.hearts.healup(player.Hearts.maxhp * 2);
+        }
+      }
 
       return colX && colY
     }

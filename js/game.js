@@ -145,7 +145,6 @@ class Game {
     //items check
     this.items.forEach((item,index) => {   
       if(item.collides(this.player)){
-        this.player.hearts.healup(2);
         this.items.splice(index,1);
       }
     })
