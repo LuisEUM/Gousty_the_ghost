@@ -1,4 +1,4 @@
-class Leaf {
+ class Leaf {
     constructor (ctx,player , x, y){
         this.ctx = ctx
 
