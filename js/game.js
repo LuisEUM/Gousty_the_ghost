@@ -30,9 +30,19 @@ class Game {
             new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
           ],
           items:[ new Item(this.ctx)],
-          enemies:[new DarkSlimes(this.ctx, 940, null, true), new DarkSlimes(this.ctx)],
+          enemies:[new DarkSlimes(this.ctx, 940, null, true), new SpeedSlimes(this.ctx)],
           background: new Background(this.ctx)
-      }
+      },
+      {                                //0 estas son las olas Wavess
+        map: [
+          new Platform(this.ctx,50, 300, 200,40),
+          new Platform(this.ctx,750, 300, 200,40), 
+          new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
+        ],
+        items:[ new Item(this.ctx)],
+        enemies:[new DarkSlimes(this.ctx, 940, null, true), new DarkSlimes(this.ctx)],
+        background: new Background(this.ctx)
+    }
       // nextlevel
     ]
     this.setupLevel()
@@ -51,7 +61,7 @@ class Game {
         if (this.enemies.length < 2) {
           ///aqui agregamoos a los mounstruos
           this.tick = 0;
-          this.addEnemy();
+          //this.addEnemy();
         }
       }
       if(this.enemies.length === 0 && this.stages.length !== this.level + 1){ // &&  si me quedan mas niveles avanzar al siguiente nivel 
@@ -97,7 +107,7 @@ class Game {
   move() {
     this.background.move();
     this.player.move();
-    this.enemies.forEach((enemy) => enemy.move());
+    this.enemies.forEach((enemy) => enemy.move(this.player));
     this.items.forEach((item) => item.move());
   }
 
@@ -107,6 +117,9 @@ class Game {
       (monster, index) => {
         if(monster.isAlive() === false){
           this.enemies.splice(index,1)
+          if(Math.floor(Math.random() * 10) + 1>7){
+            this.items.push(new Item(this.ctx, monster.x ,monster.y))
+          } 
         }
       }
     );
@@ -122,13 +135,16 @@ class Game {
       }
     })
     //platform check
+    let platformscheck = null
     this.map.forEach((platform) => {   
-      platform.collider(this.player)
+      platformscheck = platform.collider(this.player,platformscheck, true)
+    this.enemies.forEach((enemy) => {  
+      enemy.platformscheck =  platform.collider(enemy, enemy.platformscheck)
+    })
     })
     //items check
     this.items.forEach((item,index) => {   
       if(item.collides(this.player)){
-        
         this.player.hearts.healup(2);
         this.items.splice(index,1);
       }
