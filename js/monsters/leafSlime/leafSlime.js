@@ -41,23 +41,22 @@ class LeafSlime {
         this.leafs.forEach((leaf) => {
             leaf.draw();
           });
-
-      if(this.hitable == false){
-        if(this.characterIsLookingRigth){   
-          this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slime_Vulnerable_LookingLeft.png'
-        }
-        if(!this.characterIsLookingRigth){ 
-          this.characterImg.src ='/img/MONSTERS/DarkSlime/Dark_Slime_Vulnerable_LookingRigth.png'
-        }
-      }else{
-        this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_LEFT.png'
-        if(this.characterIsLookingRigth){   
-          this.characterImg.src ='/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_RIGTH.png'
-        }
-        if(!this.characterIsLookingRigth){ 
-          this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_LEFT.png'
-        }
+    if(this.hitable == false){
+      if(this.characterIsLookingRigth){   
+        this.characterImg.src = DARKSLIME_CRYING_LOOKING_LEFT
       }
+      if(!this.characterIsLookingRigth){ 
+        this.characterImg.src = DARKSLIME_CRYING_LOOKING_RIGTH
+      }
+    }else{
+      this.characterImg.frameIndex = 3;
+      if(this.characterIsLookingRigth){   
+        this.characterImg.src = DARKSLIME_LOOKING_RIGTH
+      }
+      if(!this.characterIsLookingRigth){ 
+        this.characterImg.src = DARKSLIME_LOOKING_LEFT
+      }
+    }
         this.ctx.drawImage(
           this.characterImg,
           (this.characterImg.width * this.characterImg.frameIndex) / this.characterImg.frames , 
