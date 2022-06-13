@@ -31,7 +31,7 @@ class Game {
           ],
           items:[ new Item(this.ctx)],
 
-          enemies:[new SwordSlime(this.ctx)],
+          enemies:[new FireSlime(this.ctx, 0, -300)],
           background: new Background(this.ctx)
       },
       {                                //1 estas son las olas Wavess

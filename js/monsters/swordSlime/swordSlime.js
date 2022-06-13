@@ -177,7 +177,6 @@ class SwordSlime {
             setTimeout(() => [
               this.slashing = true
             ], 800)   
-
           }
         }else{
             this.vx = 0

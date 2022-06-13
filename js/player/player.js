@@ -492,6 +492,10 @@ class Player {
           object.arrswordS.forEach((sword) => {
             hit = sword.collides(player, hit)
           });
+          if(object.fires !== undefined)
+          object.fires.forEach((fire) => {
+            hit = fire.collides(player, hit)
+          });
 
         if(colX && colY || hit){//condicional del mounstrue        
           if (this.hitable) {
