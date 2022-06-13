@@ -1,10 +1,10 @@
-class SpeedSlimes {
+class FastSlimes {
   constructor(ctx, x, y, characterIsLookingRigth) {
     // TODO: init player attributes: position, size, v, a, img, audio, score, tick
     this.ctx = ctx
 
-    this.w = 80;
-    this.h = 70;
+    this.w = 40;
+    this.h = 35;
     this.x =  ctx.canvas.width - this.w;
     this.x =  x || 0;
     this.y = y || ctx.canvas.height - EARTH - this.h - 100;
@@ -38,18 +38,17 @@ class SpeedSlimes {
   draw() {
     if(this.hitable == false){
       if(this.characterIsLookingRigth){   
-        this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slime_Vulnerable_LookingLeft.png'
+        this.characterImg.src = FASTSLIME_CRYING_LOOKING_RIGTH
       }
       if(!this.characterIsLookingRigth){ 
-        this.characterImg.src ='/img/MONSTERS/DarkSlime/Dark_Slime_Vulnerable_LookingRigth.png'
+        this.characterImg.src = FASTSLIME_CRYING_LOOKING_LEFT
       }
-    }else{
-      this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_LEFT.png'
+    } else {
       if(this.characterIsLookingRigth){   
-        this.characterImg.src ='/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_RIGTH.png'
+        this.characterImg.src = FASTSLIME_LOOKING_RIGTH
       }
       if(!this.characterIsLookingRigth){ 
-        this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slimes_Basic_Looking_LEFT.png'
+        this.characterImg.src = FASTSLIME_LOOKING_LEFT
       }
     }
       this.ctx.drawImage(
@@ -132,10 +131,10 @@ class SpeedSlimes {
   }
 
   follow(player){
-      if(player.x  > this.x + 60){
+      if(player.x  > this.x + 20){
         this.characterIsLookingRigth = true
         this.vx = 4
-      }else if(player.x  < this.x - 60){
+      }else if(player.x  < this.x - 20){
         this.characterIsLookingRigth = false
         this.vx = -4
       }else{

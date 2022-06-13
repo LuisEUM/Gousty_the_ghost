@@ -30,7 +30,7 @@ class Game {
             new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
           ],
           items:[ new Item(this.ctx)],
-          enemies:[new DarkSlimes(this.ctx, 940, null, true), new SpeedSlimes(this.ctx)],
+          enemies:[new DarkSlimes(this.ctx, 940, null, true), new FastSlimes(this.ctx)],
           background: new Background(this.ctx)
       },
       {                                //0 estas son las olas Wavess
@@ -40,7 +40,7 @@ class Game {
           new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
         ],
         items:[ new Item(this.ctx)],
-        enemies:[new DarkSlimes(this.ctx, 940, null, true), new DarkSlimes(this.ctx)],
+        enemies:[new DarkSlimes(this.ctx, 940, null, true), new FastSlimes(this.ctx)],
         background: new Background(this.ctx)
     }
       // nextlevel
