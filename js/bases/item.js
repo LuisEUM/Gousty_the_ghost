@@ -26,7 +26,7 @@ class Item {
       }else{
         this.rn = type
       }
-
+      //if para indicarle el tipo a las posiones
       if(this.rn <= 4){
         this.characterImg.src = '/img/ITEMS/POTIONS/POTION_HALF_HEART.png'
       }else if(this.rn <= 7){
@@ -127,7 +127,7 @@ class Item {
         }else if(this.rn <= 9){
           player.MpContainer.winMp(player.MpContainer.maxmp * 2);
         }else{
-          player.hearts.healup(player.Hearts.maxhp * 2);
+          player.hearts.healup(player.hearts.maxhp * 2);
         }
       }
 

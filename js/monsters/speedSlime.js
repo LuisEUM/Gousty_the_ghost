@@ -37,10 +37,10 @@ class FastSlimes {
 
   draw() {
     if(this.hitable == false){
-      if(this.characterIsLookingRigth){   
+      if(!this.characterIsLookingRigth){   
         this.characterImg.src = FASTSLIME_CRYING_LOOKING_RIGTH
       }
-      if(!this.characterIsLookingRigth){ 
+      if(this.characterIsLookingRigth){ 
         this.characterImg.src = FASTSLIME_CRYING_LOOKING_LEFT
       }
     } else {
@@ -96,7 +96,7 @@ class FastSlimes {
     if(player.y < this.y - 200){
       if (!this.characterIsLookingRigth){
         if(this.hitable){ //CUANDO EL MOUNSTRUO SEA GOLPEABLE
-          this.vx = -3 // CON ESTO HACEMOS QUE SE MUEVA A LA IZQUIERDA
+          this.vx = -1 // CON ESTO HACEMOS QUE SE MUEVA A LA IZQUIERDA
         }
         else{//CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
           this.vy += 0.1
@@ -106,7 +106,7 @@ class FastSlimes {
   
       if (this.characterIsLookingRigth){
         if(this.hitable){ //CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
-          this.vx = 3 // CON ESTO HACEMOS QUE SE MUEVA A LA DERECHA
+          this.vx = 1 // CON ESTO HACEMOS QUE SE MUEVA A LA DERECHA
         }
         else{ //CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
           this.vy += 0.1 
@@ -131,14 +131,16 @@ class FastSlimes {
   }
 
   follow(player){
-      if(player.x  > this.x + 20){
-        this.characterIsLookingRigth = true
-        this.vx = 4
-      }else if(player.x  < this.x - 20){
-        this.characterIsLookingRigth = false
-        this.vx = -4
-      }else{
-        this.vx = 0
+      if(this.hitable){
+        if(player.x  > this.x + 20 ){
+          this.characterIsLookingRigth = true
+          this.vx = 4
+        }else if(player.x  < this.x - 20){
+          this.characterIsLookingRigth = false
+          this.vx = -4
+        }else{
+          this.vx = 0
+        }
       }
   }
 

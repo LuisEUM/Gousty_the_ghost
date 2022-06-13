@@ -1,4 +1,4 @@
-class DarkSlimes {
+class LeafSlime {
     constructor(ctx, x, y, characterIsLookingRigth) {
       // TODO: init player attributes: position, size, v, a, img, audio, score, tick
       this.ctx = ctx
@@ -6,8 +6,8 @@ class DarkSlimes {
       this.w = 80;
       this.h = 70;
       this.x =  ctx.canvas.width - this.w;
-      this.x =  x || 0;
-      this.y = y || ctx.canvas.height - EARTH - this.h - 100;
+      this.x =  x;
+      this.y = y;
       this.hitable = true;
       this.vx = 0;
       this.vy = 0;
@@ -19,7 +19,9 @@ class DarkSlimes {
       this.platformscheck;
       this.jumpable = false
       this.heartsM = new Hearts(ctx);
-      this.heartsM.createlife(2);
+      this.heartsM.createlife(1);
+      this.leafs = [];
+      this.playerIsLookingRigth;
   
       this.characterImg = new Image();
       this.characterImg.frames = 6;
@@ -35,6 +37,11 @@ class DarkSlimes {
     }
   
     draw() {
+        //LEAF dibujado de proyectiles
+        this.leafs.forEach((leaf) => {
+            leaf.draw();
+          });
+
       if(this.hitable == false){
         if(this.characterIsLookingRigth){   
           this.characterImg.src = '/img/MONSTERS/DarkSlime/Dark_Slime_Vulnerable_LookingLeft.png'
@@ -64,66 +71,58 @@ class DarkSlimes {
         )
     }
   
-    move() {
-      
-      if(!this.jumpable){
+    move(player) {
+        //Movimiendo del slime de un lado a otro
+        this.follow(player);
+
+        //tiempo de recarga del disparo
+        this.tock++
+        if (this.tock >= 150) {
+            this.bounceAttack = Math.floor(Math.random()*10)
+            if(this.bounceAttack >= 5){
+                this.shoot(player)
+            }
+            this.tock = 0
+        } 
+
+        //LEAF movimiento de proyectiles 
+        this.leafs.forEach((leaf) => {
+        leaf.move();
+        });
+
+        if(!this.jumpable){
         this.vy += this.gravity;
-      }else{
+        }else{
         this.vy = -6;
         this.jumpable = false
-      }
-  
-      this.x += this.vx;
-      this.y += this.vy;
-      this.tock++
-  
-      if (this.tock >= 120) {
-        this.bounceAttack = Math.floor(Math.random()*10)
-          if(this.bounceAttack >= 5){
-            this.bigJumpAttack()
-          }
-        this.tock = 0
-      } 
-  
-      if (!this.characterIsLookingRigth){
-        if(this.hitable){ //CUANDO EL MOUNSTRUO SEA GOLPEABLE
-          this.vx = -1 // CON ESTO HACEMOS QUE SE MUEVA A LA IZQUIERDA
         }
-        else{//CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
-          this.vy += 0.1
-        }
-  
-      }
-  
-      if (this.characterIsLookingRigth){
+
+        this.x += this.vx;
+        this.y += this.vy;
+        this.tock++
+
+
         if(this.hitable){ //CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
-          this.vx = 1 // CON ESTO HACEMOS QUE SE MUEVA A LA DERECHA
+        this.vx = 0 // CON ESTO HACEMOS QUE SE MUEVA A LA DERECHA
         }
         else{ //CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
-          this.vy += 0.1 
+        this.vy += 0.1 
         }
-      }
-  
-      this.tick++;
-  
-      if (this.tick >= 15 && this.y >= ctx.canvas.height - EARTH - this.h) { 
+
+        this.tick++;
+
+        if (this.tick >= 15 && this.y >= ctx.canvas.height - EARTH - this.h) { 
         this.tick = 0;
         this.animate();
-      }
-  
-      if (this.x + this.w > this.ctx.canvas.width) { //pared de la derecha
+        }
+
+        if (this.x + this.w > this.ctx.canvas.width) { //pared de la derecha
         this.x = this.ctx.canvas.width - this.w;
-        this.characterIsLookingRigth = false
-      }
-  
-      if (this.x < 0) {  //pared de la izquierda
+        }
+
+        if (this.x < 0) {  //pared de la izquierda
         this.x = 0;
-        this.characterIsLookingRigth = true
-      }
-      
-      
-      this.heartsM.move();
-  
+        }
     }
   
     animate() {
@@ -135,14 +134,34 @@ class DarkSlimes {
         }
       }
     }
-  
-    isVisible() {
-      // TODO: return if enemy is inside the canvas based on x and y
+
+    //seguir al personaje 
+
+    follow(player){
+        if(this.hitable){
+          if(player.x  > this.x + 20 ){
+            this.characterIsLookingRigth = true
+          }else if(player.x  < this.x - 20){
+            this.characterIsLookingRigth = false
+          }else{
+            this.vx = 0
+          }
+        }
     }
   
-    bigJumpAttack(){
-      this.vy = -14;
+    
+    //disparo de proyectiles
+    shoot(player) {
+        const leaf = new Leaf(
+        this.ctx,
+        player,
+        this.x + this.w,
+        this.y + this.h
+        );
+
+        this.leafs.push(leaf);
     }
+    
   
     isAlive() {
       if(this.heartsM.isAlive()){

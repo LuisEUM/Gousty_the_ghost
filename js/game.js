@@ -30,7 +30,7 @@ class Game {
             new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
           ],
           items:[ new Item(this.ctx)],
-          enemies:[new DarkSlimes(this.ctx, 940, null, true), new FastSlimes(this.ctx)],
+          enemies:[new DarkSlimes(this.ctx, 940, null, true), new FastSlimes(this.ctx),new LeafSlime(this.ctx, 800, 200, true)],
           background: new Background(this.ctx)
       },
       {                                //0 estas son las olas Wavess
@@ -117,7 +117,7 @@ class Game {
       (monster, index) => {
         if(monster.isAlive() === false){
           this.enemies.splice(index,1)
-          if(Math.floor(Math.random() * 10) + 1>2){
+          if(Math.floor(Math.random() * 10) + 1>8){
             this.items.push(new Item(this.ctx, monster.x ,monster.y))
           } 
         }
@@ -130,7 +130,7 @@ class Game {
   checkCollisions() {
     this.enemies.forEach((enemy) => {
       //checkear todos los enemigos del mapa
-      if (this.player.collides(enemy, "monster")){
+      if (this.player.collides(enemy, this.player)){
         
       }
     })
