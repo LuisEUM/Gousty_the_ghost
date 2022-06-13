@@ -8,7 +8,7 @@ class Item {
       this.x = x
       this.y = y
       this.vx = 0;
-      this.vy = 0;
+      this.vy = -6;
       this.tick = 0;
   
       this.tock = 0;
@@ -90,7 +90,7 @@ class Item {
     }
  
     bigJumpAttack(){
-      this.vy = -6;
+      this.vy += -2;
     }
     
     collides(player) {
