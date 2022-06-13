@@ -1,10 +1,10 @@
-class DarkSlimes {
+class FireSlime {
     constructor(ctx, x, y, characterIsLookingRigth) {
       // TODO: init player attributes: position, size, v, a, img, audio, score, tick
       this.ctx = ctx
   
-      this.w = 90,8395;
-      this.h = 80,8846;
+      this.w = 72;
+      this.h = 90;
       this.x =  ctx.canvas.width - this.w;
       this.x =  x || 0;
       this.y = y || ctx.canvas.height - EARTH - this.h - 100;
@@ -20,6 +20,8 @@ class DarkSlimes {
       this.jumpable = false
       this.heartsM = new Hearts(ctx);
       this.heartsM.createlife(2);
+      this.fires = [];
+      this.charge = false
   
       this.characterImg = new Image();
       this.characterImg.frames = 6;
@@ -35,19 +37,30 @@ class DarkSlimes {
     }
   
     draw() {
+      this.fires.forEach((fire) => {
+        fire.draw();
+      });
+
       if(this.hitable == false){
         if(this.characterIsLookingRigth){   
-          this.characterImg.src = REDSLIME_CRYING_LOOKING_LEFT
+          this.characterImg.src = FIRESLIME_CRYING_LOOKING_RIGTH
         }
         if(!this.characterIsLookingRigth){ 
-          this.characterImg.src = REDSLIME_CRYING_LOOKING_RIGTH
+          this.characterImg.src = FIRESLIME_CRYING_LOOKING_LEFT
+        }
+      }else if (this.charge){
+        if(this.characterIsLookingRigth){   
+          this.characterImg.src = FIRESLIME_ATTACKING_RIGTH
+        }
+        if(!this.characterIsLookingRigth){ 
+          this.characterImg.src = FIRESLIME_ATTACKING_LEFT
         }
       }else{
         if(this.characterIsLookingRigth){   
-          this.characterImg.src = REDSLIME_LOOKING_RIGTH
+          this.characterImg.src = FIRESLIME_LOOKING_RIGTH
         }
         if(!this.characterIsLookingRigth){ 
-          this.characterImg.src = REDSLIME_LOOKING_LEFT
+          this.characterImg.src = FIRESLIME_LOOKING_LEFT
         }
       }
         this.ctx.drawImage(
@@ -64,7 +77,9 @@ class DarkSlimes {
     }
   
     move() {
-      
+      this.fires.forEach((fire) => {
+        fire.move();
+      });
       if(!this.jumpable){
         this.vy += this.gravity;
       }else{
@@ -78,7 +93,7 @@ class DarkSlimes {
   
       if (this.tock >= 120) {
         this.bounceAttack = Math.floor(Math.random()*10)
-          if(this.bounceAttack >= 5){
+          if(this.bounceAttack >= 2){
             this.bigJumpAttack()
           }
         this.tock = 0
@@ -141,17 +156,22 @@ class DarkSlimes {
   
     bigJumpAttack(){
       this.vy = -16;
+      this.charge = true;
     }
 
-    shoot(player) {
-        const leaf = new Quake(
+    shoot(lado) {
+        const fire = new Fire(
         this.ctx,
-        player,
-        this.x + this.w,
-        this.y + this.h
+        lado,
+        this.x,
+        this.y
         );
 
-        this.leafs.push(leaf);
+        this.fires.push(fire);
+
+        setTimeout(() => [
+          this.fires = [],
+        ], 800)
     }
     
     isAlive() {

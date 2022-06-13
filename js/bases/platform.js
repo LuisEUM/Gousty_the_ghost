@@ -29,7 +29,7 @@ class Platform{
         )
       }
 
-      collider(object, platformscheck = false,type = false /*es true si es el player y false para posciones y enemigos */){
+      collider(object, platformscheck = false,type = false,  /*es true si es el player y false para posciones y enemigos */){
           if (type) {
             const colX = 
             object.x < this.x + this.w  &&  //derecha del player
@@ -37,8 +37,6 @@ class Platform{
             const colY = 
             object.y + object.h >= this.y - 20 &&
             object.y + object.h < this.y + 20; //abajo del player
-            
-            //izquierda de la plataforma
   
             if(colY && colX){    
               object.y = this.y - 20 - object.h          
@@ -51,17 +49,22 @@ class Platform{
               } 
           }else{
             const colX = 
-            object.x < this.x + this.w  &&  //derecha del player
-            object.x + object.w  > this.x;  //el mounstro esta a la izquierda
+              object.x < this.x + this.w  &&  //derecha del player
+              object.x + object.w  > this.x;  //el mounstro esta a la izquierda
             const colY = 
-            object.y + object.h >= this.y  &&
-            object.y + object.h < this.y + 20; //abajo del player
-            
-            //izquierda de la plataforma
+              object.y + object.h >= this.y  &&
+              object.y + object.h < this.y + 20; //abajo del player
   
             if(colY && colX){    
               object.y = this.y - object.h 
               object.jumpable = true  
+
+              if(object.charge !== undefined && object.charge === true){
+                object.shoot(true)
+                object.shoot(false)
+                object.charge = false
+              }
+
             }else if(!object.platformscheck){
               object.jumpable = false 
             }   

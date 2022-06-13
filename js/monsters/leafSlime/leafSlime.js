@@ -1,12 +1,12 @@
 class LeafSlime {
-    constructor(ctx, x, y, characterIsLookingRigth) {
+    constructor(ctx, characterIsLookingRigth, x, y, ) {
       // TODO: init player attributes: position, size, v, a, img, audio, score, tick
       this.ctx = ctx
   
       this.w = 80;
       this.h = 70;
       this.x =  ctx.canvas.width - this.w;
-      this.x =  x;
+      this.x = x;
       this.y = y;
       this.hitable = true;
       this.vx = 0;
@@ -22,6 +22,7 @@ class LeafSlime {
       this.heartsM.createlife(1);
       this.leafs = [];
       this.playerIsLookingRigth;
+      this.Attack = false
   
       this.characterImg = new Image();
       this.characterImg.frames = 6;
@@ -43,24 +44,32 @@ class LeafSlime {
           });
     if(this.hitable == false){
       if(this.characterIsLookingRigth){   
-        this.characterImg.src = DARKSLIME_CRYING_LOOKING_LEFT
+        this.characterImg.src = SILVER_CRYING_LOOKING_LEFT
+      }
+      else{ 
+        this.characterImg.src = SILVER_CRYING_LOOKING_RIGTH
+      }
+    }
+    else if(this.Attack){
+      if(this.characterIsLookingRigth){
+        this.characterImg.src = SILVER_ATTACKING_RIGTH
       }
       if(!this.characterIsLookingRigth){ 
-        this.characterImg.src = DARKSLIME_CRYING_LOOKING_RIGTH
+        this.characterImg.src = SILVER_ATTACKING_LEFT
       }
     }else{
-      if(this.characterIsLookingRigth){   
-        this.characterImg.src = DARKSLIME_LOOKING_RIGTH
+      if(this.characterIsLookingRigth){  
+        this.characterImg.src = SILVER_LOOKING_RIGTH
       }
       if(!this.characterIsLookingRigth){ 
-        this.characterImg.src = DARKSLIME_LOOKING_LEFT
+        this.characterImg.src = SILVER_LOOKING_LEFT
       }
     }
         this.ctx.drawImage(
           this.characterImg,
           (this.characterImg.width * this.characterImg.frameIndex) / this.characterImg.frames , 
           0, 
-          this.characterImg.width / 6, 
+          this.characterImg.width / this.characterImg.frames, 
           this.characterImg.height,
           this.x,
           this.y + 10,
@@ -76,11 +85,13 @@ class LeafSlime {
         //tiempo de recarga del disparo
         this.tock++
         if (this.tock >= 150) {
-            this.bounceAttack = Math.floor(Math.random()*10)
-            if(this.bounceAttack >= 5){
-                this.shoot(player)
-            }
+          this.Attack = true
+          if (this.tock >= 250){
+            this.shoot(player)
             this.tock = 0
+            this.Attack = false
+          }
+            
         } 
 
         //LEAF movimiento de proyectiles 
@@ -154,7 +165,6 @@ class LeafSlime {
         this.x + this.w,
         this.y + this.h
         );
-
         this.leafs.push(leaf);
     }
     

@@ -1,28 +1,30 @@
- class Leaf {
-    constructor (ctx,player , x, y){
+class Fire {
+    constructor (ctx,playerIsLookingRigth, x, y){
         this.ctx = ctx
-
-        this.w = 30
-        this.h = 30
-        this.x = x -18
-        this.y = y -30
+        this.w = 50
+        this.h = 50
+        this.x = x
+        this.y = y+40
 
         //pendiete por calcular la recta
-        let xDir = player.x - this.x
-        let yDir = player.y - this.y
-        let vu = Math.sqrt(Math.pow(xDir, 2) + Math.pow(-yDir , 2))
-
-        this.vx = (xDir /vu)* 14
-        this.vy = (yDir / vu) * 14
+        this.vx = 0;
+        this.vy = 0;
         this.tick = 0;
-    
+        
+        this.playerIsLookingRigth = playerIsLookingRigth
         this.shadowballImg = new Image();
-        this.shadowballImg.frames = 6;
+        this.shadowballImg.frames = 3;
         this.shadowballImg.frameIndex = 0;
-        this.shadowballImg.src = SILVER_SBEAM_RIGTH
+        if(this.playerIsLookingRigth){   
+            this.shadowballImg.src = FIRESLIME_FIRE_RIGTH
+          }
+        if(!this.playerIsLookingRigth){ 
+            this.shadowballImg.src = FIRESLIME_FIRE_LEFT
+        }
     }
 
     draw() {
+
         this.ctx.drawImage(
             this.shadowballImg,
             (this.shadowballImg.width * this.shadowballImg.frameIndex) / this.shadowballImg.frames , 
@@ -37,23 +39,29 @@
     }
     
     move() {
-        this.vy += 0;
         this.y += this.vy;
         this.x += this.vx;
+
         this.tick++
 
-        if (this.tick >= 4){
-            this.animate();
+        this.animate();
+
+
+        if (this.playerIsLookingRigth){
+            this.vx = 5;
         }
 
-            this.tick = 0
+        if (!this.playerIsLookingRigth){
+            this.vx = -5;
+
+        }
     }
 
     animate() {
-        if ((this.tick % 2 === 0 )) {
+        if ((this.tick % 8 === 0 )) {
             this.shadowballImg.frameIndex++;
             if (this.shadowballImg.frameIndex >= this.shadowballImg.frames) {
-                this.shadowballImg.frameIndex = 4;
+                this.shadowballImg.frameIndex = 0;
             }
         }
     }
