@@ -1,16 +1,14 @@
-class Leaf {
-    constructor (ctx,player , x, y){
+class Quake {
+    constructor (ctx, x, y){
         this.ctx = ctx
 
-        this.w = 50
-        this.h = 50
-        this.x = x -18
-        this.y = y -30
-
-        //pendiete por calcular la recta
-        // let m = (player.x - this.x) / (player.y + 25 - this.y)
-        this.vx = ((player.x - this.x) /100)
-        this.vy = ((player.y + 25 - this.y) /100)
+        this.w = 80
+        this.h = 80
+        this.x = x
+        this.y = y + 30
+        this.vx = 0;
+        this.vy = 0;
+    
         this.tick = 0;
     
         this.shadowballImg = new Image();
@@ -43,7 +41,17 @@ class Leaf {
             this.animate();
         }
 
+        if (this.tick >= 10 && this.playerIsLookingRigth){
+            this.vx = 20;
+            this.x += this.vx;
             this.tick = 0
+        }
+
+        if (this.tick >= 10 && this.PlayerIsLookingLeft){
+            this.vx = -20;
+            this.x += this.vx;
+            this.tick = 0
+        }
     }
 
     animate() {
