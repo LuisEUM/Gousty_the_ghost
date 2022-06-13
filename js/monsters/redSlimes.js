@@ -1,4 +1,4 @@
-class DarkSlimes {
+class RedSlimes {
   constructor(ctx, x, y, characterIsLookingRigth) {
     // TODO: init player attributes: position, size, v, a, img, audio, score, tick
     this.ctx = ctx
@@ -37,18 +37,19 @@ class DarkSlimes {
   draw() {
     if(this.hitable == false){
       if(this.characterIsLookingRigth){   
-        this.characterImg.src = DARKSLIME_CRYING_LOOKING_LEFT
+        this.characterImg.src = REDSLIME_CRYING_LOOKING_LEFT
       }
       if(!this.characterIsLookingRigth){ 
-        this.characterImg.src = DARKSLIME_CRYING_LOOKING_RIGTH
+        this.characterImg.src = REDSLIME_CRYING_LOOKING_RIGTH
       }
     }else{
       this.characterImg.frameIndex = 3;
+
       if(this.characterIsLookingRigth){   
-        this.characterImg.src = DARKSLIME_LOOKING_RIGTH
+        this.characterImg.src = REDSLIME_LOOKING_RIGTH
       }
       if(!this.characterIsLookingRigth){ 
-        this.characterImg.src = DARKSLIME_LOOKING_LEFT
+        this.characterImg.src = REDSLIME_LOOKING_LEFT
       }
     }
       this.ctx.drawImage(

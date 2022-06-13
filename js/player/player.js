@@ -4,7 +4,7 @@ class Player {
     this.ctx = ctx;
     this.w = 100;
     this.h = 100;
-    this.x = 50;
+    this.x = 500;
     this.y = 0;
     this.hitable = true
     this.vx = 0;

@@ -30,19 +30,29 @@ class Game {
             new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
           ],
           items:[ new Item(this.ctx)],
-          enemies:[new DarkSlimes(this.ctx, 940, null, true), new FastSlimes(this.ctx)],
+          enemies:[new DarkSlimes(this.ctx, 940, null, true), new RedSlimes(this.ctx, 0, null, true)],
           background: new Background(this.ctx)
       },
-      {                                //0 estas son las olas Wavess
+      {                                //1 estas son las olas Wavess
         map: [
           new Platform(this.ctx,50, 300, 200,40),
           new Platform(this.ctx,750, 300, 200,40), 
           new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
         ],
         items:[ new Item(this.ctx)],
-        enemies:[new DarkSlimes(this.ctx, 940, null, true), new FastSlimes(this.ctx)],
+        enemies:[new FastSlimes(this.ctx)],
         background: new Background(this.ctx)
-    }
+    },
+    {                                //1 estas son las olas Wavess
+      map: [
+        new Platform(this.ctx,50, 300, 200,40),
+        new Platform(this.ctx,750, 300, 200,40), 
+        new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
+      ],
+      items:[ new Item(this.ctx)],
+      enemies:[new DarkSlimes(this.ctx, 940, null, true), new FastSlimes(this.ctx)],
+      background: new Background(this.ctx)
+  }
       // nextlevel
     ]
     this.setupLevel()
@@ -149,8 +159,6 @@ class Game {
         this.items.splice(index,1);
       }
     })
-
-
   }
 
   gameOver() {
