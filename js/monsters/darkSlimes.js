@@ -126,13 +126,10 @@ class DarkSlimes {
   }
 
   animate() {
-    if (this.vy) {
       this.characterImg.frameIndex++;
-
       if (this.characterImg.frameIndex >= this.characterImg.frames) {
         this.characterImg.frameIndex = 0;
       }
-    }
   }
 
   isVisible() {
