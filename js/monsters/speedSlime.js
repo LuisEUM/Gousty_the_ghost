@@ -96,7 +96,7 @@ class FastSlimes {
     if(player.y < this.y - 200){
       if (!this.characterIsLookingRigth){
         if(this.hitable){ //CUANDO EL MOUNSTRUO SEA GOLPEABLE
-          this.vx = -1 // CON ESTO HACEMOS QUE SE MUEVA A LA IZQUIERDA
+          this.vx = -3 // CON ESTO HACEMOS QUE SE MUEVA A LA IZQUIERDA
         }
         else{//CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
           this.vy += 0.1
@@ -106,7 +106,7 @@ class FastSlimes {
   
       if (this.characterIsLookingRigth){
         if(this.hitable){ //CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
-          this.vx = 1 // CON ESTO HACEMOS QUE SE MUEVA A LA DERECHA
+          this.vx = 3 // CON ESTO HACEMOS QUE SE MUEVA A LA DERECHA
         }
         else{ //CUANDO EL MOUNSTRUO NO  SEA GOLPEABLE
           this.vy += 0.1 
