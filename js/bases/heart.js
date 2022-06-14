@@ -1,5 +1,5 @@
 class Heart {
-    constructor(ctx, x, y=50, w=60, h=60){
+    constructor(ctx, x, y=15, w=50, h=50){
         this.ctx = ctx
         this.w = w
         this.h = h
@@ -10,55 +10,31 @@ class Heart {
         this.heartImg = new Image();
         this.heartImg.frames = 6;
         this.heartImg.frameIndex = 0;
-        this.heartImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts.png'
         this.heartPoints = 2
     }
 
     draw(showlivesOnX, showlivesOnY, widhtMonsterHeart, heightMonsterHeart) {
 
         if (this.heartPoints === 2) {
-            this.ctx.drawImage(
-                this.heartImg,
-                (this.heartImg.width * this.heartImg.frameIndex) / this.heartImg.frames , 
-                0, 
-                this.heartImg.width / 6, 
-                this.heartImg.height,
-                showlivesOnX || this.x,
-                showlivesOnY || this.y,
-                widhtMonsterHeart || this.w,
-                heightMonsterHeart || this.h
-            )
+            this.heartImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts.png'
         }
         if (this.heartPoints === 1) {
             this.heartImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts_With_Half life.png'
-
-            this.ctx.drawImage(
-                this.heartImg,
-                (this.heartImg.width * this.heartImg.frameIndex) / this.heartImg.frames , 
-                0, 
-                this.heartImg.width / 6, 
-                this.heartImg.height,
-                showlivesOnX || this.x,
-                showlivesOnY || this.y,
-                widhtMonsterHeart || this.w,
-                heightMonsterHeart || this.h
-            )
         }
         if (this.heartPoints <= 0) {
             this.heartImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts_With_No_Points.png'
-
-            this.ctx.drawImage(
-                this.heartImg,
-                (this.heartImg.width * this.heartImg.frameIndex) / this.heartImg.frames , 
-                0, 
-                this.heartImg.width / 6, 
-                this.heartImg.height,
-                showlivesOnX || this.x,
-                showlivesOnY || this.y,
-                widhtMonsterHeart || this.w,
-                heightMonsterHeart || this.h
-            )
         }
+        this.ctx.drawImage(
+            this.heartImg,
+            (this.heartImg.width * this.heartImg.frameIndex) / this.heartImg.frames , 
+            0, 
+            this.heartImg.width / 6, 
+            this.heartImg.height,
+            this.x + 15,
+            this.y,
+            this.w,
+            this.h
+        )
     }
     
     move() {

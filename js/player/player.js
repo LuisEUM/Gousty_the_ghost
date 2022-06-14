@@ -27,18 +27,20 @@ class Player {
     this.basicAttackMode = false
     this.attackModeCooldowm = 0
     this.resetAnimationBasicAttack = 0;
-    this.shadowballsCD = false
     this.isOnAir= false
+    this.dash = false
 
     //CORAZONES
-    this.heart1 = new Heart(ctx, 50, 50,)
-    this.heart2 = new Heart(ctx, 100, 50,)
-    this.heart3 = new Heart(ctx, 150, 50, )
+    this.life = new Hearts(ctx);
 
-    this.heartPoints = 2
-    this.playerMaxHearts = 3
-    this.playerLife = [this.heart1, this.heart2, this.heart3]
-    this.playerLife.reverse()
+    this.life.createlife(3);
+    this.lastHeart = this.life.length - 1
+
+    //HASTA AQUI
+    //MANA
+    this.MpContainer = new MpContainer(ctx);
+
+    this.MpContainer.createlife(3);
     //HASTA AQUI
 
     this.previousPositionX = this.x;
@@ -69,34 +71,23 @@ class Player {
     //Sword
     this.sword = [];
 
+    //weapons sword + shadowballs
+    this.weapons = [];
   }
 
   draw() {
 
 
-    if(this.basicAttackMode === false && this.jumpable === true ){
+    if(this.basicAttackMode === false && this.jumpable === true){ // ANIMACIONES EN EL SUELO
       if(this.characterIsLookingRigth){
         this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite.png";
       }
       if(this.characterIsLookingLeft){
         this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite_Left.png";
-      } 
-        this.ctx.drawImage(
-        this.characterImg,
-        (this.characterImg.width * this.characterImg.frameIndex) /
-          this.characterImg.frames,
-        0,
-        this.characterImg.width / this.characterImg.frames,
-        this.characterImg.height,
-        this.x,
-        this.y,
-        this.w,
-        this.h
-      );
+      }
     } 
 
-    console.log(this.vy)
-    if(this.basicAttackMode === false && this.jumpable === false ){
+    if(this.basicAttackMode === false && this.jumpable === false ){ // ANIMACIONES AL SALTAR Y CAER
       if(this.characterIsLookingRigth && this.vy < 0){
         this.characterImg.src ='/img/GOUSTY/OnAir/GOUSTY_JUMPING_RIGTH.png'
       }
@@ -110,64 +101,46 @@ class Player {
       if(this.characterIsLookingLeft && this.vy > 0){
         this.characterImg.src ='/img/GOUSTY/OnAir/GOUSTY_FALLING_LEFT.png'
       }
-      
-      this.ctx.drawImage(
-        this.characterImg,
-        (this.characterImg.width * this.characterImg.frameIndex) /
-          this.characterImg.frames,
-        0,
-        this.characterImg.width / this.characterImg.frames,
-        this.characterImg.height,
-        this.x,
-        this.y,
-        this.w,
-        this.h
-      );
     }
 
-    if(this.basicAttackMode === false && this.hitable === false){
+    if(this.hitable === false){ // ANIMACIONES AL SER GOLPEADO
       if(this.characterIsLookingRigth){
         this.characterImg.src ='/img/GOUSTY/NoHitable/GOUSTY_NO_HITABLE_LOOKING_RIGTH.png'
       }
       if(this.characterIsLookingLeft){
         this.characterImg.src ='/img/GOUSTY/NoHitable/GOUSTY_NO_HITABLE_LOOKING_LEFT.png'
       }
-      this.ctx.drawImage(
-        this.characterImg,
-        (this.characterImg.width * this.characterImg.frameIndex) /
-          this.characterImg.frames,
-        0,
-        this.characterImg.width / this.characterImg.frames,
-        this.characterImg.height,
-        this.x,
-        this.y,
-        this.w,
-        this.h
-      );
+    }
+
+    if(this.basicAttackMode === true){//animacion de personaje con la espada
+      if(this.characterIsLookingRigth && this.jumpable === false ) {
+        this.characterImg.src = GOUSTY_SWORD_ON_AIR_RIGTH
+      }
+      if(this.characterIsLookingLeft && this.jumpable === false) {
+        this.characterImg.src = GOUSTY_SWORD_ON_AIR_LEFT
+      }
+      if(this.characterIsLookingRigth && this.jumpable === true ) {
+        this.characterImg.src = GOUSTY_SWORD_ON_EARTH_LOOKING_RIGTH
+      }
+      if(this.characterIsLookingLeft && this.jumpable === true) {
+        this.characterImg.src = GOUSTY_SWORD_ON_EARTH_LOOKING_LEFT
+      }
     }
 
 
-    if(this.basicAttackMode === true){
-      if(this.characterIsLookingRigth ) {
-        this.characterImg.src ='/img/GOUSTY/SWORD/GOUSTY-SWORD-ATTACK-RIGTH.png'
-      }
-      if(this.characterIsLookingLeft) {
-        this.characterImg.src ='/img/GOUSTY/SWORD/GOUSTY-SWORD-ATTACK-LEFT.png'
-      }
-      this.ctx.drawImage(
-        this.characterImg,
-        (this.characterImg.width * this.characterImg.frameIndex) /
-          this.characterImg.frames,
-        0,
-        this.characterImg.width / this.characterImg.frames,
-        this.characterImg.height,
-        this.x,
-        this.y,
-        this.w,
-        this.h
-      );
-      }
 
+    this.ctx.drawImage(
+      this.characterImg,
+      (this.characterImg.width * this.characterImg.frameIndex) /
+        this.characterImg.frames,
+      0,
+      this.characterImg.width / this.characterImg.frames,
+      this.characterImg.height,
+      this.x,
+      this.y,
+      this.w,
+      this.h
+    );
 
 
 
@@ -181,11 +154,12 @@ class Player {
       this.sword.forEach((sword) => {
         sword.draw();
       });
-  
     }
 
     ///activar que aparezca la vida
-    this.playerLife.forEach((heart) => heart.draw());
+    this.life.draw()
+    ///activar que aparezca el mana
+    this.MpContainer.draw()
 
     //friccion
     //ahora para frenar ponemos un coeficiente de friccion que frenara poco a poco el personaje
@@ -201,6 +175,7 @@ class Player {
     if(!this.jumpable){
       this.vy += this.gravity;
     }
+    
     this.tick++;
 
 
@@ -212,7 +187,7 @@ class Player {
         }
       }
     }
-    if(this.tick % 6 === 0 && this.basicAttackMode === true) {  // Animacion de player en estado de ataque con espada 
+    if(this.tick % 12 === 0 && this.basicAttackMode === true) {  // Animacion de player en estado de ataque con espada 
       this.characterImg.frameIndex++; 
       if (this.characterImg.frameIndex >= this.characterImg.frames) {
         this.characterImg.frameIndex = 0;
@@ -220,7 +195,7 @@ class Player {
     } 
 
     if (this.tick && this.basicAttackMode === false && this.hitable === false) { // Animacion de player golpeado
-      if (this.tick  % 6 === 0 ) { //controlamos la velocidad de la animación sin ataques
+      if (this.tick  % 12 === 0 ) { //controlamos la velocidad de la animación sin ataques
       this.characterImg.frameIndex++;
         if (this.characterImg.frameIndex >= this.characterImg.frames) {
           this.characterImg.frameIndex = 0;
@@ -269,8 +244,8 @@ class Player {
     // TODO: animate based on tick
     // TODO: move score
 
-    this.playerLife.forEach((heart) => heart.move());
-
+    this.life.move()
+    this.MpContainer.move()
   }
 
 
@@ -316,7 +291,8 @@ class Player {
         this.y + this.h - 137.8201,
         playerIsLookingRigth,
         PlayerIsLookingLeft,
-        this.changeSwordSprite
+        this.changeSwordSprite,
+        this.jumpable
       );
 
       this.sword.push(sword);
@@ -331,7 +307,8 @@ class Player {
         this.y + this.h - 137.8201,
         playerIsLookingRigth,
         PlayerIsLookingLeft,
-        this.changeSwordSprite
+        this.changeSwordSprite,
+        this.jumpable,
       );
 
       this.sword.push(sword);
@@ -345,8 +322,7 @@ class Player {
 
 
   isAlive() {
-    let lastHeart = this.playerLife.length - 1
-    if(this.playerLife[lastHeart].heartPoints === 0){
+    if(this.playerLife[this.lastHeart].heartPoints === 0){
       return false
     }else {
       return true
@@ -354,8 +330,7 @@ class Player {
   }
 
   keyDown(key) {
-    if (key === KEY_SPACE) {
-      if (this.shadowballsCD) {
+    if (key.toUpperCase() === KEY_V && this.MpContainer.isAvailable()) {
         let previousImgLookingSide = this.characterImg.src;
         if (this.characterIsLookingRigth) {
           this.characterImg.src =
@@ -388,28 +363,22 @@ class Player {
             this.audioShadowball.pause();
           }
         }
-        this.shadowballsCD = false;
-      }
-
     }
     
-    if (key === KEY_UP) {
-
+    if (key.toUpperCase() === KEY_Z) {
 
       if(this.jumpable){
         // TODO: jump and play jump sound
         this.vy = -14;
+        
         const jumpAudio = new Audio(
           "/audio/Jump sound effect _ No copyright (192kbit_AAC).mp3"
         );
         jumpAudio.volume = 0.01;
         jumpAudio.play();
         this.ykey = true;
-        this.shadowballsCD = true
+        this.jumpable = false
       }
-    }
-    if(key === KEY_DOWN && this.isOnAir === true){
-
     }
 
     if (key === KEY_RIGHT || key === KEY_LEFT) { //movimiento horizontal
@@ -445,34 +414,41 @@ class Player {
         this.xkey = false;
       }
     }
+    if(key.toUpperCase() === KEY_C){
+      if (!this.dash) {
+        this.dash = true;
 
+        if(this.characterIsLookingRigth){
+          this.vx = 50
+        }else{
+          this.vx = -50
+        }
+        this.hitable = false
+        setTimeout(() => { //frenado con friccion
+          if(this.characterIsLookingRigth){
+            this.vx = 7
+          }else{
+            this.vx = -7
+          }
+          this.hitable = true
+  
+        }, 100)
+        setTimeout(() => { //frenado con friccion
+          this.dash = false
+        }, 300)
+      }
 
-    if(key === KEY_CTRL && this.playerCanAttack === true){ /// activar el ataque de la espada al PRESIONAR la tecla 
+    }
+
+    if(key.toUpperCase() === KEY_X && this.playerCanAttack === true){ /// activar el ataque de la espada al PRESIONAR la tecla 
       this.basicAttackMode = true
       this.playerCanAttack = false
-      this.hitable = false
-
-        if(this.basicAttackMode === true && this.characterIsLookingRigth ){
-            this.slash(this.characterIsLookingRigth, this.characterIsLookingLeft);
-            setTimeout(() => [
-              this.playerCanAttack = true, //el jugador puede atacar
-              this.basicAttackMode = false, //el jugador esta atando
-              this.hitable = true, // puede ser golpeado
-              this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite.png",
-              this.sword.pop(), //eliminamos la espada creada para que siempre sea una sola y se puede dibujar
-            ], 200)
-        }
-        if(this.basicAttackMode === true && this.characterIsLookingLeft){
-          this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite_Left.png"
-          this.slash(this.characterIsLookingRigth, this.characterIsLookingLeft);
-          setTimeout(() => [
-            this.playerCanAttack = true, //el jugador puede atacar
-            this.basicAttackMode = false, //el jugador esta atando
-            this.hitable = true, // puede ser golpeado
-            this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite_Left.png",
-            this.sword.pop(), //eliminamos la espada creada para que siempre sea una sola y se puede dibujar
-          ], 200) 
-        }
+      this.slash(this.characterIsLookingRigth, this.characterIsLookingLeft);
+      setTimeout(() => [
+        this.playerCanAttack = true, //el jugador puede atacar
+        this.basicAttackMode = false, //el jugador esta atando
+        this.sword.pop(), //eliminamos la espada creada para que siempre sea una sola y se puede dibujar
+      ], 200)      
     }
   }
 
@@ -486,108 +462,100 @@ class Player {
       }, 40)
     }
     
-    if (key === KEY_UP) {
+    if (key.toUpperCase() === KEY_Z) {
       if (this.ykey && this.vy <= 0) {
         this.vy *= .40;
         this.ykey = false
       }
     }
 
-    if (key === KEY_SPACE && this.characterIsLookingRigth) {
+    if (key.toUpperCase() === KEY_V ) {
       this.tock = 0;
-      this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite.png";
       this.audioShadowball.pause();
       this.audioShadowball.currentTime = 0;
     }
 
-    if (key === KEY_SPACE && this.characterIsLookingLeft) {
-      this.tock = 0;
-      this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite_Left.png";
-      this.audioShadowball.pause();
-      this.audioShadowball.currentTime = 0;
-    }
   }
 
-  collides(object,type, platforms = false) {
-
-    if (type === "monster") {
+  collides(object, player) {
       const colX = 
         this.x <= object.x + object.w - 20 &&  //derecha del player
         this.x + this.w - 20 >= object.x;  //el mounstro esta a la izquierda
       const colY = 
         this.y + this.h >= object.y + 20 && //arriba del player
         this.y <= object.y + object.h -20; //abajo del player
-      if(colX && colY && this.hitable){
-          if( this.x > object.x){
-            this.vx += 20
-          }
-          if(this.x < object.x){
-            this.vx -= 20
-          }
-
-          this.hitable = false
-
-          setTimeout(() => [
-            this.hitable = true,
-            this.playerCanAttack = true,
-          ], 1000)
-          
-          return colX && colY
-      }
-    }
-    if (type === "platform") {
-        const colX = 
-          this.x < object.x + object.w  &&  //derecha del player
-          this.x + this.w  > object.x;  //el mounstro esta a la izquierda
-        const colY = 
-          this.y + this.h >= object.y - 20 &&
-          this.y + this.h < object.y + 10; //abajo del player
-        const colYBot = 
-          this.y + this.h >= object.y - 10 &&
-          this.y + this.h < object.y + 10 + this.h; //abajo del player
         
-        const colRX = 
-          this.x < object.x + object.w -10 &&  //derecha del player
-          this.x > object.x + object.w -20  //el mounstro esta a la izquierda
-        const colLX = 
-          this.x + this.w  < object.x + 20 &&
-          this.x + this.w  > object.x +10;
-        const colH = 
-          this.y + this.h >= object.y  && //arriba del player
-          this.y <= object.y + object.h ; //abajo del playerx
-        //izquierda de la plataforma
-        if(colLX && colH){
-          this.x = object.x - this.w +10
-          
-        }
-        if(colYBot && colX){
-          this.vy = 0
-        }
-        if(colY && colX){
-          this.y = object.y - 20 - this.h
-          this.jumpable = true   
-          }else if(!platforms){
-            this.jumpable = false
-          }
-          if(colRX && colH){
-            this.x =  object.x + object.w -10
-          }
+        let hit = false
+        //golpe con proyectiles
+        if(object.leafs !== undefined)
+          object.leafs.forEach((leaf) => {
+            hit = leaf.collides(player, hit)
+          });
+        if(object.arrswordS !== undefined)
+          object.arrswordS.forEach((sword) => {
+            hit = sword.collides(player, hit)
+          });
+          if(object.fires !== undefined)
+          object.fires.forEach((fire) => {
+            hit = fire.collides(player, hit)
+          });
 
-        if (this.jumpable) {
-          return true
-        }
+        if(colX && colY || hit){//condicional del mounstrue        
+          if (this.hitable) {
+        
+            if( this.x > object.x){
+              this.vx += 17
+            }
+            if(this.x < object.x){
+              this.vx -= 17
+            }
+  
+            this.hitable = false
+            this.life.loselife(object.strength)
+            setTimeout(() => [
+              this.hitable = true,
+            ], 1500)
+          }  
       }
+
+       //monster
+       if (object.hitable) {  
+        let strike = false
+        this.sword.forEach((slash) => {
+          strike = slash.collides(object, strike)
+        });
+        if(strike){
+          this.MpContainer.winMp(1)
+        }
+        this.shadowballs.forEach((shadowball) => {
+          strike = shadowball.collides(object, strike)
+        });
+
+        if (strike) {
+          if (this.x > object.x) {
+            object.vx = -2
+            object.x += this.vx
+            object.characterIsLookingRigth = true
+            object.characterIsLookingLeft = false
+            object.hitable = false
+          }
+          if (this.x < object.x) {
+            object.vx = 2
+            object.x += object.vx
+            object.characterIsLookingRigth = false
+            object.characterIsLookingLeft = true
+            object.hitable = false
+          }
+          
+          object.heartsM.loselife(1)
+          object.hitable = false
+          setTimeout(() => [
+            object.hitable = true,
+          ], 1000)
+        }
+      return colX && colY
+    }
       
   }
 
-  isAlive() {
-    let lastHeart = this.playerLife.length - 1
-    if(this.playerLife[lastHeart].heartPoints === 0){
-      this.vx = 0
-      this.vy = 0
-      return false
-    }else {
-      return true
-    }
-  }
 }

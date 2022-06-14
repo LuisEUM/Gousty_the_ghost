@@ -65,5 +65,22 @@ class Shadowball {
         }
     }
 
+    collides(enemy, strike){
+        const colWX = 
+            this.x <= enemy.x + enemy.w - 20 &&  //derecha del player
+            this.x + this.w - 20 >= enemy.x;  //el mounstro esta a la izquierda
+        const colWY = 
+            this.y + this.h >= enemy.y + 20 && //arriba del player
+            this.y <= enemy.y + enemy.h -20; //abajo del player
+        
+        if (colWX && colWY) {
+            return true
+        }
+        else if (strike) { //con esto nos aseguramos de que el ultimo frame del weapon no altere el resultado
+            return true
+        } else {
+            return false
+        }  
+    }
     
 }
