@@ -52,7 +52,7 @@ class Game {
         items:[ new Item(this.ctx)],
         enemies:[new FastSlimes(this.ctx, 0, -100)],
         background: new Background(this.ctx)
-    },/* 
+    },
       {                                //NIVEL 3
         map: [
           new Platform(this.ctx,50, 300, 200,40),
@@ -186,7 +186,7 @@ class Game {
   items:[],
   enemies:[new LeafSlime(this.ctx, 0, -300),new LeafSlime(this.ctx, 950, -300),new LeafSlime(this.ctx, 0, 290),new LeafSlime(this.ctx, 950, 290),new FireSlime(this.ctx, 0, 400),new FireSlime(this.ctx, 950, 400)],
   background: new Background(this.ctx)
-},*/
+},
     ]
     this.setupLevel()
   }
