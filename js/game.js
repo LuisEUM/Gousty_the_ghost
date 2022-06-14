@@ -6,6 +6,9 @@ class Game {
     this.background = null;
 
     this.player = new Player(ctx);
+    this.arrwR = new ArrowR(ctx);
+    this.arrwD = new ArrowD(ctx);
+    this.transitions = []
     this.level = 0
     this.map = [];
     this.items = [];
@@ -22,6 +25,11 @@ class Game {
     this.ctx.font = "80px Poppins";
     this.setListeners();
     this.init = true
+    this.dark = false
+
+    //status de el mapa 0 = normal 1= nextStage 2 = moster wave
+    this.stageCombat = false
+
     this.stages = [
       {                                //0 estas son las olas Wavess
           map: [
@@ -30,7 +38,7 @@ class Game {
             new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
           ],
           items:[ new Item(this.ctx)],
-          enemies:[new FireSlime(this.ctx, 0, -300)],
+          enemies:[new FastSlimes(this.ctx, 0, -300)],
           background: new Background(this.ctx)
       },
       {                                //1 estas son las olas Wavess
@@ -74,9 +82,6 @@ class Game {
           //this.addEnemy();
         }
       }
-      if(this.enemies.length === 0 && this.stages.length !== this.level + 1){ // &&  si me quedan mas niveles avanzar al siguiente nivel 
-        this.nextLevel()
-      }
       /// TODO implentar el ENDGAME
     }, 1000 / FPS);
   }
@@ -101,13 +106,25 @@ class Game {
     this.map.forEach((platform) => platform.draw());
     this.enemies.forEach((enemy) => enemy.draw());
     this.removeObjects()
+    if(!this.stageCombat){
+      this.arrwD.draw()
+    }
+    if(this.stageCombat && this.enemies.length === 0 && this.stages.length !== this.level + 1){
+      this.arrwR.draw()
+    }
+    if(this.transitions.length !== 0){
+      this.transitions.forEach((transition) => transition.draw());
+    }
   }
 
   setupLevel(){
     this.map = this.stages[this.level].map
-    this.enemies = this.stages[this.level].enemies
     this.items = this.stages[this.level].items
     this.background = this.stages[this.level].background
+  }
+
+  nextWave(){
+    this.enemies = this.stages[this.level].enemies
   }
 
   nextLevel(){
@@ -120,6 +137,15 @@ class Game {
     this.player.move();
     this.enemies.forEach((enemy) => enemy.move(this.player));
     this.items.forEach((item) => item.move());
+    if(!this.stageCombat){
+      this.arrwD.move()
+    }
+    if(this.stageCombat && this.enemies.length === 0 && this.stages.length !== this.level + 1){
+      this.arrwR.move()
+    }
+    if(this.transitions.length !== 0){
+      this.transitions.forEach((transition) => transition.move(this.dark,this.transitions));
+    }
   }
 
 
@@ -136,6 +162,13 @@ class Game {
     );
   }
 
+  Ctransition(){
+    this.transitions.push(new Transition(ctx));
+    setTimeout(() => {
+      this.dark = true
+    },1000);
+    
+  } //circulo de transicion
 
 
   checkCollisions() {
@@ -159,6 +192,36 @@ class Game {
         this.items.splice(index,1);
       }
     })
+    //Start monsterWave
+    if(!this.stageCombat){ //se activa el colaider del centro
+        const colMonX = 
+            400 <= this.player.x  &&  //derecha del player
+            600 >= this.player.x;  //el mounstro esta a la izquierda
+        const colMonY = 
+            180 <= this.player.y; //abajo del player
+            console.log(colMonX ,colMonY)
+        if (colMonX && colMonY) {//se activan los enemigos
+            this.nextWave()
+            this.stageCombat = true
+        }
+    }
+    //Next Stage
+    if(this.stageCombat && this.enemies.length === 0 && this.stages.length !== this.level + 1){ //no ha mas mounstros
+        const colNextX = 
+          900 <= this.player.x  &&  //derecha del player
+          1100 >= this.player.x;  //el mounstro esta a la izquierda
+        const colNextY = 
+            180 <= this.player.y; //abajo del player      
+        if (colNextX && colNextY) {//se activanla tansicion al siguiente mounstruo
+          this.Ctransition()
+          this.nextLevel()
+          this.stageCombat = false    
+          setTimeout(() => {
+            this.player.x = 0
+            this.player.y = 340
+          }, 500);  
+        }
+    }
 
     if(this.player.life.isAlive() === false){
       this.player.characterImg.src = GOUSTY_GAMEOVER
