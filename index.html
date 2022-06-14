@@ -57,24 +57,36 @@
   </div>
 </div>
 </section>
-<section>
-    <div id="section2">
-        <div class="block3">
-          <h4> We only can tell you which buttons you can use for using Gousty abilities. You have to play for discover it.</h4>
-          <img src = "/img/WEB/Keyboard.png" alt="My Happy SVG" class="imageBlock3"/>
-            <p class="block3Text">You can use only the purple keys pointed in this image. We can't give you a tutorial, you have to hurry and play!</p>
-        </div>
-    </div>
-</section >   
+
 <section id="game" class="bg">
-    <canvas id="canvas" width="1000" height="600"></canvas>
+  
+  <div class='startScreen' id="tutorial-canvas"> 
+    <section >
+      <div id="tutorial">
+          <div class="block3">
+            <h4> We only can tell you which buttons you can use for using Gousty abilities. You have to play for discover it.</h4>
+            <img src = "/img/WEB/Keyboard.png" alt="My Happy SVG" class="imageBlock3"/>
+              <p class="block3Text">You can use only the purple keys pointed in this image. We can't give you a tutorial, hurry up and play! <br></BR> Click on Gosty when you are ready</p>
+              <section class="containerGoustyArrow">
+                <div id="gousty-arrow"> </div>
+              </section>
+              <img src="/img/WEB/GOUSTY_START_GAME.gif" alt="Gousty On Game Screen" class="gousty-start" onclick="startNewGame()">
+            </div>
+      </div>
+  </section >   
+
+
+  </div>
+    <canvas id="canvas" width="1000" height="600" class="hiddenStart"></canvas>
     <section id="controls">
       <div id="buttonPlayAndPause">
         <div class="buttonPlayAndPause play"></div> 
         <div class="buttonRestart"></div> 
       <div>
       </div>
+
 </section>
+
 <!-- <section id="controls">
   <div id="buttonPlayAndPause">
     <div class="buttonPlayAndPause"></div> 

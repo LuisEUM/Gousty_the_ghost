@@ -1,4 +1,15 @@
+
 //  Botones animados
+
+let animationArrowGousty = bodymovin.loadAnimation({
+  container: document.getElementById('gousty-arrow'),
+  remderer: 'svg',
+  loop: true,
+  autoplay: true,
+  path: '/js/animations/arrorForGousty.json'
+})
+
+
 let iconPlay = document.querySelector('.buttonPlayAndPause')
 let playButton = bodymovin.loadAnimation({
   container: iconPlay,
@@ -117,3 +128,12 @@ const colors = [
       }
   }, false);
   //inicio de las lineas coloridas
+
+
+ function startNewGame(){
+  game.start()
+  let tutorialSection = document.getElementById('tutorial-canvas')
+  tutorialSection.classList.add('hiddenStart')
+  let gameSection = document.getElementById('canvas')
+  gameSection.classList.remove('hiddenStart')
+ }
