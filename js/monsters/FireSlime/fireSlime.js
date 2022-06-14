@@ -1,5 +1,5 @@
 class FireSlime {
-    constructor(ctx, x, y, characterIsLookingRigth) {
+    constructor(ctx, x, y, characterIsLookingRigth = false) {
       // TODO: init player attributes: position, size, v, a, img, audio, score, tick
       this.ctx = ctx
   
