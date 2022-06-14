@@ -48,8 +48,8 @@
         You will help him?
     </p>
     <section class="containerButtonsWithAnimation">
-        <div id="yesButton"> </div>
-        <div id="noButton"> </div>
+        <a href="#game"> <div id="yesButton"> </div> </a>
+        <a href="#section1"> <div id="noButton"> </div></a>  
     </section>
   </div>
   <div class="block2 two">
@@ -59,25 +59,29 @@
 </section>
 <section>
     <div id="section2">
-
         <div class="block3">
           <h4> We only can tell you which buttons you can use for using Gousty abilities. You have to play for discover it.</h4>
           <img src = "/img/WEB/Keyboard.png" alt="My Happy SVG" class="imageBlock3"/>
             <p class="block3Text">You can use only the purple keys pointed in this image. We can't give you a tutorial, you have to hurry and play!</p>
         </div>
     </div>
-</section>
-<section id="section3">
+</section >   
+<section id="game">
     <canvas id="canvas" width="1000" height="600"></canvas>
     <section id="controls">
-        <div>
-            <button id="btn" onclick="changeImage()">
-              <img src = "/img/WEB/play.svg" alt="My Happy SVG" class="imageBlock3 "/>
-              PLAY</button>
-        </div>
-    </section>
-
+      <div id="buttonPlayAndPause">
+        <div class="buttonPlayAndPause"></div> 
+      </div>
+      <div>
 </section>
+<!-- <section id="controls">
+  <div id="buttonPlayAndPause">
+    <div class="buttonPlayAndPause"></div> 
+  </div>
+  <div>
+    <p class="play">PLAY</p>
+  </div>  
+</section> -->
     <script src="js/bases/constants.js"></script>
     <script src="js/bases/score.js"></script>
     <script src="js/bases/background.js"></script>
@@ -99,8 +103,8 @@
     <script src="js/player/sword.js"></script>
     <script src="js/player/player.js"></script>
     <script src="js/game.js"></script>
-    <script src="js/lottie.js"></script>
     <script src="js/index.js"></script>
+    <script src="js/lottie.js"></script>
     <script src="js/scripts.js"></script>
 </body>
 </html>

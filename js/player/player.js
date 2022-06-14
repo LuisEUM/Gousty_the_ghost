@@ -31,9 +31,11 @@ class Player {
     this.dash = false
 
     //CORAZONES
-    this.hearts = new Hearts(ctx);
+    this.life = new Hearts(ctx);
 
-    this.hearts.createlife(3);
+    this.life.createlife(1);
+    this.lastHeart = this.life.length - 1
+
     //HASTA AQUI
     //MANA
     this.MpContainer = new MpContainer(ctx);
@@ -99,7 +101,6 @@ class Player {
       if(this.characterIsLookingLeft && this.vy > 0){
         this.characterImg.src ='/img/GOUSTY/OnAir/GOUSTY_FALLING_LEFT.png'
       }
-
     }
 
     if(this.hitable === false){ // ANIMACIONES AL SER GOLPEADO
@@ -125,6 +126,9 @@ class Player {
         this.characterImg.src = GOUSTY_SWORD_ON_EARTH_LOOKING_LEFT
       }
     }
+
+
+
     this.ctx.drawImage(
       this.characterImg,
       (this.characterImg.width * this.characterImg.frameIndex) /
@@ -153,7 +157,7 @@ class Player {
     }
 
     ///activar que aparezca la vida
-    this.hearts.draw()
+    this.life.draw()
     ///activar que aparezca el mana
     this.MpContainer.draw()
 
@@ -240,7 +244,7 @@ class Player {
     // TODO: animate based on tick
     // TODO: move score
 
-    this.hearts.move()
+    this.life.move()
     this.MpContainer.move()
   }
 
@@ -318,8 +322,7 @@ class Player {
 
 
   isAlive() {
-    let lastHeart = this.playerLife.length - 1
-    if(this.playerLife[lastHeart].heartPoints === 0){
+    if(this.playerLife[this.lastHeart].heartPoints === 0){
       return false
     }else {
       return true
@@ -508,7 +511,7 @@ class Player {
             }
   
             this.hitable = false
-            this.hearts.loselife(1)
+            this.life.loselife(1)
             setTimeout(() => [
               this.hitable = true,
             ], 1500)

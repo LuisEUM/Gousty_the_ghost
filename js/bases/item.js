@@ -119,13 +119,13 @@ class Item {
 
       if(colX && colY){
         if(this.rn <= 4){
-          player.hearts.healup(1);
+          player.life.healup(1);
         }else if(this.rn <= 7){
-          player.hearts.healup(2);
+          player.life.healup(2);
         }else if(this.rn <= 9){
           player.MpContainer.winMp(player.MpContainer.maxmp * 2);
         }else{
-          player.hearts.healup(player.hearts.maxhp * 2);
+          player.life.healup(player.life.maxhp * 2);
         }
       }
 

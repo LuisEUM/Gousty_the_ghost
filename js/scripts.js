@@ -1,5 +1,26 @@
 //  Botones animados
-var animation = bodymovin.loadAnimation({
+let iconPlay = document.getElementById('buttonPlayAndPause');
+let playButton = bodymovin.loadAnimation({
+  container: iconPlay,
+  remderer: 'svg',
+  loop: false,
+  autoplay: false,
+  path: '/js/animations/playPause.json',
+  mode:"cursor", 
+})
+
+var directionMenu = 1;
+    iconPlay.addEventListener('click', (e) => {
+      playButton.setDirection(directionMenu);
+      playButton.play();
+      directionMenu = -directionMenu;
+      game.stop()
+    });
+/// Play
+
+
+
+let animation = bodymovin.loadAnimation({
     container: document.getElementById('downArrow'),
     remderer: 'svg',
     loop: true,
@@ -7,7 +28,7 @@ var animation = bodymovin.loadAnimation({
     path: '/js/animations/downArrows.json'
 })
 
-var animationYesButton = bodymovin.loadAnimation({
+let animationYesButton = bodymovin.loadAnimation({
     container: document.getElementById('yesButton'),
     remderer: 'svg',
     loop: true,
@@ -15,7 +36,7 @@ var animationYesButton = bodymovin.loadAnimation({
     path: '/js/animations/yesButton.json'
 })
 
-var animationNoButton = bodymovin.loadAnimation({
+let animationNoButton = bodymovin.loadAnimation({
     container: document.getElementById('noButton'),
     remderer: 'svg',
     loop: false,
@@ -24,14 +45,15 @@ var animationNoButton = bodymovin.loadAnimation({
 },
 )
 
-
 const element = document.getElementById("noButton");
 element.addEventListener("click", noButton);
 
 function noButton() {
     animationNoButton.play= true
-     alert('Really?!... Are you sure?:(')
+      alert('Really?!... Are you sure?:(')
 }
+
+
 
 // hero con fondo de burbujas
 const colors = [
@@ -48,8 +70,8 @@ const colors = [
     square.style.width = 20 + size + 'px';
     square.style.height = 20 + size + 'px';
     
-    square.style.top = Math.random() * innerHeight + 'px';
-    square.style.left = Math.random() * innerWidth + 'px';
+    square.style.top = Math.random() * innerHeight -50 + 'px' ;
+    square.style.left = Math.random() * innerWidth- 50 + 'px';
     
     square.style.background = colors[Math.floor(Math.random() * colors.length)];
     section.appendChild(square);
@@ -61,6 +83,14 @@ const colors = [
   
   setInterval(createSquare, 150);
 
+    window.addEventListener("keydown", function(e) {
+      if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+          e.preventDefault();
+      }
+  }, false);
+
+
+//setear todos los eventos por defecto con las flechas
     window.addEventListener("keydown", function(e) {
       if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
           e.preventDefault();

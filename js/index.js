@@ -6,3 +6,4 @@ const game = new Game(ctx);
 // TODO: start/stop game on button click
 // TODO: change button text based on game interval
 game.start()
+

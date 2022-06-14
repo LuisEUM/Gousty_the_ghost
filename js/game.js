@@ -30,7 +30,6 @@ class Game {
             new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
           ],
           items:[ new Item(this.ctx)],
-
           enemies:[new FireSlime(this.ctx, 0, -300)],
           background: new Background(this.ctx)
       },
@@ -83,6 +82,7 @@ class Game {
   }
 
   stop() {
+    console.log('entro')
     this.audio.pause();
     clearInterval(this.interval);
     this.interval = null;
@@ -160,16 +160,19 @@ class Game {
       }
     })
 
-    if(this.player.hearts.isAlive() === false){
+    if(this.player.life.isAlive() === false){
+      this.player.characterImg.src = GOUSTY_GAMEOVER
       this.gameOver()
+      game.stop()
     }
   }
 
   gameOver() {
+    this.ctx.font = "80px Poppins";
+    this.ctx.fillText("GAME OVER", 270, 300);
   setTimeout(() => {
     this.stop();
-    this.ctx.fillText("GAME OVER", 270, 300);
-  }, 1000);
+  }, 500);
   }
 
   setListeners() {
