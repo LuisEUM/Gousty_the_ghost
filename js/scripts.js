@@ -35,14 +35,11 @@ let doReload = bodymovin.loadAnimation({
   mode:"cursor", 
 })
 
-
   reload.addEventListener('click', (e) => {
       doReload.play();
       location.reload();
     });
 
-
-    
 let animation = bodymovin.loadAnimation({
     container: document.getElementById('downArrow'),
     remderer: 'svg',

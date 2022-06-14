@@ -161,7 +161,6 @@ class SwordSlime {
               this.slashing = false
           }
         }
-        console.log(this.arrswordS)
       }
   
     follow(player){

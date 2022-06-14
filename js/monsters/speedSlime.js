@@ -93,7 +93,7 @@ class FastSlimes {
     }
 
     
-    if(player.y < this.y - 200){
+    if(player.y < this.y - 200 || player.y > this.y + 200){
       if (!this.characterIsLookingRigth){
         if(this.hitable){ //CUANDO EL MOUNSTRUO SEA GOLPEABLE
           this.vx = -1 // CON ESTO HACEMOS QUE SE MUEVA A LA IZQUIERDA
