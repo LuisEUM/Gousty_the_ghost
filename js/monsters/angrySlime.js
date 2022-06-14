@@ -45,7 +45,7 @@ class AngrySlimes {
       }
     } else {
       if(this.characterIsLookingRigth){   
-        this.characterImg.src = ANGRYSYLIME_LOOKING_RIGTH
+        this.characterImg.src = ANGRYSLIME_LOOKING_RIGTH
       }
       if(!this.characterIsLookingRigth){ 
         this.characterImg.src = ANGRYSLIME_LOOKING_LEFT

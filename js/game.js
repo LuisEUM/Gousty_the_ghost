@@ -31,34 +31,46 @@ class Game {
     this.stageCombat = false
 
     this.stages = [
-      {                                //0 estas son las olas Wavess
+/*      {                                //NIVEL 1
           map: [
-            new Platform(this.ctx,50, 300, 200,40),
-            new Platform(this.ctx,750, 300, 200,40), 
+            //new Platform(this.ctx,50, 300, 200,40), izquierda
+            //new Platform(this.ctx,750, 300, 200,40), derecha
+            new Platform(this.ctx,400, 300, 200,40),
             new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
           ],
           items:[ new Item(this.ctx)],
-          enemies:[new FastSlimes(this.ctx, 0, -300)],
+          enemies:[new DarkSlimes(this.ctx, 0, -300)],
           background: new Background(this.ctx)
       },
-      {                                //1 estas son las olas Wavess
+      {                                //NIVEL 2
+        map: [
+          //new Platform(this.ctx,50, 300, 200,40),izquierda
+          new Platform(this.ctx,750, 300, 200,40),  
+          //new Platform(this.ctx,400, 300, 200,40),
+          new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
+        ],
+        items:[ new Item(this.ctx)],
+        enemies:[new FastSlimes(this.ctx, 0, -100)],
+        background: new Background(this.ctx)
+    }, 
+      {                                //NIVEL 3
         map: [
           new Platform(this.ctx,50, 300, 200,40),
           new Platform(this.ctx,750, 300, 200,40), 
           new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
         ],
         items:[ new Item(this.ctx)],
-        enemies:[new FastSlimes(this.ctx)],
+        enemies:[new FastSlimes(this.ctx), new DarkSlimes(this.ctx, 0, -300), new DarkSlimes(this.ctx, 960, -300)],
         background: new Background(this.ctx)
-    },
-    {                                //1 estas son las olas Wavess
+    },*/
+    {                                //NIVEL 4
       map: [
         new Platform(this.ctx,50, 300, 200,40),
         new Platform(this.ctx,750, 300, 200,40), 
         new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
       ],
       items:[ new Item(this.ctx)],
-      enemies:[new DarkSlimes(this.ctx, 940, null, true), new FastSlimes(this.ctx)],
+      enemies:[new DarkSlimes(this.ctx, 940, null, true), new AngrySlimes(this.ctx), new DarkSlimes(this.ctx, 960, -300)],
       background: new Background(this.ctx)
   }
       // nextlevel
