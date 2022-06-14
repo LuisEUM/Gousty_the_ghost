@@ -121,6 +121,8 @@ body {
     max-width: 100vw;
 }
 
+
+
 nav {
     box-sizing: border-box;
     display: flex;
@@ -442,6 +444,16 @@ canvas {
     margin-top: 25px;
     border: 2px solid black;
 }
+
+#buttonPlayAndPause svg:hover {
+    background-color: #351953;
+
+}
+.play{
+}
+
+
+
 /* #buttonPlayAndPause svg {
     display: flex;
     align-items:center;
