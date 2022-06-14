@@ -72,9 +72,9 @@ class Game {
         new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
       ],
       items:[ new Item(this.ctx)],
-      enemies:[new DarkSlimes(this.ctx, 0, -300, true), new AngrySlimes(this.ctx), new DarkSlimes(this.ctx, 960, -300)],
+      enemies:[new SwordSlime (this.ctx), new DarkSlimes(this.ctx, 960, -300)],
       background: new Background(this.ctx)
-  }, */
+  }, 
       {                                //NIVEL 5
       map: [
         new Platform(this.ctx,50, 300, 200,40),
@@ -83,10 +83,39 @@ class Game {
         new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
       ],
       items:[ new Item(this.ctx)],
-      enemies:[new SwordSlime (this.ctx), new DarkSlimes(this.ctx, 960, -300)],
+      enemies:[new DarkSlimes(this.ctx, 0, -300, true), new AngrySlimes(this.ctx), new DarkSlimes(this.ctx, 960, -300)],
       background: new Background(this.ctx)
-  }
-      // nextlevel
+  }, 
+  {                                //NIVEL 6
+    map: [
+      new Platform(this.ctx,5, 300, 200,40),
+      new Platform(this.ctx,795, 300, 200,40),
+      new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
+    ],
+    items:[ new Item(this.ctx)],
+    enemies:[new LeafSlime (this.ctx, 0, -600, true), new FastSlimes(this.ctx, 0, -100)],
+    background: new Background(this.ctx)
+},
+{                                //NIVEL 7
+  map: [
+    new Platform(this.ctx,50, 300, 200,40),
+    new Platform(this.ctx,750, 300, 200,40),
+    new Platform(this.ctx,400, 300, 200,40), 
+    new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
+  ],
+  items:[ new Item(this.ctx)],
+  enemies:[new LeafSlime (this.ctx, 0, -300, true), new LeafSlime (this.ctx, 960, -300),  new FastSlimes(this.ctx, 0, -100)],
+  background: new Background(this.ctx)
+}, */
+{                                //NIVEL 8
+  map: [
+    new Platform(this.ctx,400, 300, 200,40), 
+    new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR),
+  ],
+  items:[ new Item(this.ctx)],
+  enemies:[new FireSlime (this.ctx, 0, 400, true), new SwordSlime (this.ctx, 900, 400, false)],
+  background: new Background(this.ctx)
+},      // nextlevel
     ]
     this.setupLevel()
   }

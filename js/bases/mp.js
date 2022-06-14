@@ -10,7 +10,7 @@ class Mp {
         this.mpImg = new Image();
         this.mpImg.frames = 6;
         this.mpImg.frameIndex = 0;
-        this.mp = 3
+        this.mp = 0
     }
 
     draw() {

@@ -11,7 +11,7 @@ class AngrySlimes {
     this.hitable = true;
     this.vx = 0;
     this.vy = 0;
-    this.strength= 2;
+    this.strength = 2;
     this.tick = 0;
     this.platformscheck;
     this.jump = false

@@ -511,7 +511,7 @@ class Player {
             }
   
             this.hitable = false
-            this.life.loselife(1)
+            this.life.loselife(object.strength)
             setTimeout(() => [
               this.hitable = true,
             ], 1500)
