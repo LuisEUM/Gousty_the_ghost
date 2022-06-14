@@ -52,7 +52,7 @@ class Game {
         items:[ new Item(this.ctx)],
         enemies:[new FastSlimes(this.ctx, 0, -100)],
         background: new Background(this.ctx)
-    }, 
+    },/* 
       {                                //NIVEL 3
         map: [
           new Platform(this.ctx,50, 300, 200,40),
@@ -186,7 +186,7 @@ class Game {
   items:[],
   enemies:[new LeafSlime(this.ctx, 0, -300),new LeafSlime(this.ctx, 950, -300),new LeafSlime(this.ctx, 0, 290),new LeafSlime(this.ctx, 950, 290),new FireSlime(this.ctx, 0, 400),new FireSlime(this.ctx, 950, 400)],
   background: new Background(this.ctx)
-},
+},*/
     ]
     this.setupLevel()
   }
@@ -333,7 +333,7 @@ class Game {
         }
     }
     //Next Stage
-    if(this.stageCombat && this.enemies.length === 0 && this.stages.length !== this.level + 1){ //no ha mas mounstros
+    else if(this.stageCombat && this.enemies.length === 0 && this.stages.length !== this.level + 1){ //no ha mas mounstros
         const colNextX = 
           900 <= this.player.x  &&  //derecha del player
           1100 >= this.player.x;  //el mounstro esta a la izquierda
@@ -348,6 +348,13 @@ class Game {
             this.player.y = 340
           }, 500);  
         }
+    }
+    else if(this.stages.length == this.level + 1 && this.enemies.length === 0 ){
+      this.ctx.font = "60px Poppins";
+      this.ctx.fillText("thanks for helping ghosty!!", 200, 300);
+      setTimeout(() => {
+      this.stop();
+      }, 3000);
     }
 
     if(this.player.life.isAlive() === false){
