@@ -351,10 +351,10 @@ class Game {
     }
     else if(this.stages.length == this.level + 1 && this.enemies.length === 0 ){
       this.ctx.font = "60px Poppins";
-      this.ctx.fillText("thanks for helping ghosty!!", 200, 300);
-      setTimeout(() => {
-      this.stop();
-      }, 3000);
+      this.ctx.fillText("Thanks for helping ghosty!!", 100, 200);
+      this.ctx.font = "30px Poppins";
+      this.ctx.fillText("We hope that you have enjoyed this game.", 100, 250);
+
     }
 
     if(this.player.life.isAlive() === false){
