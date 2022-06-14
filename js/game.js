@@ -35,7 +35,7 @@ class Game {
           map: [
             //new Platform(this.ctx,50, 300, 200,40), izquierda
             //new Platform(this.ctx,750, 300, 200,40), derecha
-            new Platform(this.ctx,400, 300, 200,40),
+            new Platform(this.ctx,400, 300, 200,40), cemtrp
             new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
           ],
           items:[ new Item(this.ctx)],
@@ -62,15 +62,27 @@ class Game {
         items:[ new Item(this.ctx)],
         enemies:[new FastSlimes(this.ctx), new DarkSlimes(this.ctx, 0, -300), new DarkSlimes(this.ctx, 960, -300)],
         background: new Background(this.ctx)
-    },*/
+    },
     {                                //NIVEL 4
       map: [
         new Platform(this.ctx,50, 300, 200,40),
-        new Platform(this.ctx,750, 300, 200,40), 
+        new Platform(this.ctx,750, 300, 200,40),
+        new Platform(this.ctx,400, 300, 200,40), 
         new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
       ],
       items:[ new Item(this.ctx)],
-      enemies:[new DarkSlimes(this.ctx, 940, null, true), new AngrySlimes(this.ctx), new DarkSlimes(this.ctx, 960, -300)],
+      enemies:[new DarkSlimes(this.ctx, 0, -300, true), new AngrySlimes(this.ctx), new DarkSlimes(this.ctx, 960, -300)],
+      background: new Background(this.ctx)
+  }, */
+      {                                //NIVEL 5
+      map: [
+        new Platform(this.ctx,50, 300, 200,40),
+        new Platform(this.ctx,750, 300, 200,40),
+        new Platform(this.ctx,400, 300, 200,40), 
+        new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
+      ],
+      items:[ new Item(this.ctx)],
+      enemies:[new SwordSlime (this.ctx), new DarkSlimes(this.ctx, 960, -300)],
       background: new Background(this.ctx)
   }
       // nextlevel
