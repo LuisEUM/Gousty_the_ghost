@@ -112,6 +112,7 @@ class Game {
     if(this.stageCombat && this.enemies.length === 0 && this.stages.length !== this.level + 1){
       this.arrwR.draw()
     }
+    console.log(this.transitions)
     if(this.transitions.length !== 0){
       this.transitions.forEach((transition) => transition.draw());
     }
@@ -167,6 +168,9 @@ class Game {
     setTimeout(() => {
       this.dark = true
     },1000);
+    setTimeout(() => {
+      this.dark = false
+    },2000);
     
   } //circulo de transicion
 

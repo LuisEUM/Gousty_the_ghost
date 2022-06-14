@@ -52,7 +52,6 @@ class Transition {
             }
 
             setTimeout(() => {
-                dark = false
                 transitions.pop()         
               }, 2000);
             
