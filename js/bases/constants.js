@@ -16,8 +16,16 @@ const EARTH = 70;
 const GRAVITY = 0.4;
 
 
+
 //COMIENZAN LAS IMAGENES 
 //SWORDS GOUSTY ANIMATIONS
+    //Flechas
+    const DOWN_ARROW = '/img/TRANSITION/Map_Arrow_Down.png'
+    const RIGTH_ARROW = '/img/TRANSITION/Map_Arrow_Rigth.png'
+    //Circulo de transicion
+    const CIRCLE = '/img/TRANSITION/Map_Transition.png'
+
+
     //MP
         const SHADOWPOINTS1 =  '/img/GOUSTY/MP/SHADOWPOINTS1.png'
         const SHADOWPOINTS2 =  '/img/GOUSTY/MP/SHADOWPOINTS2.png'
