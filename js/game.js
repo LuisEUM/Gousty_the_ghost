@@ -31,12 +31,11 @@ class Game {
     this.stageCombat = false
 
     this.stages = [
-/*      {                                //NIVEL 1
+     {                                //NIVEL 1
           map: [
-<<<<<<< HEAD
             //new Platform(this.ctx,50, 300, 200,40), izquierda
             //new Platform(this.ctx,750, 300, 200,40), derecha
-            new Platform(this.ctx,400, 300, 200,40), cemtrp
+            new Platform(this.ctx,400, 300, 200,40),
             new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
           ],
           items:[],
@@ -106,7 +105,7 @@ class Game {
   items:[ new Item(this.ctx)],
   enemies:[new LeafSlime (this.ctx, 0, -300, true), new LeafSlime (this.ctx, 960, -300),  new FastSlimes(this.ctx, 0, -100)],
   background: new Background(this.ctx)
-}, */
+},
 {                                //NIVEL 8
   map: [
     new Platform(this.ctx,400, 300, 200,40), 
@@ -115,10 +114,83 @@ class Game {
   items:[ new Item(this.ctx)],
   enemies:[new FireSlime (this.ctx, 0, 400, true), new SwordSlime (this.ctx, 900, 400, false)],
   background: new Background(this.ctx)
-},      // nextlevel
+}, 
+{                                //NIVEL 9
+  map: [
+    new Platform(this.ctx,50, 200, 200,40),
+    new Platform(this.ctx,750, 200, 200,40), 
+    new Platform(this.ctx,400, 350, 200,40),
+    new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
+  ],
+  items:[],
+  enemies:[new FastSlimes(this.ctx, 0, -300),new FastSlimes(this.ctx, 950, -300),new FireSlime(this.ctx, 550, -300),new LeafSlime(this.ctx, 0, -300),new LeafSlime(this.ctx, 950, -300)],
+  background: new Background(this.ctx)
+},
+{                                //NIVEL 10
+  map: [
+    new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
+  ],
+  items:[],
+  enemies:[new FireSlime(this.ctx, 0, null, true), new FireSlime(this.ctx, 960, -300)],
+  background: new Background(this.ctx)
+},
+{                                //NIVEL 11
+  map: [
+    new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
+  ],
+  items:[],
+  enemies:[new FastSlimes(this.ctx, 0, -300),new FastSlimes(this.ctx, 200, -300),new FastSlimes(this.ctx, 400, -300),new FastSlimes(this.ctx, 600, -300),new FastSlimes(this.ctx, 1000, -300)],
+  background: new Background(this.ctx)
+},
+{                                //NIVEL 12
+  map: [
+    new Platform(this.ctx,50, 200, 200,40),
+    new Platform(this.ctx,750, 200, 200,40), 
+    new Platform(this.ctx,50, 350, 200,40),
+    new Platform(this.ctx,750, 350, 200,40), 
+    new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
+  ],
+  items:[],
+  enemies:[new LeafSlime(this.ctx, 0, -300),new LeafSlime(this.ctx, 950, -300),new LeafSlime(this.ctx, 0, 290),new LeafSlime(this.ctx, 950, 290)],
+  background: new Background(this.ctx)
+},
+{                                //NIVEL 13
+  map: [
+    new Platform(this.ctx,400, 300, 200,40),
+    new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
+  ],
+  items:[],
+  enemies:[new FireSlime(this.ctx, 0, -300),new LeafSlime(this.ctx, 950, -300),new FireSlime(this.ctx, 950, -300),new LeafSlime(this.ctx, 0, 290)],
+  background: new Background(this.ctx)
+},
+{                                //NIVEL 14
+  map: [
+    new Platform(this.ctx,50, 200, 200,40),
+    new Platform(this.ctx,750, 200, 200,40), 
+    new Platform(this.ctx,50, 350, 200,40),
+    new Platform(this.ctx,750, 350, 200,40), 
+    new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
+  ],
+  items:[],
+  enemies:[new LeafSlime(this.ctx, 0, -300),new LeafSlime(this.ctx, 950, -300),new LeafSlime(this.ctx, 0, 290),new LeafSlime(this.ctx, 950, 290),new LeafSlime(this.ctx, 0, 400),new LeafSlime(this.ctx, 950, 400)],
+  background: new Background(this.ctx)
+},
+{                                //NIVEL 15
+  map: [
+    new Platform(this.ctx,50, 200, 200,40),
+    new Platform(this.ctx,750, 200, 200,40), 
+    new Platform(this.ctx,50, 350, 200,40),
+    new Platform(this.ctx,750, 350, 200,40), 
+    new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
+  ],
+  items:[],
+  enemies:[new LeafSlime(this.ctx, 0, -300),new LeafSlime(this.ctx, 950, -300),new LeafSlime(this.ctx, 0, 290),new LeafSlime(this.ctx, 950, 290),new FireSlime(this.ctx, 0, 400),new FireSlime(this.ctx, 950, 400)],
+  background: new Background(this.ctx)
+},
     ]
     this.setupLevel()
   }
+
 
   start() {
     // TODO: play audio
@@ -269,7 +341,7 @@ class Game {
             200 <= this.player.y; //abajo del player      
         if (colNextX && colNextY) {//se activanla tansicion al siguiente mounstruo
           this.Ctransition()
-          this.stageCombat = false 
+          this.stageCombat = false
           setTimeout(() => {
             this.nextLevel()
             this.player.x = 0

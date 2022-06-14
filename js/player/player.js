@@ -33,7 +33,7 @@ class Player {
     //CORAZONES
     this.life = new Hearts(ctx);
 
-    this.life.createlife(1);
+    this.life.createlife(3);
     this.lastHeart = this.life.length - 1
 
     //HASTA AQUI
