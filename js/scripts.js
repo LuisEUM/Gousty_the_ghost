@@ -16,13 +16,13 @@ var directionMenu = 1;
       directionMenu = -directionMenu;
       iconPlay.classList.toggle('pause')
       iconPlay.classList.toggle('play')
+      
       if(iconPlay.className === 'play'){
         game.start()
       } else{
         game.stop()
       }
     });
-/// Play
 
 
 
