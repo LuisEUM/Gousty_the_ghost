@@ -1,5 +1,5 @@
 //  Botones animados
-let iconPlay = document.getElementById('buttonPlayAndPause');
+let iconPlay = document.querySelector('.buttonPlayAndPause')
 let playButton = bodymovin.loadAnimation({
   container: iconPlay,
   remderer: 'svg',
@@ -16,13 +16,29 @@ var directionMenu = 1;
       directionMenu = -directionMenu;
       iconPlay.classList.toggle('pause')
       iconPlay.classList.toggle('play')
-      if(iconPlay.className === 'play'){
+
+      if(iconPlay.classList.contains('play') === true){
         game.start()
       } else{
         game.stop()
       }
     });
-/// Play
+
+let reload = document.querySelector('.buttonRestart');
+
+let doReload = bodymovin.loadAnimation({
+  container: reload,
+  remderer: 'svg',
+  loop: false,
+  autoplay: false,
+  path: '/js/animations/restart.json',
+  mode:"cursor", 
+})
+
+  reload.addEventListener('click', (e) => {
+      doReload.play();
+      location.reload();
+    });
 
 let animation = bodymovin.loadAnimation({
     container: document.getElementById('downArrow'),
