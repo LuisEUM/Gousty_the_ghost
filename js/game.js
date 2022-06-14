@@ -218,9 +218,9 @@ class Game {
             180 <= this.player.y; //abajo del player      
         if (colNextX && colNextY) {//se activanla tansicion al siguiente mounstruo
           this.Ctransition()
-          this.nextLevel()
-          this.stageCombat = false    
+          this.stageCombat = false 
           setTimeout(() => {
+            this.nextLevel()
             this.player.x = 0
             this.player.y = 340
           }, 500);  

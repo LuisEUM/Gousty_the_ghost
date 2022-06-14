@@ -340,7 +340,7 @@ h4 {
     color: black;
     line-height: 3em;
     margin-bottom: -40px;
-    padding-bottom: 3px
+    padding-bottom: 3px;
     width: max(33vw, 100%);
     max-width: 100vw;
 }
