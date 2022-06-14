@@ -33,12 +33,13 @@ class Game {
     this.stages = [
       {                                //0 estas son las olas Wavess
           map: [
-            new Platform(this.ctx,50, 300, 200,40),
-            new Platform(this.ctx,750, 300, 200,40), 
+            new Platform(this.ctx,50, 200, 200,40),
+            new Platform(this.ctx,750, 200, 200,40), 
+            new Platform(this.ctx,400, 350, 200,40),
             new Platform(this.ctx, 0,this.ctx.canvas.height - 65,this.ctx.canvas.width,65, PLATFORMS_FOREST_FLOOR)
           ],
-          items:[ new Item(this.ctx)],
-          enemies:[new FastSlimes(this.ctx, 0, -300)],
+          items:[],
+          enemies:[new FastSlimes(this.ctx, 0, -300),new FastSlimes(this.ctx, 950, -300),new FireSlime(this.ctx, 550, -300),new LeafSlime(this.ctx, 0, -300),new LeafSlime(this.ctx, 950, -300)],
           background: new Background(this.ctx)
       },
       {                                //1 estas son las olas Wavess
@@ -87,7 +88,6 @@ class Game {
   }
 
   stop() {
-    console.log('entro')
     this.audio.pause();
     clearInterval(this.interval);
     this.interval = null;
@@ -112,7 +112,6 @@ class Game {
     if(this.stageCombat && this.enemies.length === 0 && this.stages.length !== this.level + 1){
       this.arrwR.draw()
     }
-    console.log(this.transitions)
     if(this.transitions.length !== 0){
       this.transitions.forEach((transition) => transition.draw());
     }
@@ -202,8 +201,7 @@ class Game {
             400 <= this.player.x  &&  //derecha del player
             600 >= this.player.x;  //el mounstro esta a la izquierda
         const colMonY = 
-            180 <= this.player.y; //abajo del player
-            console.log(colMonX ,colMonY)
+            350 <= this.player.y; //abajo del player
         if (colMonX && colMonY) {//se activan los enemigos
             this.nextWave()
             this.stageCombat = true
@@ -215,7 +213,7 @@ class Game {
           900 <= this.player.x  &&  //derecha del player
           1100 >= this.player.x;  //el mounstro esta a la izquierda
         const colNextY = 
-            180 <= this.player.y; //abajo del player      
+            200 <= this.player.y; //abajo del player      
         if (colNextX && colNextY) {//se activanla tansicion al siguiente mounstruo
           this.Ctransition()
           this.stageCombat = false 

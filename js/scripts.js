@@ -24,8 +24,6 @@ var directionMenu = 1;
     });
 /// Play
 
-
-
 let animation = bodymovin.loadAnimation({
     container: document.getElementById('downArrow'),
     remderer: 'svg',

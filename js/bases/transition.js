@@ -38,7 +38,6 @@ class Transition {
             this.tick = 0
         }else{
             if(this.tick == 2){
-                console.log(this.x,this.y)
                 this.x -= 200
                 this.y += 200
                 if (this.w < 0 ){
