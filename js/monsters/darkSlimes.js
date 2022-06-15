@@ -26,12 +26,7 @@ class DarkSlimes {
     this.characterImg.frameIndex = 0;
     this.characterImg.src;
 
-    // hacer saber al juego a donde mira el personaje principal
     this.characterIsLookingRigth = characterIsLookingRigth || false;
-  //  this.characterIsLookingLeft = true;
-
-    // TODO: init enemy. set x,y randomly top or right.
-    // TODO: play fireball audio
   }
 
   draw() {

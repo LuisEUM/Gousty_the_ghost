@@ -1,4 +1,4 @@
-class SwordSlime {
+class SwordSlimes {
     constructor(ctx, x, y, characterIsLookingRigth) {
       // TODO: init player attributes: position, size, v, a, img, audio, score, tick
       this.ctx = ctx

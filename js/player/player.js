@@ -49,7 +49,7 @@ class Player {
 
     this.characterImg = new Image();
     this.characterImg.frameIndex = 0;
-    this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite.png";
+    this.characterImg.src = GOUSTY_WALKING_RIGTH;
     this.framesCharacter = 6;
     this.characterImg.frames = 6;
 
@@ -59,9 +59,7 @@ class Player {
 
     //Shadowballs
     this.shadowballs = [];
-    this.audioShadowball = new Audio(
-      "/audio/Dark energy blast sound effect.mp3"
-    );
+    this.audioShadowball = new Audio(SHADOWBALL_AUDIO);
     this.audioShadowball.volume = 0.05;
     this.audioShadowball.loop = true;
     this.audioShadowball.currentTime = 1;
@@ -80,35 +78,35 @@ class Player {
 
     if(this.basicAttackMode === false && this.jumpable === true){ // ANIMACIONES EN EL SUELO
       if(this.characterIsLookingRigth){
-        this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite.png";
+        this.characterImg.src = GOUSTY_WALKING_RIGTH;
       }
       if(this.characterIsLookingLeft){
-        this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite_Left.png";
+        this.characterImg.src = GOUSTY_WALKING_LEFT;
       }
     } 
 
     if(this.basicAttackMode === false && this.jumpable === false ){ // ANIMACIONES AL SALTAR Y CAER
       if(this.characterIsLookingRigth && this.vy < 0){
-        this.characterImg.src ='/img/GOUSTY/OnAir/GOUSTY_JUMPING_RIGTH.png'
+        this.characterImg.src = GOUSTY_JUMPING_RIGTH
       }
       if(this.characterIsLookingLeft && this.vy < 0){
-        this.characterImg.src ='/img/GOUSTY/OnAir/GOUSTY_JUMPING_LEFT.png'
+        this.characterImg.src = GOUSTY_JUMPING_LEFT
       }
 
       if(this.characterIsLookingRigth && this.vy > 0){
-        this.characterImg.src ='/img/GOUSTY/OnAir/GOUSTY_FALLING_RIGTH.png'
+        this.characterImg.src = GOUSTY_FALLING_RIGTH
       }
       if(this.characterIsLookingLeft && this.vy > 0){
-        this.characterImg.src ='/img/GOUSTY/OnAir/GOUSTY_FALLING_LEFT.png'
+        this.characterImg.src = GOUSTY_FALLING_LEFT
       }
     }
 
     if(this.hitable === false){ // ANIMACIONES AL SER GOLPEADO
       if(this.characterIsLookingRigth){
-        this.characterImg.src ='/img/GOUSTY/NoHitable/GOUSTY_NO_HITABLE_LOOKING_RIGTH.png'
+        this.characterImg.src = GOUSTY_CRYING_RIGTH
       }
       if(this.characterIsLookingLeft){
-        this.characterImg.src ='/img/GOUSTY/NoHitable/GOUSTY_NO_HITABLE_LOOKING_LEFT.png'
+        this.characterImg.src = GOUSTY_CRYING_LEFT
       }
     }
 
@@ -333,15 +331,12 @@ class Player {
     if (key.toUpperCase() === KEY_V && this.MpContainer.isAvailable()) {
         let previousImgLookingSide = this.characterImg.src;
         if (this.characterIsLookingRigth) {
-          this.characterImg.src =
-            "/img/GOUSTY/ShadowBall/Gousty Loading - Loading Shadow Ball (2).png";
+          this.characterImg.src = GOUSTY_LOADING_RIGTH;
   
           this.audioShadowball.play();
         }
         if (this.characterIsLookingLeft) {
-          this.characterImg.src =
-            "/img/GOUSTY/ShadowBall/Gousty_Loading_Loading_Shadow Ball_LEFT.png";
-  
+          this.characterImg.src = GOUSTY_LOADING_LEFT;
           this.audioShadowball.play();
         }
         if (this.characterIsLookingRigth) {
@@ -371,9 +366,7 @@ class Player {
         // TODO: jump and play jump sound
         this.vy = -14;
         
-        const jumpAudio = new Audio(
-          "/audio/Jump sound effect _ No copyright (192kbit_AAC).mp3"
-        );
+        const jumpAudio = new Audio(JUMP);
         jumpAudio.volume = 0.01;
         jumpAudio.play();
         this.ykey = true;
@@ -394,7 +387,7 @@ class Player {
           this.vx = 7;  //Velocidad 
         }
         
-        this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite.png";
+        this.characterImg.src = GOUSTY_WALKING_RIGTH;
         this.characterIsLookingRigth = true;
         this.characterIsLookingLeft = false
         this.xkey = true;
@@ -408,7 +401,7 @@ class Player {
         }else{
           this.vx = -7;  //Velocidad 
         }
-        this.characterImg.src = "/img/GOUSTY/MOVE&STAY/Gousty_Sprite_Left.png";
+        this.characterImg.src = GOUSTY_WALKING_LEFT;
         this.characterIsLookingLeft = true;
         this.characterIsLookingRigth = false;
         this.xkey = false;
@@ -519,7 +512,7 @@ class Player {
       }
 
        //monster
-       if (object.hitable) {  
+      if (object.hitable) {  
         let strike = false
         this.sword.forEach((slash) => {
           strike = slash.collides(object, strike)

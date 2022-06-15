@@ -16,13 +16,13 @@ class Heart {
     draw(showlivesOnX, showlivesOnY, widhtMonsterHeart, heightMonsterHeart) {
 
         if (this.heartPoints === 2) {
-            this.heartImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts.png'
+            this.heartImg.src = HEART
         }
         if (this.heartPoints === 1) {
-            this.heartImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts_With_Half life.png'
+            this.heartImg.src = HALF_HEART
         }
         if (this.heartPoints <= 0) {
-            this.heartImg.src = '/img/GOUSTY/Hearts/Gousty_Hearts_With_No_Points.png'
+            this.heartImg.src =  NO_HEART
         }
         this.ctx.drawImage(
             this.heartImg,

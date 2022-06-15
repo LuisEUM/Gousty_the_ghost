@@ -16,7 +16,7 @@ class Shadowball {
         this.shadowballImg = new Image();
         this.shadowballImg.frames = 14;
         this.shadowballImg.frameIndex = 0;
-        this.shadowballImg.src = '/img/GOUSTY/ShadowBall/Gousty - Shodow Ball.png'
+        this.shadowballImg.src = SHADOWBALL
     }
 
     draw() {

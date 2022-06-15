@@ -5,18 +5,16 @@ class Background {
     this.y = 0;
     this.w = ctx.canvas.width;
     this.h = ctx.canvas.height;
-
     this.animateBackground = true;
     this.tick = 0;
     this.backgroundImg = new Image();
     this.backgroundImg.frames = 10;
     this.backgroundImg.frameIndex = 0;
     this.backgroundImg.src = BACKGROUND_FOREST_WITH_STARS;
-    this.backgroundMusic = new Audio('/audio/MapleStory Piano - Eternal Swamp Background.mp3');
-    this.backgroundMusic.volume = 0.1;
+    this.backgroundMusic = new Audio(BACKGROUND_FOREST_MUSIC);
+    this.backgroundMusic.volume = 0.02;
     this.backgroundMusic.loop = true;
-
-    //this.backgroundMusic.play(); 
+    this.backgroundMusic.play(); 
   }
 
   draw() {

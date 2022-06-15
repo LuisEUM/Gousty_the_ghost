@@ -1,10 +1,10 @@
-class FireSlime {
+class FireSlimes {
     constructor(ctx, x, y, characterIsLookingRigth = false) {
       // TODO: init player attributes: position, size, v, a, img, audio, score, tick
       this.ctx = ctx
   
-      this.w = 72;
-      this.h = 90;
+      this.w = 80;
+      this.h = 105;
       this.x =  ctx.canvas.width - this.w;
       this.x =  x || 0;
       this.y = y || ctx.canvas.height - EARTH - this.h - 100;
@@ -40,8 +40,9 @@ class FireSlime {
       this.fires.forEach((fire) => {
         fire.draw();
       });
-
-      if(this.hitable == false){
+      if(this.hitable === false){
+        this.w = 80;
+        this.h = 105;
         if(this.characterIsLookingRigth){   
           this.characterImg.src = FIRESLIME_CRYING_LOOKING_RIGTH
         }
@@ -49,6 +50,8 @@ class FireSlime {
           this.characterImg.src = FIRESLIME_CRYING_LOOKING_LEFT
         }
       }else if (this.charge){
+        this.w = 90.84
+        this.h= 145
         if(this.characterIsLookingRigth){   
           this.characterImg.src = FIRESLIME_ATTACKING_RIGTH
         }
@@ -56,6 +59,8 @@ class FireSlime {
           this.characterImg.src = FIRESLIME_ATTACKING_LEFT
         }
       }else{
+        this.w = 80;
+        this.h = 105;
         if(this.characterIsLookingRigth){   
           this.characterImg.src = FIRESLIME_LOOKING_RIGTH
         }
@@ -81,6 +86,7 @@ class FireSlime {
         fire.move();
       });
       if(!this.jumpable){
+
         this.vy += this.gravity;
       }else{
         this.vy = -6;

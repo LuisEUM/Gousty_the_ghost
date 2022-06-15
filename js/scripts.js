@@ -1,13 +1,12 @@
 
 //  Botones animados
 let info = document.querySelector('.buttonInfo');
-
 let showInfo = bodymovin.loadAnimation({
   container: info,
   remderer: 'svg',
   loop: true,
   autoplay: false,
-  path: '/js/animations/help.json',
+  path: HELP,
   mode:"cursor", 
 })
 
@@ -26,9 +25,8 @@ let animationArrowGousty = bodymovin.loadAnimation({
   remderer: 'svg',
   loop: true,
   autoplay: true,
-  path: '/js/animations/arrorForGousty.json'
+  path: SIMPLEARROW
 })
-
 
 let iconPlay = document.querySelector('.buttonPlayAndPause')
 let playButton = bodymovin.loadAnimation({
@@ -36,7 +34,7 @@ let playButton = bodymovin.loadAnimation({
   remderer: 'svg',
   loop: false,
   autoplay: false,
-  path: '/js/animations/playPause.json',
+  path: PLAYANDPAUSE,
   mode:"cursor", 
 })
 
@@ -67,7 +65,7 @@ let doReload = bodymovin.loadAnimation({
   remderer: 'svg',
   loop: false,
   autoplay: false,
-  path: '/js/animations/restart.json',
+  path: RESTART,
   mode:"cursor", 
 })
 
@@ -84,7 +82,7 @@ let animation = bodymovin.loadAnimation({
     remderer: 'svg',
     loop: true,
     autoplay: true,
-    path: '/js/animations/downArrows.json'
+    path: DOWNARROWS,
 })
 
 let animationYesButton = bodymovin.loadAnimation({
@@ -92,7 +90,7 @@ let animationYesButton = bodymovin.loadAnimation({
     remderer: 'svg',
     loop: true,
     autoplay: true,
-    path: '/js/animations/yesButton.json'
+    path: YESBUTTON,
 })
 
 let animationNoButton = bodymovin.loadAnimation({
@@ -100,7 +98,7 @@ let animationNoButton = bodymovin.loadAnimation({
     remderer: 'svg',
     loop: false,
     autoplay: false,
-    path: '/js/animations/noButton.json',
+    path: NOTBUTTON,
 },
 )
 
@@ -111,7 +109,6 @@ function noButton() {
     animationNoButton.play= true
       alert('Really?!... Are you sure?:(')
 }
-
 
 
 // hero con fondo de burbujas

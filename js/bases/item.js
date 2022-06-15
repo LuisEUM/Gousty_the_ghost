@@ -28,13 +28,13 @@ class Item {
       }
       //if para indicarle el tipo a las posiones
       if(this.rn <= 4){
-        this.characterImg.src = '/img/ITEMS/POTIONS/POTION_HALF_HEART.png'
+        this.characterImg.src = POTION_HALF_HEART
       }else if(this.rn <= 7){
-        this.characterImg.src = '/img/ITEMS/POTIONS/POTION_FULL_HEART.png'
+        this.characterImg.src = POTION_FULL_HEART
       }else if(this.rn <= 9){
-        this.characterImg.src = '/img/ITEMS/POTIONS/POTION_POWER_UP.png'
+        this.characterImg.src = POTION_POWER_UP
       }else{
-        this.characterImg.src = '/img/ITEMS/POTIONS/POTION_FULL_LIFE.png'
+        this.characterImg.src = POTION_FULL_LIFE
       }
 
   
@@ -104,7 +104,7 @@ class Item {
           this.characterImg.frameIndex = 0;
         }
     }
- 
+
     bigJumpAttack(){
       this.vy += -2;
     }

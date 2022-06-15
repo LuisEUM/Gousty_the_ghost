@@ -52,7 +52,7 @@ class Transition {
 
             setTimeout(() => {
                 transitions.pop()         
-              }, 2000);
+            }, 2000);
             
         }
 
