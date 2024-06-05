@@ -4,6 +4,9 @@
 
 'Gousty, The Ghost' is a vibrant platformer mini-game set in a dark forest, filled with challenging Slimes. Control Gousty with the keyboard, using his special abilities to confront enemies and overcome levels. An intense adventure awaits you, where strategy and skill are essential.
 
+  - [Website](https://alkitu.com/gousty)
+
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -80,7 +83,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 For any inquiries or feedback, please contact:
 
 - **Luis Urdaneta**
-  - [Website](https://alkitu.com/gousty)
   - [GitHub](https://github.com/LuisEUM)
   - [LinkedIn](https://www.linkedin.com/in/luis-urdaneta)
 
